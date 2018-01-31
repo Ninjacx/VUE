@@ -20,6 +20,7 @@ server.use(function (req, res, next) {
      res.sendFile( __dirname + "/www/" + `${req.originalUrl}.html`);
   });
   next();
+  
 });
 
 server.post('/upload',function(req,res){
