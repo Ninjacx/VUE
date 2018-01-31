@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://localhost:2018/socket.io/socket.io.js" charset="utf-8"></script>
+    <!-- <script src="../js/mycommon.js" charset="utf-8"></script> -->
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <div class="">
+          bbbbb
+      </div>
+      <script type="text/javascript">
+      let sock = io.connect("ws://localhost:2018/");
+      // if(!isnull(sock)){
+        sock.on('conn',function(res){
+              console.log(res);
+        });
+      </script>
+
+  </body>
+</html>

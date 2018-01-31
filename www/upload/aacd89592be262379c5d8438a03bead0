@@ -1,0 +1,583 @@
+<?php
+//header("Content-Type:text/html;charset=UTF-8");
+// $fp = fopen('C:\Users\Jason\Desktop\tttt.txt','a+')  or die("Unable to open file!");
+// $txt = "Bill Gates\n";
+// fwrite($fp, $txt);
+// fclose($fp);
+$dbms='mysql';     //数据库类型
+$host='localhost'; //数据库主机名
+$dbName='zebang';    //使用的数据库
+$user='root';      //数据库连接用户名
+$pass='ec201501';          //对应的密码
+$dsn="$dbms:host=$host;dbname=$dbName";
+$dbh = new PDO($dsn, $user, $pass); //初始化一个PDO对象
+$dbh->exec('set names utf8');
+
+
+$percent = $dbh->query("SELECT percent FROM t_commission_percent");//设置折扣比率
+$percent->setFetchMode(PDO::FETCH_ASSOC); 
+$rs = $percent->fetchAll();
+$pcostinfo = $rs[0]['percent'];//信息费 0.02
+$pcostqudao =  $rs[1]['percent'];//渠道费 0.01
+/*
+//所有人的信息费
+$infocost = $dbh->query("select ec_shipping_records.shipping_no,ec_shipping_goods.dicount,t_projects.id as prj_id,t_projects.clue_users_id,ec_shipping_goods.count,ec_orders.id ,ec_orders.project,`t_admin_relevance`.`users_id`,ec_shipping_goods.orig_price,t_goodcat_percent.percent,ec_orders.order_sn,ec_shipping_goods.goods_price,ec_shipping_goods.goods_id,t_goodcat_percent.category_id  from `ec_orders` 
+ left join `t_admin_relevance` on `t_admin_relevance`.`admin_id` = `ec_orders`.`sale_id` 
+ left join `ec_shipping_goods` on `ec_shipping_goods`.`order_id` = `ec_orders`.`id` 
+ left join `ec_goods` on `ec_shipping_goods`.`goods_id` = `ec_goods`.`id` 
+ left join `t_projects` on `ec_orders`.`project` = `t_projects`.`prj_cn` 
+ left join `ec_goods_cat` on `ec_goods_cat`.`id` = `ec_goods`.`catalog_id` 
+ left join `t_goodcat_percent` on `ec_goods`.`catalog_id` = `t_goodcat_percent`.`category_id`
+ left join ec_shipping_records  on ec_shipping_goods.shipping_id = ec_shipping_records.id
+ left join t_users  on t_users.id = t_admin_relevance.users_id 
+ where `t_admin_relevance`.`users_id` is not null  and `ec_orders`.`status` in (4,6)  and ec_orders.is_del = 0 and t_users.isdel = 0 
+and (`t_projects`.`clue_users_id` is not null  and  `t_projects`.`prj_cn` is not null) and `ec_goods_cat`.`is_del` = 0  and `t_projects`.`isdel` = 0 and clueorprj = 2 order by ec_orders.id");
+$cost_info = 0;
+foreach($infocost as $v){
+$cost_info = round(($v['count']*($v['goods_price']-( $v['percent']*$v['orig_price']) )* $pcostinfo),2);//未含税金额
+
+$dbh->query("INSERT INTO `t_commission_cost` (`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`) 
+VALUES ('项目信息咨询费','".$v['shipping_no']."','".$v['dicount']."','".$v['id']."','".$v['count']."','0','".$v['order_sn']."','".$v['clue_users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$v['prj_id']."','".$v['category_id']."','".$v['orig_price']."','".$v['percent']."','".$cost_info."')");
+
+}
+*/
+//项目型佣金（特价）
+$prjtj = $dbh->query("SELECT
+	t_goodscat_user.users_id,
+	ec_shipping_goods.id,
+	ec_goods_cat.type,
+	`ec_goods`.`catalog_id`,
+	ec_shipping_records.account_id,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_orders.id as order_id,
+	ec_orders.project,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	ec_orders.order_sn,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_percent.goodscat_id,
+	t_goodcat_percent.percent,
+	t_goodcat_percent.is_count
+FROM
+	`ec_orders`
+LEFT JOIN ec_shipping_records ON ec_shipping_records.order_id = ec_orders.id
+LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id`
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id`
+LEFT JOIN t_goodscat_user ON t_goodscat_user.prj_cn = ec_orders.project
+LEFT JOIN t_goodcat_percent ON t_goodcat_percent.goodscat_id = t_goodscat_user.id
+WHERE
+	t_goodcat_percent.category_id = ec_goods.catalog_id
+AND `ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0
+AND ec_goods_cat.type = 1
+AND t_goodscat_user.is_valid = 1
+AND ec_shipping_records.create_time>=date(now())
+ORDER BY
+	ec_orders.id");
+
+$prj_cost = 0;
+$prj_infocost = 0;
+foreach($prjtj as $v){
+				
+						$res = $dbh->query("select id as prj_id,clue_users_id from t_projects where prj_cn='".$v['project']."'");
+				$res->setFetchMode(PDO::FETCH_ASSOC); 
+				$rs = $res->fetchAll();
+							 if(!empty($rs)){
+					 if(!empty($rs[0]['clue_users_id'])){//此项目中有线索人 +信息费
+						 if($v['goods_price']==0||$v['dicount']==0){//面价为0、卖价折扣dicount 为0、
+							 $prj_infocost = 0;
+						 }else{
+							 $prj_infocost = (($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'])*$pcostinfo;
+							 $prj_infocostEAT = $prj_infocost*0.837;
+						 }
+						 $dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`res_cost_EAT`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+VALUES ('项目信息咨询费','".$prj_infocostEAT."','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$rs[0]['clue_users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_infocost."')");
+	
+					 }
+				}else{
+			//error log prjnull
+			}
+						if($v['goods_price']==0||$v['dicount']==0){//面价为0、卖价折扣dicount 为0、
+							 $prj_cost = 0;
+						 }else{
+							 
+							 //var_dump($v['is_count']);
+							  
+							 $prj_cost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+							 $prj_costEAT = $prj_cost*0.837;
+						 }
+						 
+						//添加项目特价
+						$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`res_cost_EAT`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+				VALUES ('项目佣金','".$prj_costEAT."','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_cost."')");
+			
+}
+
+
+//项目型佣金（非特价）
+$prjftj = $dbh->query("SELECT
+t_goodscat_user.users_id,
+	ec_goods.id,
+	ec_goods_cat.type,
+	`ec_goods`.`catalog_id`,
+	ec_shipping_records.account_id,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_orders.id as order_id,
+	ec_orders.project,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	ec_orders.order_sn,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_percent.goodscat_id,
+	t_goodcat_percent.percent,
+	t_goodscat_user.name
+FROM
+	`ec_orders`
+LEFT JOIN ec_shipping_records ON ec_shipping_records.order_id = ec_orders.id
+LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id`
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id`
+LEFT JOIN t_projects ON t_projects.prj_cn = ec_orders.project
+LEFT JOIN t_goodscat_user ON t_goodscat_user.users_id = t_projects.users_id
+LEFT JOIN t_goodcat_percent ON t_goodcat_percent.goodscat_id = t_goodscat_user.id
+WHERE
+	t_goodcat_percent.category_id = ec_goods.catalog_id
+AND `ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0
+AND ec_goods_cat.type = 1
+AND ISNULL(t_goodscat_user.prj_id)
+AND ec_shipping_records.create_time>=date(now())
+AND t_goodscat_user.is_valid = 1");	
+	//'".$v['project']."'
+foreach($prjftj as $v){
+//	var_dump($v['project']);
+//				var_dump($v['catalog_id']);
+	//			var_dump($v['users_id']);
+				$resftj= $dbh->query("SELECT
+	t_goodscat_user.users_id,
+	ec_shipping_goods.id,
+	ec_goods_cat.type,
+	`ec_goods`.`catalog_id`,
+	ec_shipping_records.account_id,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_orders.id as order_id,
+	ec_orders.project,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	ec_orders.order_sn,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_percent.goodscat_id,
+	t_goodcat_percent.percent
+FROM
+	`ec_orders`
+LEFT JOIN ec_shipping_records ON ec_shipping_records.order_id = ec_orders.id
+LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id`
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id`
+LEFT JOIN t_goodscat_user ON t_goodscat_user.prj_cn = ec_orders.project
+LEFT JOIN t_goodcat_percent ON t_goodcat_percent.goodscat_id = t_goodscat_user.id
+WHERE
+	t_goodcat_percent.category_id = ec_goods.catalog_id
+AND `ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0
+AND ec_goods_cat.type = 1
+AND t_goodscat_user.is_valid = 1
+AND ec_goods.catalog_id ='".$v['catalog_id']."' AND ec_orders.project ='".$v['project']."' AND t_goodscat_user.users_id ='".$v['users_id']."' ORDER BY ec_orders.id");
+	$resftj->setFetchMode(PDO::FETCH_ASSOC); 
+				$rs = $resftj->fetchAll();
+				 if(empty($rs)){
+					//++ 
+					
+					$resprj = $dbh->query("select id as prj_id,clue_users_id from t_projects where prj_cn='".$v['project']."'");//GET prj_id
+				$resprj->setFetchMode(PDO::FETCH_ASSOC); 
+				$rsp = $resprj->fetchAll(); 
+					
+					if($v['goods_price']==0||$v['dicount']==0){//面价为0、卖价折扣dicount 为0、
+							 $prjf_cost = 0;
+						 }else{
+							 $prjf_cost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+							 $prjf_costEAT = $prjf_cost*0.837;
+						 }
+						$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`res_cost_EAT`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+				VALUES ('项目佣金f','".$prjf_costEAT."','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rsp[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prjf_cost."')");
+				 }
+						/*$res = $dbh->query("select id as prj_id,clue_users_id from t_projects where prj_cn='".$v['project']."'");
+				$res->setFetchMode(PDO::FETCH_ASSOC); 
+				$rs = $res->fetchAll();
+							 if(!empty($rs)){
+					 if(!empty($rs[0]['clue_users_id'])){//此项目中有线索人 +信息费
+						 if($v['goods_price']==0||$v['dicount']==0){//面价为0、卖价折扣dicount 为0、
+							 $prj_infocost = 0;
+						 }else{
+							 $prj_infocost = (($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'])*$pcostinfo;
+						 }
+						 $dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+VALUES ('项目信息咨询费','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$rs[0]['clue_users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_infocost."')");
+	
+					 }
+				}else{
+			//error log prjnull
+			}
+						if($v['goods_price']==0||$v['dicount']==0){//面价为0、卖价折扣dicount 为0、
+							 $prj_cost = 0;
+						 }else{
+							 $prj_cost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+							 $prj_costEAT = $prj_cost*0.837;
+						 }
+						 
+						//添加项目特价
+						$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`res_cost_EAT`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+				VALUES ('项目佣金','".$prj_costEAT."','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_cost."')");
+	*/		
+}	
+
+
+
+
+//项目型佣金（非特价）
+ //全部订单-项目特价订单=非特价订单
+ 
+
+//$prjt->setFetchMode(PDO::FETCH_ASSOC); 
+//				$rs = $prjt->fetchAll();
+/*
+				foreach($prjt as $v){
+					 $arr[] = $v['id'];
+				}
+				if(!empty($arr)){
+					$str = implode(',',$arr);
+					$prjf = $dbh->query("SELECT t_goodscat_user.users_id,
+	ec_goods.id,
+	ec_shipping_goods.shipping_id,
+	ec_goods_cat.type,
+	`ec_goods`.`catalog_id`,
+	ec_shipping_records.account_id,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_orders.id as order_id,
+	ec_orders.project,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	ec_orders.order_sn,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_percent.goodscat_id,
+	t_goodcat_percent.percent
+FROM
+	`ec_orders`
+LEFT JOIN ec_shipping_records ON ec_shipping_records.order_id = ec_orders.id
+LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id` 
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id` 
+LEFT JOIN t_goodscat_user ON t_goodscat_user.prj_cn = ec_orders.project
+LEFT JOIN t_goodcat_percent ON t_goodcat_percent.goodscat_id = t_goodscat_user.id 
+WHERE
+	`ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0
+AND ec_goods_cat.type = 1
+AND t_goodscat_user.is_valid = 1 AND  ec_goods.id NOT IN(".$str.")
+GROUP BY
+	ec_goods.id
+ORDER BY
+	ec_orders.id");
+	
+	foreach($prjf as $v){
+					 $uid[] = $v['users_id'];
+					 $goodsid[] = $v['id'];
+					 $shipping_id[] = $v['shipping_id'];
+				}
+				$uidstr = implode(',',$uid);
+				$goodsidstr = implode(',',$goodsid);
+				//var_dump($uidstr);
+				//var_dump($goodsidstr);
+				
+				
+foreach($goodsid as $v){//判断非项目特价未找到后添加log
+		
+				$res = $dbh->query("SELECT *  from ec_shipping_records
+LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+LEFT JOIN ec_goods ON ec_goods.id = ec_shipping_goods.goods_id
+LEFT JOIN t_goodcat_percent on t_goodcat_percent.category_id = ec_goods.catalog_id
+LEFT JOIN t_goodscat_user ON t_goodscat_user.id = t_goodcat_percent.goodscat_id
+WHERE  users_id  IN(".$uidstr.")
+AND ec_goods.id = ".$v."");
+				$res->setFetchMode(PDO::FETCH_ASSOC); 
+				$rs = $res->fetchAll();
+				//var_dump($rs);
+			 if(empty($rs)){
+				//error log  增加log表 项目系类折扣未设置
+			 }
+}
+						
+				
+$resfprj = $dbh->query("SELECT
+		t_goodscat_user.users_id,
+	ec_shipping_goods.id,
+	`ec_goods`.`catalog_id`,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_shipping_goods.order_id,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_percent.goodscat_id,
+	t_goodcat_percent.percent,
+	ec_orders.project,
+	ec_orders.order_sn
+	FROM
+		ec_shipping_records
+	LEFT JOIN ec_shipping_goods ON ec_shipping_records.id = ec_shipping_goods.shipping_id
+	LEFT JOIN ec_goods ON ec_goods.id = ec_shipping_goods.goods_id
+	LEFT JOIN t_goodcat_percent ON t_goodcat_percent.category_id = ec_goods.catalog_id
+	LEFT JOIN t_goodscat_user ON t_goodscat_user.id = t_goodcat_percent.goodscat_id
+	LEFT JOIN ec_orders ON ec_shipping_goods.order_id = ec_orders.id
+WHERE  users_id  IN(".$uidstr.")
+AND t_goodscat_user.prj_id is  NULL
+AND ec_goods.id IN(".$goodsidstr.")");
+
+$fcost= 0;
+foreach($resfprj as $v){ //此处为非项目特价的产品
+				$res = $dbh->query("select id as prj_id from t_projects where prj_cn='".$v['project']."'"); 
+				$res->setFetchMode(PDO::FETCH_ASSOC); 
+				$rs = $res->fetchAll();
+				if(!empty($rs)){
+					 if(!empty($rs[0]['clue_users_id'])){//此项目中有线索人 +信息费
+						 $prj_infocost = (($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'])*$pcostinfo;
+						 $dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+VALUES ('项目信息咨询费','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$rs[0]['clue_users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_infocost."')");
+	
+					 }
+					$fcost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+VALUES ('项目佣金','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$fcost."')");
+				}else{
+					//error 项目为空
+				}	
+}
+}
+	*/
+	
+	/*
+$prjf_cost = 0;
+foreach($prjf as $v){  
+				$prjf_cost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`)    
+VALUES ('项目佣金f','".$v['shipping_no']."','".$v['dicount']."','".$v['order_id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$rs[0]['prj_id']."','".$v['catalog_id']."','".$v['orig_price']."','".$v['percent']."','".$prj_cost."')");
+		
+}
+
+//重新根据非项目特价的查出折扣
+
+*/
+
+
+
+//分销型
+$oemcost = $dbh->query("SELECT
+	ec_acc_company.company_name,
+	ec_orders.id ,
+	ec_goods_cat.type,
+	`ec_goods`.`catalog_id`,
+	ec_acc_company.ec_sale_id as users_id,
+	ec_shipping_records.account_id,
+	ec_shipping_records.shipping_no,
+	ec_shipping_goods.dicount,
+	ec_orders.id,
+	ec_orders.project,
+	ec_shipping_goods.count,
+	ec_shipping_goods.orig_price,
+	t_goodcat_userpercent.percent,
+	ec_orders.order_sn,
+	ec_shipping_goods.goods_price,
+	ec_shipping_goods.goods_id,
+	t_goodcat_userpercent.category_id FROM 
+	`ec_orders`
+LEFT JOIN `ec_shipping_goods` ON `ec_shipping_goods`.`order_id` = `ec_orders`.`id`
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id`
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id`
+LEFT JOIN `t_goodcat_userpercent` ON `ec_goods`.`catalog_id` = `t_goodcat_userpercent`.`category_id`
+LEFT JOIN ec_shipping_records ON ec_shipping_goods.shipping_id = ec_shipping_records.id
+
+LEFT JOIN ec_account ON ec_shipping_records.account_id = ec_account.id
+LEFT JOIN ec_acc_company on ec_account.company_id = ec_acc_company.id
+WHERE
+	ec_acc_company.ec_sale_id = t_goodcat_userpercent.users_id
+AND	`ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_acc_company.ec_sale_id IS NOT NULL
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0 
+AND (ec_goods_cat.type = 3)
+AND ec_shipping_records.create_time>=date(now())
+ORDER BY
+	ec_orders.id");//AND ec_shipping_records.create_time>=date(now())
+
+//
+$allin_shipping = $dbh->query("SELECT
+	ec_shipping_records.shipping_no FROM 
+	`ec_orders`
+LEFT JOIN `ec_shipping_goods` ON `ec_shipping_goods`.`order_id` = `ec_orders`.`id`
+LEFT JOIN `ec_goods` ON `ec_shipping_goods`.`goods_id` = `ec_goods`.`id`
+LEFT JOIN `ec_goods_cat` ON `ec_goods_cat`.`id` = `ec_goods`.`catalog_id`
+LEFT JOIN `t_goodcat_userpercent` ON `ec_goods`.`catalog_id` = `t_goodcat_userpercent`.`category_id`
+LEFT JOIN ec_shipping_records ON ec_shipping_goods.shipping_id = ec_shipping_records.id
+
+LEFT JOIN ec_account ON ec_shipping_records.account_id = ec_account.id
+LEFT JOIN ec_acc_company on ec_account.company_id = ec_acc_company.id
+WHERE
+	ec_acc_company.ec_sale_id = t_goodcat_userpercent.users_id
+AND	`ec_orders`.`status` IN (4, 6)
+AND ec_orders.is_del = 0
+AND ec_acc_company.ec_sale_id IS NOT NULL
+AND ec_orders.is_del = 0
+AND ec_shipping_records.is_del = 0 
+AND (ec_goods_cat.type = 3)
+GROUP BY shipping_no");
+
+
+
+foreach($allin_shipping as $vv){
+	$arr[] = $vv['shipping_no'];
+}
+$shipp = implode('","',$arr);
+//var_dump($shipp);
+$res_shipping = $dbh->query('SELECT * FROM ec_shipping_records 
+LEFT JOIN ec_shipping_goods
+LEFT JOIN ec_goods ON ec_goods.id =  ec_shipping_goods.goods_id
+ON ec_shipping_goods.shipping_id = ec_shipping_records.id
+WHERE ec_shipping_records.shipping_no IN("'.$shipp.'")');
+//所有的订单产品数
+
+
+$res_shipping->setFetchMode(PDO::FETCH_ASSOC); 
+$rsall = $res_shipping->fetchAll();
+$oemcost->setFetchMode(PDO::FETCH_ASSOC); 
+$roemcost = $oemcost->fetchAll();
+$oem_cost = 0;
+
+
+
+foreach($roemcost as $v){
+		$arr1[] = $v['shipping_no'].'-'.$v['goods_id'];
+	
+	foreach($rsall as $k=> $v3){
+		
+		if($v['shipping_no']==$v3['shipping_no']){
+			$arrall[] = $v3['shipping_no'].'-'.$v3['goods_id'];//全部订单
+		}
+}
+		 if(true){//产品分销(uid为空代表没有此销售的折扣添加表error)
+		  $oem_cost = ($v['goods_price']-($v['percent']*$v['orig_price']))*$v['count'];
+	       $oem_costEAT = $oem_cost*0.837;
+$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`res_cost_EAT`,`company_name`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`order_id`,`users_id`,`cost_time`,`goods_price`,`goods_id`,`prj_id`,`category_id`,`orig_price`,`percent`,`res_cost`) 
+VALUES ('产品分销','".$oem_costEAT."','".$v['company_name']."','".$v['shipping_no']."','".$v['dicount']."','".$v['id']."','".$v['count']."','0','".$v['order_sn']."','".$v['users_id']."','".date('y-m-d h:i:s')."','".$v['goods_price']."','".$v['goods_id']."','".$v['company_name']."','".$v['category_id']."','".$v['orig_price']."','".$v['percent']."','".$oem_cost."')");
+		 } 
+}
+	if(!empty($arrall)){
+ $rarr =  array_unique($arrall);
+
+$c=array_diff($rarr,$arr1); //取出没有设置折扣的结果保存到err
+
+//var_dump($c);
+
+foreach($c as $v){
+	$g = strstr($v, '-');
+	//查找出没有设置折扣的订单号与产品id
+	$goods_id = preg_replace('/[-]+/i','',$g);
+	$shipping_no = substr($v,0,strrpos($v,'-'));
+	
+	$reserr = $dbh->query('SELECT * FROM ec_shipping_records 
+LEFT JOIN ec_shipping_goods ON ec_shipping_goods.shipping_id = ec_shipping_records.id
+LEFT JOIN ec_goods ON ec_goods.id =  ec_shipping_goods.goods_id
+LEFT JOIN ec_account ON ec_account.id =  ec_shipping_records.account_id
+LEFT JOIN ec_acc_company ON ec_acc_company.id =  ec_account.company_id
+WHERE ec_shipping_records.shipping_no = "'.$shipping_no.'" AND ec_shipping_goods.goods_id = "'.$goods_id.'"');
+	foreach($reserr as $verr){//为设置折扣添加至error
+		$dbh->query("INSERT INTO t_error_log(`type`,`prj_id`,`category_id`,`createtime`,`goods_id`,`order_id`,`shipping_no`,`users_id`,`reson`)VALUES('产品分销',NULL,'".$verr['catalog_id']."','".date('y-m-d h:i:s')."','".$verr['goods_id']."','".$verr['order_id']."','".$verr['shipping_no']."','".$verr['ec_sale_id']."','销售折扣为空')");
+			 //+error table
+	}
+}
+}
+
+
+//代理商项目渠道费
+/*
+
+$partner = $dbh->query("SELECT id,partner_sale FROM t_users");
+foreach($partner as  $key=> $v){
+	
+	if(!empty($v['partner_sale'])){
+		
+	$arr2[$key]= rtrim($v['partner_sale'],',');//获取到所有销售的合作伙伴
+	$prjqudao_cost = $dbh->query("select ec_shipping_records.shipping_no,ec_order_goods.dicount, ec_orders.id ,`t_users`.`id` as users_id,`orig_price`,`t_goodcat_percent`.`category_id`,ec_order_goods.order_count,`t_projects`.`id` as prj_id,`t_users`.`name`, `ec_orders`.`status`, `t_goodcat_percent`.`percent`, `ec_order_goods`.*, `ec_orders`.`order_sn`, `ec_goods_cat`.`category_name`, `ec_goods`.`goods_name`, `t_projects`.`prj_cn`,`ec_order_goods`.`goods_id` from `ec_orders` 
+	left join `t_admin_relevance` on `t_admin_relevance`.`users_id` = `ec_orders`.`sale_id` 
+	left join `t_projects` on `ec_orders`.`project` = `t_projects`.`prj_cn` 
+	left join `t_users` on `t_users`.`id` = `t_projects`.`users_id` 
+	left join `ec_order_goods` on `ec_order_goods`.`order_id` = `ec_orders`.`id` 
+	left join `ec_goods` on `ec_order_goods`.`goods_id` = `ec_goods`.`id` 
+	left join `ec_goods_cat` on `ec_goods_cat`.`id` = `ec_goods`.`catalog_id` 
+	left join `t_goodcat_percent` on `ec_goods`.`catalog_id` = `t_goodcat_percent`.`category_id` 
+	left join ec_shipping_records  on ec_shipping_records.order_id = ec_orders.id 
+	where `t_projects`.`users_id` in (".$arr2[$key].") and  `t_projects`.`prj_cn` is not null and `t_projects`.`isdel` = 0");
+ 
+	foreach($prjqudao_cost as $v2){
+				$num =(((int)$v2['goods_price']-($v2['percent']*$v2['orig_price']))*$v2['order_count'])*$pcostinfo;
+				$dbh->query("INSERT INTO `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`partner_id`,`users_id`,`percent`,`orig_price`,`category_id`,`prj_id`,`cost_time`,`goods_price`,`order_id`,`goods_id`,`res_cost`)VALUES('项目管理费','".$v2['shipping_no']."','".$v2['dicount']."','".$v2['id']."','".$v2['order_count']."','0','".$v2['users_id']."','".$v['id']."','".$v2['percent']."','".$v2['orig_price']."','".$v2['category_id']."','".$v2['prj_id']."','".date('y-m-d h:i:s')."','".(int)$v2['goods_price']."','".$v2['order_sn']."','".$v2['goods_id']."','".$num."')");
+			}
+	
+	$prjinfo_cost = $dbh->query("select ec_shipping_records.shipping_no,ec_order_goods.dicount,ec_orders.id ,`t_users`.`id` as users_id,`t_goodcat_percent`.`category_id`,`t_projects`.`id` as prj_id,`ec_order_goods`.`orig_price`,`ec_order_goods`.`order_count`,`ec_order_goods`.`goods_price`,`t_users`.`name`, `ec_orders`.`status`, `t_goodcat_percent`.`percent`, `ec_order_goods`.*, `ec_orders`.`order_sn`, `ec_goods_cat`.`category_name`, `ec_goods`.`goods_name`, `t_projects`.`prj_cn` from `ec_orders`
+ left join `ec_order_goods` on `ec_order_goods`.`order_id` = `ec_orders`.`id`
+ left join `ec_goods` on `ec_goods`.`id` = `ec_order_goods`.`goods_id` 
+left join `ec_goods_cat` on `ec_goods_cat`.`id` = `ec_goods`.`catalog_id` 
+left join `t_projects` on `ec_orders`.`project` = `t_projects`.`prj_cn` 
+left join `t_goodcat_percent` on `ec_goods`.`catalog_id` = `t_goodcat_percent`.`category_id`
+ left join `t_admin_relevance` on `t_admin_relevance`.`admin_id` = `ec_orders`.`sale_id` 
+left join `t_users` on `t_admin_relevance`.`users_id` = `t_users`.`id` 
+left join ec_shipping_records  on ec_shipping_records.order_id = ec_orders.id 
+where `t_projects`.`clue_users_id` in (".$arr2[$key].") and `ec_orders`.`status` in (4,6) and `t_projects`.`prj_cn` is not null 
+and `ec_goods_cat`.`is_del` = 0 and `ec_goods`.`is_del` = 0 and `t_projects`.`isdel` = 0 ");
+	
+	foreach($prjinfo_cost as $v3){
+				$num2 = round(((int)$v3['order_count']*($v3['goods_price']-($v3['percent']*$v3['orig_price']))* $pcostqudao),2);
+				$dbh->query("INSERT INTO   `t_commission_cost`(`cost_type`,`shipping_no`,`dicount`,`orders_id`,`count`,`is_del`,`partner_id`,`users_id`,`percent`,`orig_price`,`category_id`,`prj_id`,`cost_time`,`goods_price`,`order_id`,`goods_id`,`res_cost`)VALUES('信息渠道费','".$v3['shipping_no']."','".$v3['dicount']."','".$v3['id']."','".$v3['order_count']."','0','".$v3['users_id']."','".$v['id']."','".$v3['percent']."','".$v3['orig_price']."','".$v3['category_id']."','".$v3['prj_id']."','".date('y-m-d h:i:s')."','".(int)$v3['goods_price']."','".$v3['order_sn']."','".$v3['goods_id']."','".$num2."')");
+			}
+	}
+}
+*/
+
+
+$cost_all =    $dbh->query("select SUM(res_cost)as costsum,users_id from t_commission_cost where cost_time>=date(now()) GROUP BY users_id"); //取到当天的订单数据总和
+foreach($cost_all as $v){
+	$cost_before = $dbh->query("select * from t_commission_allin ");//原所有总和数据
+	foreach($cost_before as  $v2){
+		
+		
+		 // $uid = $dbh->query("select users_id from t_commission_allin where users_id ='".$v['users_id']."'");
+		 // var_dump($uid);
+		 // die;
+		 // if(empty($uid)){
+			  // $dbh->query("INSERT INTO `test`.`t_commission_allin` (`users_id`) VALUES ('".$v['users_id']."')");
+		 // }
+		if($v['users_id']==$v2['users_id']){
+			//计算累计总和
+			 $leiji = (float)$v2['allin_cost'] + (float)$v['costsum'];
+			 $shuihouleiji = $leiji*0.837;
+			$dbh->query("UPDATE `t_commission_allin` SET  `allin_cost`=".$leiji.",`res_cost_EAT`=".$shuihouleiji.",`cash_available`=".$leiji." WHERE (`users_id` = ".$v['users_id'].")");
+		}
+	}
+}
+
+
+?>

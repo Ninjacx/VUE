@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>file</title>
+<style media="screen">
+#movefile{
+  width:200px;
+  height: 200px;
+  border:1px solid;
+
+}
+</style>
+
+
+  </head>
+  <body>
+        <input type="file" id="fdt" />
+
+  <input type="button" name="" id="btn1" value="上传">
+<span id="progress">0%</span>
+
+
+<div id="movefile">
+    请拖拽至此处
+</div>
+        <script type="text/javascript">
+        window.onload = function(){
+          var progress = document.querySelector('#progress')
+          var OFile = document.getElementById('fdt');
+          var btn1 = document.getElementById('btn1');
+          btn1.onclick = function(){
+                     var xml = new XMLHttpRequest();
+                      var file = new FormData();
+                      file.set('ff',OFile.files[0]);
+                      // console.log(file);
+                      xml.open('POST','upload',true);//url为上传的位置
+                          // console.log(file.get('ff'));
+                      xml.send(file);
+                       xml.onreadystatechange = function(){
+                       alert(xml.readyState);
+                      if(xml.readyState==4){
+                        alert(xml.status);
+                      }
+                 }
+          }
+
+
+   var movefile = document.getElementById('movefile');
+    movefile.addEventListener('dragenter',function(ev){
+       this.innerHTML = '请松开';
+    });
+    movefile.addEventListener('dragleave',function(ev){
+       this.innerHTML = '请拖拽至此处';
+    });
+    movefile.addEventListener('dragover',function(ev){
+        console.log(1);
+        ev.preventDefault();
+
+    },false);
+    movefile.addEventListener('drop',function(ev){
+         //获取文件
+         var server = new XMLHttpRequest();
+
+         var formdata = new FormData();
+         console.log(formdata.append);
+         // console.log(ev.dataTransfer.files[1]);
+         // console.log(ev.dataTransfer.files[0]);
+         for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+           formdata.append('aa',ev.dataTransfer.files[i]);
+         }
+         server.open('post','/upload',true);
+         server.send(formdata);
+        server.onreadystatechange = function(){
+           server.readyState == 4? console.log(server.status):console.log(server.status);
+        }
+          ev.preventDefault();
+
+    },false);
+
+
+
+        }
+
+        </script>
+  </body>
+</html>

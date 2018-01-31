@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0;">
+    <title></title>
+
+    <style media="screen">
+      .box{
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+        border: 1px solid;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+      <div class="box">
+          box
+      </div>
+
+      <script type="text/javascript">
+          window.onload = function(){
+
+            var Obox = document.getElementsByClassName('box')[0];
+
+            Obox.addEventListener('touchstart',function(ev){
+
+              var box_X = ev.targetTouches[0].pageX-Obox.offsetLeft;
+              var box_Y = ev.targetTouches[0].pageY-Obox.offsetTop;
+            function move(ev){
+
+              Obox.style.left = ev.targetTouches[0].pageX - box_X+'px';
+              Obox.style.top = ev.targetTouches[0].pageY - box_Y+'px';
+              // console.log(ev.targetTouches[0].pageX - box_X);
+            }
+            function end(){
+              Obox.removeEventListener('touchmove',move,false);
+              Obox.removeEventListener('touchend',end,false);
+            }
+            Obox.addEventListener('touchmove',move,false);
+            Obox.addEventListener('touchend',end,false);
+
+            },false);
+          }
+      </script>
+  </body>
+</html>

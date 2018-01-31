@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+       /* ul li{
+         width: 25%;
+         float: left;
+         height: 100px;
+         border:1px solid ;
+         box-sizing: border-box;
+         list-style: none;
+       } */
+    </style>
+
+  </head>
+  <body >
+      <canvas id="canvas" width="1000" height="1000" border="1"></canvas>
+<!-- <ul>
+  <li>jdsfhj</li>
+  <li>jdsfhj</li>
+  <li>jdsfhj</li>
+  <li>jdsfhj</li>
+</ul> -->
+
+      <script type="text/javascript">
+        window.onload = function (){
+            var cvs = document.getElementById('canvas');
+            var gd =cvs.getContext('2d');
+
+      //横向 193  226  259
+            var img = new Image();
+
+            img.src= '/img/wolk.png';
+              img.onload = function(){
+                var wolkX = 193;  
+                // var status = {"u":};
+                setInterval(function(){
+        gd.clearRect(0,0,gd.canvas.offsetWidth,gd.canvas.offsetHeight);
+        document.onkeydown = function(ev){
+
+          var status = {38:"up",40:"down",37:"left",39:"right"};
+          var fx = status[ev.keyCode] || "down";
+
+
+        }
+                wolkX+=33;
+                if(wolkX>=259){
+                  wolkX=193;
+                }
+                  gd.drawImage(
+                    img,wolkX,125,33,33
+                    ,30,30,33,33
+                  )
+                },180);
+
+              }
+           // gd.drawImage()
+
+        }
+      </script>
+  </body>
+</html>
