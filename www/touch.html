@@ -2,50 +2,46 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0;">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <!-- user-scalable=0; -->
+    <script src="/js/hammer.js" charset="utf-8"></script>
     <title></title>
 
     <style media="screen">
-      .box{
-        width: 100px;
-        height: 100px;
-        background: #ccc;
-        border: 1px solid;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
+
     </style>
   </head>
   <body>
-      <div class="box">
-          box
-      </div>
 
-      <script type="text/javascript">
-          window.onload = function(){
+<ul>
+  <li style="position:relative;top:0;right:0;" id="i">
+    <div style="transition:0.3s all ease;padding:5px 0px;position:absolute;top:0;width:100%;z-index:3;background:white;">xxxx信息</div>
+    <div style="transition:0.3s all ease;">
+      <a style="position:absolute;right:40px;top:0;background:blue;border:1px solid;">删除</a>
+      <a style="position:absolute;right:0;top:0;background:red;border:1px solid;">更多</a>
+    </div>
+  </li>
 
-            var Obox = document.getElementsByClassName('box')[0];
+</ul>
 
-            Obox.addEventListener('touchstart',function(ev){
 
-              var box_X = ev.targetTouches[0].pageX-Obox.offsetLeft;
-              var box_Y = ev.targetTouches[0].pageY-Obox.offsetTop;
-            function move(ev){
 
-              Obox.style.left = ev.targetTouches[0].pageX - box_X+'px';
-              Obox.style.top = ev.targetTouches[0].pageY - box_Y+'px';
-              // console.log(ev.targetTouches[0].pageX - box_X);
-            }
-            function end(){
-              Obox.removeEventListener('touchmove',move,false);
-              Obox.removeEventListener('touchend',end,false);
-            }
-            Obox.addEventListener('touchmove',move,false);
-            Obox.addEventListener('touchend',end,false);
 
-            },false);
-          }
-      </script>
+
   </body>
+
+
+  <script type="text/javascript">
+      window.onload = function(){
+        var i = document.getElementById('i');
+          var  h = new Hammer(i,{});
+          h.on('swipeleft', function(ev) {
+            	 document.getElementById('i').children[0].style.transform = 'translateX(-100px)'
+            });
+          h.on('swiperight', function(ev) {
+              document.getElementById('i').children[0].style.transform = 'translateX(0)'
+              });
+
+      }
+  </script>
 </html>

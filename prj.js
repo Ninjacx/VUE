@@ -17,7 +17,7 @@ server.use(multer.any());
 server.use(function (req, res, next) {
 
   server.all(`${req.originalUrl}`, function (req, res,next) {
-     res.sendFile( __dirname + "/www/" + `${req.originalUrl}.html`);
+     res.sendFile( __dirname + "/www/" + `${req.originalUrl}`);
   });
   next();
 

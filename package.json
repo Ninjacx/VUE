@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "socket.io": "^2.0.4"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8"
   }
 }
