@@ -1,17 +1,27 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "",
   "main": "prj.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "webpack-dev-server --inline",
+	"build":"webpack -v"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "socket.io": "^2.0.4"
   },
   "dependencies": {
     "hammerjs": "^2.0.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ninjacx/my-repository.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ninjacx/my-repository/issues"
+  },
+  "homepage": "https://github.com/Ninjacx/my-repository#readme",
+  "description": ""
 }
