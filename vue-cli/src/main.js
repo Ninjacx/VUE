@@ -9,7 +9,7 @@ import Element from 'element-ui'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
-import resource from './resource'
+// import resource from './resource'
 // import axios from 'axios'
 // import VueAxios from 'vue-axios'
 
@@ -24,7 +24,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  resource,
+  // resource,
   store,
   components: {App},
   template: '<App/>'
