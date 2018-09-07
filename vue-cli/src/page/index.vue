@@ -3,13 +3,13 @@
     <!-- banner -->
     <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
     <!-- classify -->
-   <div class="marTop" >
+   <div class="marTop ulOuter marBottom" >
      <ul class="nav bgWhite">
          <blocks v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"></blocks>
      </ul>
    </div>
    <!-- week -->
-   <div class="bgWhite marTop weekly">
+   <div class="bgWhite weekly">
      <div>
        <div class="fsTitle">每周特价产品</div>
      </div>
@@ -134,6 +134,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.ulOuter{
+  overflow:hidden;
+  background:white;
+}
 .weekly{
   display: table-cell;
 }
@@ -144,7 +148,7 @@ export default {
 .nav{
   padding:.2rem;
   box-sizing:border-box;
-  display: inline-block;
+  ovflow:hidden;
   width: 100%;
   margin: 0;
 }

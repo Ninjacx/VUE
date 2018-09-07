@@ -15,8 +15,8 @@ import 'mint-ui/lib/style.css'
 
 // element-ui
 import 'element-ui/lib/theme-chalk/index.css'
-var VueTouch = require('vue-touch')
-Vue.use(VueTouch, {name: 'v-touch'})
+// var VueTouch = require('vue-touch')
+// Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(MintUI)
 Vue.use(Element, { size: 'small', zIndex: 3000 })
 
