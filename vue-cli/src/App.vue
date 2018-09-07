@@ -36,32 +36,5 @@ export default {
 }
 </script>
 <style>
-
-.fade-enter-active {
-  transition: all .3s ease-in-out;
-}
-.fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.fade-enter, .fade-leave-active {
-  transform: translateY(50px);
-  opacity: 0;
-}
-    body{
-      margin: 0;
-    }
-    .fs16{
-      font-size: .25rem;
-    }
-    .marTop{
-      margin-top:0.1rem;
-    }
-    #app {
-      font-family: 'Avenir', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      /* color: #2c3e50; */
-      /* margin-top: 60px; */
-    }
+  @import  '../static/css/app';
 </style>

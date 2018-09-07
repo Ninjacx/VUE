@@ -1,12 +1,43 @@
 <template>
   <div class="">
-   <VBannerList :imgSrc="Url"></VBannerList>
-   <div>
-     <ul class="nav">
+    <!-- banner -->
+    <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
+    <!-- classify -->
+   <div class="marTop" >
+     <ul class="nav bgWhite">
          <blocks v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"></blocks>
      </ul>
    </div>
-   <!-- <img src="../../static/images/timg.jpg" width="100%" /> -->
+   <!-- week -->
+   <div class="bgWhite marTop weekly">
+     <div>
+       <div class="fsTitle">每周特价产品</div>
+     </div>
+     <div>
+       <div class="">
+       <div style="width:33.3%;float:left">
+         <li style="text-align:center">
+           <div class="padding-outline">
+             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100%" class="load-img">
+           </div>
+           </li>
+         </div>
+           <div style="width:33.3%;float:left">
+             <li >
+               <div class="padding-outline"><img src="http://img3.imgtn.bdimg.com/it/u=1444690523,4165695038&amp;fm=27&amp;gp=0.jpg" width="100%">
+             </div>
+             </li>
+           </div>
+             <div style="width:33.3%;float:left">
+               <li >
+                   <div class="padding-outline">
+                     <img src="http://img3.imgtn.bdimg.com/it/u=3192178595,1770656906&amp;fm=27&amp;gp=0.jpg" width="100%">
+                   </div>
+                 </li>
+              </div>
+          </div>
+        </div>
+      </div>
    <!-- 子路由 -->
    <!-- <div class="aaa">
      <div class="list-group">
@@ -103,11 +134,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.weekly{
+  display: table-cell;
+}
 .Arrlist{
   text-align: left;
   font-size: .35rem;
 }
 .nav{
+  padding:.2rem;
+  box-sizing:border-box;
   display: inline-block;
   width: 100%;
   margin: 0;
