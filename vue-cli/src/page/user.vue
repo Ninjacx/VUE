@@ -1,11 +1,7 @@
 <template>
-  <div class="hello">
+  <div class="user">
     <div style="height:300px">
-    <mt-swipe :auto="4000">
-      <mt-swipe-item v-for="item in images">
-        <img :src="item.url" style="width:100%;" />
-      </mt-swipe-item>
-    </mt-swipe>
+    user
   </div>
      <!-- {{msg}}
      <button type="button" @click="getParams()" name="button">getParams</button>
@@ -18,7 +14,7 @@
 
 <script>
 export default {
-    name: 'index4',
+    name: 'user',
     data () {
       return {
         msg: 'Welcome to Your Vue.js App'

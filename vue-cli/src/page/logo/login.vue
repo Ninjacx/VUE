@@ -1,9 +1,10 @@
 <template>
   <div class="">
-   <VBannerList></VBannerList>
-    <div @click="getStroe()">
+   <!-- <VBannerList></VBannerList> -->
+   login
+    <!-- <div @click="getStroe()">
           click
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -15,7 +16,8 @@ export default {
   name: 'index',
   data () {
     return {
-      msg: ''
+      msg: '',
+      isBottomShow:'false'
     }
   },
   methods: {
@@ -26,22 +28,26 @@ export default {
       });
       // console.log(this.$store)
       this.$store.commit('setName', 'sky')
-      console.log(this.$store.state.name)
     }
   },
   components: {
     VBannerList
   },
   mounted: function () {
-    return this.$store.commit('Flagborder', '1')
+
+       this.$store.commit('isBottomShow', false) //隐藏底部栏
+       this.$store.commit('Flagborder', '1')
+         console.log(this.$store.state.isBottomShow)
+     //return
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
+.is_none{
+  display: none;
+}
 h1, h2 {
   font-weight: normal;
 }

@@ -2,10 +2,9 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <router-view/>
-    <VFoot></VFoot>
+      <VFoot></VFoot>
   </div>
 </template>
-
 <script>
 import VFoot from '@/components/Footer'
 
@@ -13,6 +12,11 @@ export default {
   name: 'App',
   components: {
     VFoot
+  },
+  data(){
+    return {
+      // isBottonShow:true
+    }
   },
   mounted:function(){
     new function (){
@@ -29,7 +33,6 @@ export default {
   }
 }
 </script>
-
 <style>
     body{
       margin: 0;
@@ -39,7 +42,7 @@ export default {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
-      color: #2c3e50;
-      margin-top: 60px;
+      /* color: #2c3e50; */
+      /* margin-top: 60px; */
     }
 </style>

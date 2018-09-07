@@ -1,18 +1,18 @@
 <template>
-  <div class="footer">
+  <div :class="[{is_Show:!is_BotterShow},'footer']">
       <ul>
         <router-link to="/">
           <li><span :class="{fonts:borderTag==1}">首页</span><div :class="{line:borderTag==1}"></div></li>
         </router-link>
-        <router-link to="/index2">
-          <li><span :class="{fonts:borderTag==2}">投资目录</span><div :class="{line:borderTag==2}"></div></li>
+        <router-link to="/message">
+          <li><span :class="{fonts:borderTag==2}">消息</span><div :class="{line:borderTag==2}"></div></li>
         </router-link>
-        <router-link to="/index3">
-          <li><span :class="{fonts:borderTag==3}">我的亿亿</span><div :class="{line:borderTag==3}"></div></li>
+        <router-link to="/car">
+          <li><span :class="{fonts:borderTag==3}">装备车</span><div :class="{line:borderTag==3}"></div></li>
         </router-link>
-        <!-- <router-link to="/index4"> -->
-          <li @click="go_index4()"><span :class="{fonts:borderTag==4}">更多</span><div :class="{line:borderTag==4}"></div></li>
-        <!-- </router-link> -->
+        <router-link to="/user">
+          <li @click="go_index4()"><span :class="{fonts:borderTag==4}">我的</span><div :class="{line:borderTag==4}"></div></li>
+        </router-link>
       </ul>
   </div>
 </template>
@@ -23,9 +23,9 @@ import router from './../router'
     data () {
       return {
         msg: 'Welcome to Your Vue.js App',
+        isBottom :true
       }
-    },
-    methods:{
+    },methods:{
       go_index4(){
         let uid = 156
         // router.push({ path: `/index4?id=${uid}` }) // -> /user/123
@@ -36,6 +36,9 @@ import router from './../router'
     ,computed: {
       borderTag(){
         return this.$store.state.borderTag
+      },
+      is_BotterShow(){
+        return this.$store.state.isBottomShow
       }
     }
   }
@@ -43,7 +46,9 @@ import router from './../router'
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.is_Show{
+  display: none;
+}
 .fonts{
   font-weight: bold;
   color: green;

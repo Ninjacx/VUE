@@ -7,14 +7,19 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     name: '',
-    borderTag: 1
+    userToken: '', // 登录用户的信息
+    isBottomShow: true,
+    borderTag: 1 // 底部导航栏
   },
   mutations: {
     setName (state, name) {
       state.name = name
     },
-    Flagborder (arr, index) {
-      arr.borderTag = index
+    Flagborder (state, borderTag) {
+      state.borderTag = borderTag
+    },
+    isBottomShow (state, isBottomShow) {
+      state.isBottomShow = isBottomShow
     }
   }
 })

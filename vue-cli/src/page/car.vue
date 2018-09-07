@@ -1,11 +1,7 @@
 <template>
   <transition name="fade">
-  <div class="index3">
-    <mt-datetime-picker
-   ref="picker"
-   type="time"
-   v-model="pickerValue">
- </mt-datetime-picker>
+  <div class="car">
+    car
   </div>
 </transition>
 </template>
@@ -13,7 +9,7 @@
 <script>
 
 export default {
-  name: 'index3',
+  name: 'car',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
