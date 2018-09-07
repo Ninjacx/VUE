@@ -82,12 +82,13 @@ ul{
   width: 100%;
   bottom: 0;
 }
-li {
+ul li {
     display: inline-block;
     float: left;
     width: 25%;
     font-size: .3rem;
     background: white;
+    padding-top: .2rem;
 }
 a {
   color: black;

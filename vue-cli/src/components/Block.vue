@@ -1,6 +1,9 @@
 <template>
   <div class="Block">
-    <li><i class="el-icon-info"></i><div>{{title}}</div></li>
+    <li>
+      <img :src="url" />
+      <div class="fs16 marTop">{{title}}</div>
+    </li>
   </div>
 </template>
 
@@ -13,7 +16,7 @@ export default {
       images:[{url:'https://www.baidu.com/img/bd_logo1.png'},{url:'https://www.baidu.com/img/bd_logo1.png'}],
       }
   },
-  props:['title']
+  props:['title','url']
   ,
   mounted:function(){
   }
@@ -23,8 +26,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .Block li i{
-    font-size: 30px;
+  .Block li img{
+     width: 1.8rem;
+     height: 1.3rem;
   }
   .Block li{
     font-size: .2rem;

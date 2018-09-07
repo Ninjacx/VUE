@@ -1,9 +1,8 @@
 /*
-  定义接口
+  定义接口名字
 */
-const api = {
-  getList: 'getList'
-}
+
 export default {
-  api
+  getList: '/getList',
+  GetClassify: '/GetClassify'
 }

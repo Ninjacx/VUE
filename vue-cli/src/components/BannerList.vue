@@ -1,20 +1,10 @@
 <template>
-  <div class="BannerList">
-    <!-- 轮播图 -->
-    <!-- <div class="">
-      <el-carousel :interval="4000" type="card" height="200px">
-         <el-carousel-item v-for="item in list" :key="item">
-           <h3>{{ item }}</h3>
-         </el-carousel-item>
-       </el-carousel>
-    </div> -->
-    <div style="height:300px">
+    <div  class="BannerList">
       <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="item in images">
+        <mt-swipe-item v-for="item in imgSrc">
           <img :src="item.url" style="width:100%;" />
         </mt-swipe-item>
       </mt-swipe>
-  </div>
   </div>
 </template>
 
@@ -23,15 +13,18 @@ export default {
   name: 'BannerList',
   data () {
     return {
-      list: [1,2,3,4,5,6,7,8],
       images:[{url:'https://www.baidu.com/img/bd_logo1.png'},{url:'https://www.baidu.com/img/bd_logo1.png'}]
     }
-  }
+  },
+  props:['imgSrc']
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style >
+.BannerList{
+  height:4.5rem
+}
 /* 轮播 */
 .mint-swipe-indicator.is-active{
     background: red !important;

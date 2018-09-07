@@ -22,6 +22,7 @@ const router = new Router({
       component: HelloWorld
     }, {
       path: '/',
+      title: '冰旗库',
       name: 'index',
       component: index,
       children: [{
@@ -58,6 +59,7 @@ const router = new Router({
       name: 'user',
       component: user
     }, {
+      // 跳转登录
       path: '/login',
       name: '/login',
       component: login

@@ -1,27 +1,20 @@
 <template>
   <div class="">
-   <VBannerList></VBannerList>
+   <VBannerList :imgSrc="Url"></VBannerList>
    <div>
      <ul class="nav">
-         <blocks :title="'邀请好友'"></blocks>
-         <blocks :title="'亿亿公益'"></blocks>
-         <blocks :title="'公司资质'"></blocks>
-         <blocks :title="'信息披露'"></blocks>
+         <blocks v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"></blocks>
      </ul>
    </div>
-   <div class="Arrlist">
-      <div>{{msg}}</div>
-   </div>
-   <div class="aaa">
+   <!-- <img src="../../static/images/timg.jpg" width="100%" /> -->
+   <!-- 子路由 -->
+   <!-- <div class="aaa">
      <div class="list-group">
         <router-link to="/cc?id=10&bb=aaa">Go to cc</router-link>
         <router-link to="/cc2">Go to cc2</router-link>
         <router-view></router-view>
      </div>
-   </div>
-     <div class="" >
-         开始移动
-     </div>
+   </div>-->
    <ul>
      <li v-for="item in list">
        {{item.description}}
@@ -45,14 +38,16 @@ import Axios from 'axios'
 // const axios = require('axios')
 // require('promise/polyfill-done')
 
-const jsonp = require('jsonp')
+// const jsonp = require('jsonp')
 
 export default {
   name: 'index',
   data () {
     return {
       msg: '',
-      list:[]
+      list:[],
+      Url:[{url:"https://www.baidu.com/img/bd_logo1.png"},{url:"../../static/images/timg.jpg"}], // 轮播图
+      ClassifyList:[]
     }
   },
   methods: {
@@ -85,10 +80,20 @@ export default {
     blocks
   },
   mounted: function () {
+    let loadingInstance = Loading.service({fullscreen: false})
+    this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+      loadingInstance.close() ;
+    });
     console.log(this.$store.state.isBottomShow);
-    console.log(api.api.getList)
       axios.Newget('/changeRecommend',{},(request)=>{
         this.list = JSON.parse(request.res);
+    });
+
+    /*
+      类别
+    */
+    axios.Newget(api.GetClassify,{},(request)=>{
+      this.ClassifyList = JSON.parse(request.res)
     });
     // console.log(res);
     return this.$store.commit('Flagborder', '1')
@@ -107,8 +112,6 @@ export default {
   width: 100%;
   margin: 0;
 }
-
-
 h1, h2 {
   font-weight: normal;
 }
