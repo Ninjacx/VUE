@@ -13,17 +13,17 @@ export default {
   name: 'BannerList',
   data () {
     return {
-      images:[{url:'https://www.baidu.com/img/bd_logo1.png'},{url:'https://www.baidu.com/img/bd_logo1.png'}]
+      images: [{url: 'https://www.baidu.com/img/bd_logo1.png'},{url: 'https://www.baidu.com/img/bd_logo1.png'}]
     }
   },
-  props:['imgSrc']
+  props: ['imgSrc']
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
 .BannerList{
-  height:4.5rem
+  height:4.5rem;
 }
 /* 轮播 */
 .mint-swipe-indicator.is-active{

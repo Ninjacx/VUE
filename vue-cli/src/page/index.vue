@@ -1,43 +1,85 @@
 <template>
-  <div class="">
+  <div style="height:200px">
+    <!-- 上拉刷新 :top-method="moreList"，下拉加载 -->
+    <mt-loadmore  bottomLoadingText="\(^o^)/  加载中…"  bottomPullText="o(￣ε￣*)  拉住我啦" bottomDropText="o(￣ε￣*)  放开我啦" :bottom-method="moreList" :bottom-all-loaded="allLoaded" ref="loadmore">
     <!-- banner -->
     <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
     <!-- classify -->
-   <div class="marTop ulOuter marBottom" >
+   <div class="marTop ulOuter marBottom padBottom" >
      <ul class="nav bgWhite">
          <blocks v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"></blocks>
      </ul>
    </div>
    <!-- week -->
    <div class="bgWhite weekly">
+       <div class="fsTitle padding02">「每周特价产品」</div>
      <div>
-       <div class="fsTitle">每周特价产品</div>
-     </div>
-     <div>
-       <div class="">
-       <div style="width:33.3%;float:left">
-         <li style="text-align:center">
-           <div class="padding-outline">
-             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100%" class="load-img">
-           </div>
-           </li>
-         </div>
-           <div style="width:33.3%;float:left">
-             <li >
-               <div class="padding-outline"><img src="http://img3.imgtn.bdimg.com/it/u=1444690523,4165695038&amp;fm=27&amp;gp=0.jpg" width="100%">
+       <ul>
+         <div style="width:33.3%;float:left">
+           <li style="text-align:center">
+             <div class="padding-outline">
+               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100%" class="load-img">
              </div>
              </li>
            </div>
              <div style="width:33.3%;float:left">
                <li >
-                   <div class="padding-outline">
-                     <img src="http://img3.imgtn.bdimg.com/it/u=3192178595,1770656906&amp;fm=27&amp;gp=0.jpg" width="100%">
-                   </div>
-                 </li>
-              </div>
-          </div>
+                 <div class="padding-outline"><img src="http://img3.imgtn.bdimg.com/it/u=1444690523,4165695038&amp;fm=27&amp;gp=0.jpg" width="100%">
+               </div>
+               </li>
+             </div>
+               <div style="width:33.3%;float:left">
+                 <li>
+                     <div class="padding-outline">
+                       <img src="http://img3.imgtn.bdimg.com/it/u=3192178595,1770656906&amp;fm=27&amp;gp=0.jpg" width="100%">
+                     </div>
+                  </li>
+               </div>
+          </ul>
         </div>
       </div>
+
+   <!-- Recommend -->
+    <div class="bgwhite displayBlock">
+    	<div>
+    		<div class="fsTitle">
+    			「精品推荐」
+    			<span style="position: absolute;right: 10px;" @click="changeRecommend()">
+    				换一批
+    			</span>
+    		</div>
+    	</div>
+    	<div>
+    		<ul>
+    			<li v-for="item in RecommendList" style="width:50%;float:left;text-align:center">
+    				<a class="mui-navigate-center">
+    					<div class="padding-outline">
+    						<img :src="item.url" class="load-recommend" style="height:120px;" width="100%">
+    					</div>
+    					<div>
+    						{{item.title}}
+    					</div>
+    				</a>
+    			</li>
+    		</ul>
+    	</div>
+    </div>
+
+    <!-- more -->
+
+    <!-- <ul
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10">
+      <li v-for="item in RecommendList2">{{ item.title }}</li>
+  </ul> -->
+
+  <ul>
+    <li v-for="item in moreArrList">{{ item.title }}</li>
+  </ul>
+  <div class="bgWhite" v-if="allLoaded"><span class="look">⊙﹏⊙‖∣木有啦！</span></div>
+</mt-loadmore>
+
    <!-- 子路由 -->
    <!-- <div class="aaa">
      <div class="list-group">
@@ -46,11 +88,11 @@
         <router-view></router-view>
      </div>
    </div>-->
-   <ul>
-     <li v-for="item in list">
+   <!-- <ul>
+     <li v-for="item in RecommendList">
        {{item.description}}
      </li>
-   </ul>
+   </ul> -->
     <!--<div @click="getStroe()">
           click
     </div> -->
@@ -64,24 +106,52 @@ import blocks from '@/components/Block'
 /**api***/
 import axios from '@/utils/http'
 import api from '@/utils/api'
-
 import Axios from 'axios'
 // const axios = require('axios')
 // require('promise/polyfill-done')
-
 // const jsonp = require('jsonp')
-
+import { Toast } from 'mint-ui';
 export default {
   name: 'index',
   data () {
     return {
       msg: '',
-      list:[],
-      Url:[{url:"https://www.baidu.com/img/bd_logo1.png"},{url:"../../static/images/timg.jpg"}], // 轮播图
-      ClassifyList:[]
+      page:0, // 当前加载的页数
+      RecommendList: [],
+      moreArrList: [],// 下拉数据
+      Url: [{url:"https://www.baidu.com/img/bd_logo1.png"},{url:"../../static/images/timg.jpg"}], // 轮播图
+      ClassifyList: [],
+      topStatus: '',
+      allLoaded:false
     }
   },
   methods: {
+    handleTopChange(status) {
+        this.topStatus = status;
+      },
+    getRecommend(){
+        axios.Newget(api.changeRecommend,{},(request)=>{
+          this.RecommendList = JSON.parse(request.res);
+      });
+    },
+    // 首页下拉加载更多
+    moreList(){
+      let page = this.page
+      axios.Newget(api.getGoodsList,{goods_id:page},(request)=>{
+        let Data = JSON.parse(request.res)
+        if(!Data.length){
+          Toast('木有啦！')
+          this.allLoaded = true;
+          this.$refs.loadmore.onBottomLoaded()
+          return false;
+        }
+        for (var i = 0; i < Data.length; i++){
+          this.moreArrList.push(Data[i])
+        }
+        this.page = page+5
+      this.$refs.loadmore.onBottomLoaded()
+    });
+    },
     getStroe () {
       let loadingInstance = Loading.service({fullscreen: false})
       this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
@@ -90,6 +160,9 @@ export default {
       // console.log(this.$store)
       this.$store.commit('setName', 'sky')
       console.log(this.$store.state.name)
+    },
+    changeRecommend(){
+      this.getRecommend();
     }
     // ,
     // swiperleft: function () {
@@ -111,14 +184,13 @@ export default {
     blocks
   },
   mounted: function () {
-    let loadingInstance = Loading.service({fullscreen: false})
+    let loadingInstance = Loading.service({fullscreen: true})
     this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
       loadingInstance.close() ;
     });
     console.log(this.$store.state.isBottomShow);
-      axios.Newget('/changeRecommend',{},(request)=>{
-        this.list = JSON.parse(request.res);
-    });
+
+    this.getRecommend();
 
     /*
       类别
@@ -134,9 +206,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.mint-loadmore{
+  margin-bottom:1.1rem;
+}
 .ulOuter{
-  overflow:hidden;
   background:white;
+  min-height: 2rem;
 }
 .weekly{
   display: table-cell;
@@ -146,9 +221,10 @@ export default {
   font-size: .35rem;
 }
 .nav{
+  /* display: table; */
   padding:.2rem;
   box-sizing:border-box;
-  ovflow:hidden;
+  /* ovflow:hidden; */
   width: 100%;
   margin: 0;
 }
@@ -160,8 +236,9 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
-  margin: 0 10px;
+  /* display: inline-block;
+  margin: 0 10px; */
+  background: white !important;
 }
 a {
   color: #42b983;

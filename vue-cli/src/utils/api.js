@@ -4,5 +4,7 @@
 
 export default {
   getList: '/getList',
-  GetClassify: '/GetClassify'
+  GetClassify: '/GetClassify',
+  getGoodsList: '/getGoodsList',
+  changeRecommend: '/changeRecommend'
 }
