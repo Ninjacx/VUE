@@ -1,10 +1,16 @@
 <template>
-  <div class="">
-   <!-- <VBannerList></VBannerList> -->
-   login
-    <!-- <div @click="getStroe()">
-          click
-    </div> -->
+  <div>
+    <mt-cell title="请登录">
+      <a  href="#/" class="page-back router-link-active"><i data-v-6451e43c="" class="mintui mintui-back"></i></a>
+    </mt-cell>
+    <div class="">
+      <mt-field label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
+      <mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="email"></mt-field>
+      <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
+    </div>
+    <div class="marTop padding02">
+      <mt-button size="large" @click.native="login" type="primary">登录</mt-button>
+    </div>
   </div>
 </template>
 
@@ -17,17 +23,15 @@ export default {
   data () {
     return {
       msg: '',
-      isBottomShow:'false'
+      isBottomShow: 'false',
+      username: '',
+      email: '',
+      password: ''
     }
   },
   methods: {
-    getStroe () {
-      let loadingInstance = Loading.service({fullscreen: false})
-      this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-        loadingInstance.close() ;
-      });
-      // console.log(this.$store)
-      this.$store.commit('setName', 'sky')
+    login () {
+      console.log('登录');
     }
   },
   components: {
