@@ -74,9 +74,41 @@
       <li v-for="item in RecommendList2">{{ item.title }}</li>
   </ul> -->
 
-  <ul>
-    <li v-for="item in moreArrList">{{ item.title }}</li>
-  </ul>
+    <!-- moreArrList -->
+    <div class="marTop TextLeft">
+  	<table v-for="item in moreArrList" width="100%" class="bgWhite" style="border-bottom:1px solid #ccc;">
+  		<tbody>
+  			<tr>
+  				<td rowspan="2" style="width: 40%;">
+  					<img style="width:100%" :src="item.url">
+  				</td>
+  				<td>
+  					<div style="font-weight: bold;" class="fs16">
+  						{{ item.title }}
+  					</div>
+  					<div style="color: rgb(160, 160, 160); margin-top: 0.4rem;" class="fs14">
+  						{{item.description}}
+  					</div>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td style="vertical-align: bottom;  padding-bottom: 0.2rem;">
+  					<div style="color:#FD2A39">
+  						<span>
+  							￥
+  						</span>
+  						<span>
+  							{{item.price}}
+  						</span>
+  						<del style="margin-left: 0.39rem; color: rgb(172, 172, 172);" >
+  							市场价：￥{{item.big_price}}
+  						</del>
+  					</div>
+  				</td>
+  			</tr>
+  		</tbody>
+  	</table>
+  </div>
   <div class="bgWhite" v-if="allLoaded"><span class="look">⊙﹏⊙‖∣木有啦！</span></div>
 </mt-loadmore>
 

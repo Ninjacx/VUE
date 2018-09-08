@@ -20,6 +20,9 @@
     .bgWhite{
       background: white;
     }
+    .TextLeft{
+      text-align: left;
+    }
     .fs16{
       font-size: .25rem;
     }
