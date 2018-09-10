@@ -3,8 +3,9 @@
 */
 
 export default {
+  login: 'login',
   getList: '/getList',
-  GetClassify: '/GetClassify',
-  getGoodsList: '/getGoodsList',
-  changeRecommend: '/changeRecommend'
+  GetClassify: '/GetClassify', // 类别
+  getGoodsList: '/getGoodsList', // 产品列表
+  changeRecommend: '/changeRecommend' // 随机产品
 }

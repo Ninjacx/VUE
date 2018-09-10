@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     name: '',
-    userToken: '', // 登录用户的信息
+    userToken: '', // 登录用户的标识
+    userInfo: {}, // 用户所有数据信息
     isBottomShow: true,
     borderTag: 1 // 底部导航栏
   },

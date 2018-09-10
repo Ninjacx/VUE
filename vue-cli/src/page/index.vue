@@ -1,7 +1,8 @@
 <template>
-  <div style="height:200px" id="Index_outer">
+ <div>
+  <div id="Index_outer">
     <!-- 上拉刷新 :top-method="moreList"，下拉加载 -->
-    <mt-loadmore  bottomLoadingText="\(^o^)/  加载中…"  bottomPullText="o(￣ε￣*)  拉住我啦" bottomDropText="o(￣ε￣*)  放开我啦" :bottom-method="moreList" :bottom-all-loaded="allLoaded" ref="loadmore">
+    <mt-loadmore   bottomLoadingText="\(^o^)/  加载中…"  bottomPullText="o(￣ε￣*)  拉住我啦" bottomDropText="o(￣ε￣*)  放开我啦" :bottom-method="moreList" :bottom-all-loaded="allLoaded" ref="loadmore">
     <!-- banner -->
     <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
     <!-- classify -->
@@ -44,7 +45,7 @@
     	<div>
     		<div class="fsTitle">
     			「精品推荐」
-    			<span style="position: absolute;right: 10px;" @click="changeRecommend()">
+    			<span style="position: relative;right: 10px;" @click="changeRecommend()">
     				换一批
     			</span>
     		</div>
@@ -129,6 +130,7 @@
           click
     </div> -->
 
+   </div>
   </div>
 </template>
 <script>
@@ -136,10 +138,6 @@ import { Loading } from 'element-ui'
 import VBannerList from '@/components/BannerList'
 import blocks from '@/components/Block'
 /**api***/
-import axios from '@/utils/http'
-import api from '@/utils/api'
-import Axios from 'axios'
-// const axios = require('axios')
 // require('promise/polyfill-done')
 // const jsonp = require('jsonp')
 import { Toast } from 'mint-ui';
@@ -162,14 +160,14 @@ export default {
         this.topStatus = status;
       },
     getRecommend(){
-        axios.Newget(api.changeRecommend,{},(request)=>{
+        this.$$ajax.Newget(this.$api.changeRecommend,{},(request)=>{
           this.RecommendList = JSON.parse(request.res);
       });
     },
     // 首页下拉加载更多
     moreList(){
       let page = this.page
-      axios.Newget(api.getGoodsList,{goods_id:page},(request)=>{
+      this.$$ajax.Newget(this.$api.getGoodsList,{goods_id:page},(request)=>{
         let Data = JSON.parse(request.res)
         if(!Data.length){
           Toast('木有啦！')
@@ -216,6 +214,10 @@ export default {
     blocks
   },
   mounted: function () {
+    // 适配下拉加载start
+    let indexOuter = document.getElementById('Index_outer');
+    indexOuter.style.height= window.innerHeight+'px'
+   // end
     let loadingInstance = Loading.service({fullscreen: true})
     this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
       loadingInstance.close() ;
@@ -227,7 +229,7 @@ export default {
     /*
       类别
     */
-    axios.Newget(api.GetClassify,{},(request)=>{
+    this.$$ajax.Newget(this.$api.GetClassify,{},(request)=>{
       this.ClassifyList = JSON.parse(request.res)
     });
     // console.log(res);
@@ -274,6 +276,14 @@ a {
   color: #42b983;
 }
 #Index_outer{
-  text-align: center;
+    text-align: center;
+    -webkit-overflow-scrolling: touch;
+    /* position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%; */
+    overflow:auto;
+    box-sizing:border-box;
 }
 </style>

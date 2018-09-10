@@ -9,6 +9,8 @@ import Element from 'element-ui'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
+import axios from '@/utils/http'
+import api from '@/utils/api'
 // import resource from './resource'
 // import axios from 'axios'
 // import VueAxios from 'vue-axios'
@@ -19,6 +21,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 // Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(MintUI)
 Vue.use(Element, { size: 'small', zIndex: 3000 })
+
+Vue.prototype.$$ajax = axios
+Vue.prototype.$api = api
 
 Vue.config.productionTip = false
 
