@@ -20,8 +20,14 @@
     .bgWhite{
       background: white;
     }
+    .colorWhite{
+      color: white;
+    }
     .TextLeft{
-      text-align: left;
+      text-align: left !important;
+    }
+    .TextRight{
+      text-align: right !important;
     }
     .fs16{
       font-size: .25rem;
@@ -57,7 +63,7 @@
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      text-align: center;
+      /* text-align: center; */
       font-size: .25rem;
       margin-bottom: 2.1rem;
       /* color: #2c3e50; */
@@ -66,4 +72,7 @@
     img{
       padding: .1rem;
       box-sizing: border-box;
+    }
+    a{
+      text-decoration: none;
     }

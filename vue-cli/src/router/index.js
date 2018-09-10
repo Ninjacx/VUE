@@ -6,6 +6,8 @@ import message from '@/page/message'
 import car from '@/page/car'
 import user from '@/page/user'
 import login from '@/page/logo/login'
+import register from '@/page/logo/register'
+import logo from '@/page/logo/logo'
 import store from '@/./store'
 // import store from '@/store/index'
 // 子路由
@@ -57,12 +59,38 @@ const router = new Router({
     {
       path: '/user',
       name: 'user',
-      component: user
-    }, {
-      // 跳转登录
-      path: '/login',
-      name: '/login',
-      component: login
+      component: user,
+      meta: {
+        requireAuth: true
+      }
+    },
+    // {
+    //   // 登录
+    //   path: '/login',
+    //   name: '/login',
+    //   component: login
+    // }, {
+    //   // 注册
+    //   path: '/register',
+    //   name: '/register',
+    // component: register
+    // },
+    {
+      path: '/logo',
+      name: 'logo',
+      component: logo,
+      children: [{
+        path: '/login',
+        name: '/login',
+        default: login,
+        component: login
+      }, {
+        path: '/register',
+        name: '/register',
+        component: register
+      }]
+      // ,
+      // props: { newsletterPopup: false }
     }
   ]
 })

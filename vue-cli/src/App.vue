@@ -4,7 +4,9 @@
       <!-- <img src="./assets/logo.png"> -->
         <router-view></router-view>
     </transition>
-    <VFoot></VFoot>
+
+      <VFoot></VFoot>
+
   </div>
 </template>
 <script>

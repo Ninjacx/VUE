@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{is_Show:!is_BotterShow},'footer']">
+  <div  :class="[{is_Show:!is_BotterShow},'footer']">
       <ul>
         <router-link to="/">
           <li><span :class="{fonts:borderTag==1}">首页</span><div :class="{line:borderTag==1}"></div></li>
@@ -92,5 +92,6 @@ ul li {
 }
 a {
   color: black;
+  text-align: center;
 }
 </style>

@@ -1,26 +1,22 @@
 <template>
   <div>
-    <mt-header title="请注册">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <transition name="right" >
+      <router-view></router-view>
+    </transition>
+    <!-- <transition name="fade" mode="out-in"> -->
+      <!-- <img src="./assets/logo.png"> -->
 
-    <div>
-      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="phone"></mt-field>
-      <mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="email"></mt-field>
-      <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
-    </div>
-    <div class="marTop padding02">
-      <mt-button size="large" @click.native="login" type="primary">登录</mt-button>
-    </div>
-    <div class="TextRight padding02 fs16">
+    <!-- </transition> -->
+
+    <!-- <div class="TextRight padding02 fs16">
       <mt-badge size="normal">
-        <router-link to="/login" >
-            登录
+        <router-link to="/register" >
+            注册
         </router-link>
       </mt-badge>
-    </div>
+    </div> -->
+    <!-- <router-link to="/login">login</router-link>
+    <router-link to="/register">register</router-link> -->
   </div>
 </template>
 
@@ -35,14 +31,13 @@ export default {
       msg: '',
       isBottomShow: 'false',
       username: '',
-      email: '',
       phone: '',
       password: ''
     }
   },
   methods: {
     login () {
-      console.log('注册');
+      console.log('登录');
     }
   },
   components: {
@@ -60,6 +55,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* 进入后結果位置 */
+.right-enter-active {
+  /* transform:scale3d(1,1,1); */
+  -webkit-transform: rotateY(0deg);
+   transform: rotateY(0deg);
+  transition: all 1s ease;
+}
+/* 进入开始的位置 */
+.right-enter
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+-webkit-transform: rotateY(90deg);
+ transform: rotateY(90deg);
+}
 .is_none{
   display: none;
 }

@@ -1,15 +1,27 @@
 <template>
   <div>
-    <mt-cell title="请登录">
-      <a  href="#/" class="page-back router-link-active"><i data-v-6451e43c="" class="mintui mintui-back"></i></a>
-    </mt-cell>
-    <div class="">
-      <mt-field label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
-      <mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="email"></mt-field>
-      <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
+    <mt-header title="请登录">
+      <router-link to="/" slot="left">
+        <mt-button icon="back"></mt-button>
+      </router-link>
+    </mt-header>
+
+    <div>
+      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="phone"></mt-field>
+      <mt-field  label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
+      <!-- <mt-field label="验证码" v-model="captcha">
+        <img src="http://localhost:9000/public/images/p_erwm.png" height="45px" width="100px">
+      </mt-field> -->
     </div>
     <div class="marTop padding02">
       <mt-button size="large" @click.native="login" type="primary">登录</mt-button>
+    </div>
+    <div class="TextRight padding02 fs16">
+      <mt-badge size="normal">
+        <router-link to="/register" >
+            注册
+        </router-link>
+      </mt-badge>
     </div>
   </div>
 </template>
@@ -25,7 +37,7 @@ export default {
       msg: '',
       isBottomShow: 'false',
       username: '',
-      email: '',
+      phone: '',
       password: ''
     }
   },
@@ -62,8 +74,5 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>

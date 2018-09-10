@@ -1,5 +1,5 @@
 <template>
-  <div style="height:200px">
+  <div style="height:200px" id="Index_outer">
     <!-- 上拉刷新 :top-method="moreList"，下拉加载 -->
     <mt-loadmore  bottomLoadingText="\(^o^)/  加载中…"  bottomPullText="o(￣ε￣*)  拉住我啦" bottomDropText="o(￣ε￣*)  放开我啦" :bottom-method="moreList" :bottom-all-loaded="allLoaded" ref="loadmore">
     <!-- banner -->
@@ -268,11 +268,12 @@ ul {
   padding: 0;
 }
 li {
-  /* display: inline-block;
-  margin: 0 10px; */
   background: white !important;
 }
 a {
   color: #42b983;
+}
+#Index_outer{
+  text-align: center;
 }
 </style>
