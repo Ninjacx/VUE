@@ -12,7 +12,7 @@
       <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
     </div>
     <div class="marTop padding02">
-      <mt-button size="large" @click.native="login" type="primary">登录</mt-button>
+      <mt-button size="large" @click.native="login" type="primary">注册</mt-button>
     </div>
     <div class="TextRight padding02 fs16">
       <mt-badge size="normal">

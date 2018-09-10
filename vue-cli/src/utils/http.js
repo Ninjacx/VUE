@@ -49,7 +49,7 @@ export default {
       timeout: 10000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/x-www-form-urlencoded',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
         'api-version': '1.0',
         'ServerDesc': 'H5'
       }

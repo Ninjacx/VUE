@@ -45,7 +45,7 @@ export default {
     login () {
       let api = this.$api;
       console.log(api.login);
-      this.$$ajax.post('login',{account:'admins',pwd:'123456'},function(res){
+      this.$$ajax.post(api.login,{account:'admins',pwd:'123456'},function(res){
         console.log(res);
       });
       console.log('登录');
