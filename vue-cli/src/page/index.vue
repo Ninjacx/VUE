@@ -187,9 +187,7 @@ export default {
       this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
         loadingInstance.close() ;
       });
-      // console.log(this.$store)
       this.$store.commit('setName', 'sky')
-      console.log(this.$store.state.name)
     },
     changeRecommend(){
       this.getRecommend();
@@ -202,11 +200,9 @@ export default {
     //   this.$router.push({'path':'/home'});
     // },
     // touchMove(e){
-    //   console.log(e.target.clientHeight);//
     //   // e.target.clientHeigh = window.Ele;
     // },
     // touchstart(e){
-    //   console.log(333);
     // }
   },
   components: {
@@ -222,7 +218,6 @@ export default {
     this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
       loadingInstance.close() ;
     });
-    console.log(this.$store.state.isBottomShow);
 
     this.getRecommend();
 
@@ -232,7 +227,6 @@ export default {
     this.$$ajax.Newget(this.$api.GetClassify,{},(request)=>{
       this.ClassifyList = JSON.parse(request.res)
     });
-    // console.log(res);
     return this.$store.commit('Flagborder', '1')
   }
 }

@@ -44,22 +44,17 @@ export default {
   methods: {
     login () {
       let api = this.$api;
-      console.log(api.login);
-      this.$$ajax.post(api.login,{account:'admins',pwd:'123456'},function(res){
+      this.$$ajax.post(api.login,{"account":"admins"},function(res){
         console.log(res);
       });
-      console.log('登录');
     }
   },
   components: {
     VBannerList
   },
   mounted: function () {
-
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')
-         console.log(this.$store.state.isBottomShow)
-     //return
   }
 }
 </script>

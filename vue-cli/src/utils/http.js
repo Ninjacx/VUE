@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 let baseUrl = 'http://47.98.163.21/'
 // axios 配置 changeRecommend
 // axios.defaults.timeout = 5000;
@@ -6,7 +7,7 @@ let baseUrl = 'http://47.98.163.21/'
 // http response 拦截器
 axios.interceptors.request.use(
   config => {
-    config.data = JSON.stringify(config.data)
+    // config.data = JSON.stringify(config.data)
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
@@ -17,7 +18,7 @@ function checkStatus (response) {
   // loading
   // 如果http状态码正常，则直接返回数据
   if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
-    console.log(response.data)
+    // console.log(response.data)
     return response.data
     // 如果不需要除了data之外的数据，可以直接 return response.data
   }
@@ -45,7 +46,7 @@ export default {
       method: 'post',
       baseURL: baseUrl,
       url,
-      data: data,
+      data: qs.stringify(data),
       timeout: 10000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -72,13 +73,12 @@ export default {
       timeout: 10000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/x-www-form-urlencoded',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
         'api-version': '1.0',
         'ServerDesc': 'H5'
       }
     }).then(
       (response) => {
-        console.log(77777777)
         return fn(checkStatus(response))
       }
     )
@@ -100,7 +100,7 @@ export default {
       timeout: 10000,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/x-www-form-urlencoded',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
         'api-version': '1.0',
         'ServerDesc': 'H5'
       }
