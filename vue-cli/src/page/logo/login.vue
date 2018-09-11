@@ -43,9 +43,12 @@ export default {
   },
   methods: {
     login () {
-      let api = this.$api;
-      this.$$ajax.post(api.login,{"account":"admins"},function(res){
-        console.log(res);
+      let userArgs = {account:this.phone,password:this.password};
+      console.log(userArgs)
+      return false
+      let api = this.$api
+      this.$$ajax.post(api.login,userArgs,function(res){
+        console.log(res)
       });
     }
   },
