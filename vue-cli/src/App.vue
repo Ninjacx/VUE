@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <transition name="fade" mode="out-in">
-      <!-- <img src="./assets/logo.png"> -->
         <router-view></router-view>
     </transition>
       <VFoot></VFoot>

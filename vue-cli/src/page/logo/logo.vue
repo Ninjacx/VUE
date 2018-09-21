@@ -12,8 +12,7 @@ export default {
   mounted: function () {
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')
-         console.log(this.$store.state.isBottomShow)
-     //return
+       // console.log('NO15'+this.$store.state.isBottomShow)
   }
 }
 </script>

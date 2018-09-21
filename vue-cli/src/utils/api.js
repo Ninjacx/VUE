@@ -3,7 +3,7 @@
 */
 
 export default {
-  login: 'login',
+  login: '/login',
   getList: '/getList',
   GetClassify: '/GetClassify', // 类别
   getGoodsList: '/getGoodsList', // 产品列表

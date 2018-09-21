@@ -1,10 +1,9 @@
-// The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import Element from 'element-ui'
+// import Element from 'element-ui'
 
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
@@ -16,11 +15,11 @@ import api from '@/utils/api'
 // import VueAxios from 'vue-axios'
 
 // element-ui
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 // var VueTouch = require('vue-touch')
 // Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(MintUI)
-Vue.use(Element, { size: 'small', zIndex: 3000 })
+// Vue.use(Element, { size: 'small', zIndex: 3000 })
 
 Vue.prototype.$$ajax = axios
 Vue.prototype.$api = api

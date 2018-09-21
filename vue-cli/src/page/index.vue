@@ -134,7 +134,7 @@
   </div>
 </template>
 <script>
-import { Loading } from 'element-ui'
+// import { Loading } from 'element-ui'
 import VBannerList from '@/components/BannerList'
 import blocks from '@/components/Block'
 /**api***/
@@ -183,10 +183,10 @@ export default {
     });
     },
     getStroe () {
-      let loadingInstance = Loading.service({fullscreen: false})
-      this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-        loadingInstance.close() ;
-      });
+      // let loadingInstance = Loading.service({fullscreen: false})
+      // this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+      //   loadingInstance.close() ;
+      // });
       this.$store.commit('setName', 'sky')
     },
     changeRecommend(){
@@ -214,10 +214,10 @@ export default {
     let indexOuter = document.getElementById('Index_outer');
     indexOuter.style.height= window.innerHeight+'px'
    // end
-    let loadingInstance = Loading.service({fullscreen: true})
-    this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-      loadingInstance.close() ;
-    });
+    // let loadingInstance = Loading.service({fullscreen: true})
+    // this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+    //   loadingInstance.close() ;
+    // });
 
     this.getRecommend();
 

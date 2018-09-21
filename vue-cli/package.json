@@ -14,10 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.4.6",
-    "jsonp": "^0.2.1",
     "mint-ui": "^2.2.13",
-    "promise": "^8.0.1",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.3",
     "vue-router": "^3.0.1",

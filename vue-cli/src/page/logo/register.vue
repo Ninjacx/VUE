@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui'
+// import { Loading } from 'element-ui'
 import VBannerList from '@/components/BannerList'
 
 export default {

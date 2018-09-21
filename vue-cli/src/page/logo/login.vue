@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui'
+// import { Loading } from 'element-ui'
 import VBannerList from '@/components/BannerList'
 
 export default {
@@ -43,12 +43,23 @@ export default {
   },
   methods: {
     login () {
+      let t = this;
       let userArgs = {account:this.phone,password:this.password};
-      console.log(userArgs)
-      return false
+
       let api = this.$api
-      this.$$ajax.post(api.login,userArgs,function(res){
-        console.log(res)
+
+      this.$$ajax.post(api.login,userArgs,function(result){
+          if(result.res){
+            //登录成功保存用户的Token 和用户信息
+            t.$store.commit('SuccessLogin', 'a',JSON.parse(result.res))
+            //登录成功显示footer
+            t.$store.commit('isBottomShow', true)
+            //跳转之前点击进来的页面
+            t.$router.replace({
+              path: t.$router.currentRoute.query.redirect,
+              query: {redirect: t.$router.currentRoute.fullPath}
+            })
+          }
       });
     }
   },
@@ -56,6 +67,7 @@ export default {
     VBannerList
   },
   mounted: function () {
+
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')
   }
