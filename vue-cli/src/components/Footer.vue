@@ -1,5 +1,5 @@
 <template>
-  <div  :class="[{is_Show:!is_BotterShow},'footer']">
+  <div :class="[{is_Show:!is_BotterShow},'footer']">
       <ul>
         <router-link to="/">
           <li><span :class="{fonts:borderTag==1}">首页</span><div :class="{line:borderTag==1}"></div></li>
@@ -73,7 +73,7 @@ import router from './../router'
 h1, h2 {
   font-weight: normal;
 }
-ul{
+.footer >ul{
   background: white;
   margin: 0 !important;
   list-style-type: none;
@@ -81,6 +81,7 @@ ul{
   position: fixed;
   width: 100%;
   bottom: 0;
+  height: 1rem;
 }
 ul li {
     display: inline-block;

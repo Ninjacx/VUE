@@ -1,9 +1,6 @@
 <template>
-  <div class="Block">
-    <li :style="{ width: widthAttr}">
-      <img :src="url" />
-      <div class="fs16 marTop">{{title}}</div>
-    </li>
+  <div class="Menu bgWhite padding02 marBottom">
+      <div class="fs16">{{Menu}}<span class="mint-button-icon rightIcon"><i class="mintui mintui-back"></i></span></div>
   </div>
 </template>
 
@@ -13,11 +10,9 @@ export default {
   data () {
     return {
       list: [1,2,3,4,5,6,7,8],
-      images:[{url:'https://www.baidu.com/img/bd_logo1.png'},{url:'https://www.baidu.com/img/bd_logo1.png'}],
       }
   },
-  props:['title','url','widthAttr']
-  ,
+  props:['Menu'],
   mounted:function(){
   }
 }
@@ -25,11 +20,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-  .Block li img{
-     width: 100%;
-     height: 1.3rem;
-  }
+.rightIcon{
+  transform:rotate(180deg);
+  vertical-align:text-bottom;
+  float: right;
+}
   .Block li{
     font-size: .2rem;
     float: left;

@@ -35,5 +35,6 @@ export default {
 }
 </script>
 <style>
+      @import '../static/ttf/iconfont.css';
       @import  '../static/css/app';
 </style>
