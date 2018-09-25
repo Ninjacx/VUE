@@ -41,26 +41,44 @@
     .fsTitle{
       font-size: .33rem;
     }
+    .padTop{
+      padding-Top:.2rem;
+    }
+    .padLeft{
+      padding-left:.2rem;
+    }
+    .padLeft03{
+      padding-left:.3rem;
+    }
     .padRight{
-      padding-right:0.2rem;
+      padding-right:.2rem;
     }
     .marBottom{
-      margin-bottom:0.1rem;
+      margin-bottom:.1rem;
     }
     .marLeft{
-      margin-left:0.2rem;
+      margin-left:.2rem;
     }
     .marRight{
-      margin-right:0.2rem;
+      margin-right:.2rem;
     }
     .marTop{
-      margin-top:0.1rem;
+      margin-top:.1rem;
     }
     .padBottom{
       padding-bottom: .1rem;
     }
+    .margin02{
+      margin:.2rem;
+    }
+    .margin03{
+      margin:.3rem;
+    }
     .padding02{
       padding:.2rem;
+    }
+    .padding03{
+      padding:.3rem;
     }
     .borderBottom{
       border-bottom: 1px solid #C6C6C6

@@ -6,7 +6,7 @@
         总共<span>{{count}}</span>件
       </div>
       <div class="bgWhite">
-          <div class="borderBottom">
+          <div class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <i @click="check({id:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
@@ -21,8 +21,19 @@
                 银色金刚版
               </div>
             </div>
+
+            <div class="fs17" style="">
+              <div class="TextRight">
+                <span class="Price">￥138.8</span>
+                <span>
+                  <mt-button type="primary" plain>-</mt-button>
+                  <input class="margin02" type="text" value="0" style="width:.8rem;height:.6rem" />
+                  <mt-button type="primary" plain>+</mt-button>
+                </span>
+              </div>
+            </div>
         </div>
-        <div class="borderBottom">
+        <div class="borderBottom padLeft">
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
             <i @click="check({id:2},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
           </div>
@@ -37,16 +48,24 @@
                黑色金刚版
             </div>
           </div>
+          <div class="fs17" style="">
+            <div class="TextRight">
+              <span class="Price">￥138.8</span>
+              <span><mt-button type="primary" plain>-</mt-button></span>
+              <span>0</span>
+              <span><mt-button type="primary" plain>+</mt-button></span>
+            </div>
+          </div>
          </div>
       </div>
         <div class="Computed_Car bgWhite fs17">
-            <div>
+            <div style="padding: 0 .2rem">
               <span>全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
                <span style="float:right;"><span>合计：￥<span>0</span></span>
                   <span>结算</span>
                </span>
-            </div>
+             </div>
         </div>
     </div>
 </transition>
@@ -111,5 +130,13 @@ export default {
   bottom: 1rem;
   width: 100%;
   border-bottom:1px solid #C6C6C6;
+}
+.Price{
+  color:#FF3E23;
+}
+.mint-button--normal{
+  padding: 0;
+  height: .6rem;
+  width: .6rem;
 }
 </style>
