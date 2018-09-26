@@ -1,7 +1,6 @@
 <template>
   <transition name="fade">
     <div id="car">
-      <!-- <i class="icon iconfont icon-gouxuan"></i> -->
       <div class="CarTop">
         总共<span>{{count}}</span>件
       </div>
@@ -21,23 +20,20 @@
                 银色金刚版
               </div>
             </div>
-
-            <div class="fs17" style="">
-              <div class="TextRight">
-                <span class="Price">￥138.8</span>
-                <span>
-                  <mt-button type="primary" plain>-</mt-button>
-                  <input class="margin02" type="text" value="0" style="width:.8rem;height:.6rem" />
-                  <mt-button type="primary" plain>+</mt-button>
-                </span>
+            <div class="fs17" >
+              <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
+                <span class="Price fs18 marRight">￥138.8</span>
+                  <input type="button" value="-" class="countButton" />
+                  <input  type="text" value="0"  class="countButton2" />
+                  <input type="button" value="+" class="countButton" />
               </div>
             </div>
         </div>
         <div class="borderBottom padLeft">
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-            <i @click="check({id:2},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+            <i @click="check({id:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
           </div>
-          <div style="display:table-cell" class=" padRight">
+          <div style="display:table-cell;vertical-align:middle;" class=" padRight">
             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
           </div>
           <div class="fs17" style="display:table-cell;vertical-align:middle">
@@ -45,18 +41,16 @@
                野人谷甩棍
             </div>
             <div class="">
-               黑色金刚版
+              黑色金刚版
             </div>
           </div>
-          <div class="fs17" style="">
-            <div class="TextRight">
-              <span class="Price">￥138.8</span>
-              <span><mt-button type="primary" plain>-</mt-button></span>
-              <span>0</span>
-              <span><mt-button type="primary" plain>+</mt-button></span>
+            <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;">
+              <span class="Price fs18 marRight">￥136.6  </span>
+                <input type="button" value="-" class="countButton" />
+                <input  type="text" value="0"  class="countButton2" />
+                <input type="button" value="+" class="countButton" />
             </div>
-          </div>
-         </div>
+      </div>
       </div>
         <div class="Computed_Car bgWhite fs17">
             <div style="padding: 0 .2rem">
@@ -94,15 +88,6 @@ export default {
       }else{
         event.currentTarget.className = 'icon iconfont icon-gouxuan1'
       }
-      // console.log(event.currentTarget.className = 'icon iconfont icon-gouxuan1');
-      // event.currentTarget.setAttribute('class','icon iconfont icon-gouxuan1')
-      // this.shop_ID = obj.id
-      // if(obj.id==this.shop_ID){
-      //     this.IsCheck = !this.IsCheck;
-      // }
-
-      // console.log(obj);
-
     },
     //全选
    checkAll(){
@@ -116,13 +101,6 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
- #car>.CarTop {
-    /* height: 1rem; */
-    /* background: -webkit-linear-gradient(left, #26A2FF , white);
-    background: -o-linear-gradient(right, #26A2FF, white);
-    background: -moz-linear-gradient(right, #26A2FF, white);
-    background: linear-gradient(to right, #26A2FF , white);  */
- }
 .Computed_Car {
   height: 1rem;
   line-height: 1rem;
@@ -134,9 +112,14 @@ export default {
 .Price{
   color:#FF3E23;
 }
-.mint-button--normal{
-  padding: 0;
+.countButton{
   height: .6rem;
-  width: .6rem;
+  width: .6rem
+}
+.countButton2{
+  text-align: center;
+  box-sizing: border-box;
+  height: .6rem;
+  width: 1rem
 }
 </style>

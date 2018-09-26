@@ -130,7 +130,6 @@
 import VBannerList from '@/components/BannerList'
 import blocks from '@/components/Block'
 /**api***/
-import { Toast } from 'mint-ui';
 export default {
   name: 'index',
   data () {
@@ -160,7 +159,8 @@ export default {
       this.$$ajax.Newget(this.$api.getGoodsList,{goods_id:page},(request)=>{
         let Data = JSON.parse(request.res)
         if(!Data.length){
-          Toast('木有啦！')
+          this.$toast({message: '木有啦!'})
+
           this.allLoaded = true;
           this.$refs.loadmore.onBottomLoaded()
           return false;

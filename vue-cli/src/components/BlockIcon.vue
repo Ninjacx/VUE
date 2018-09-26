@@ -1,7 +1,7 @@
 <template>
-  <div class="Block">
+  <div class="Blockicon">
     <li :style="{width: widthAttr}">
-      <img :src="url" />
+      <i :class="['icon iconfont',icon]"></i>
       <div class="fs16 marTop">{{title}}</div>
     </li>
   </div>
@@ -15,7 +15,7 @@
         list: [1,2,3,4,5,6,7,8],
         }
     },
-    props:['title','url','widthAttr']
+    props:['title','icon','widthAttr']
     ,
     mounted:function(){
     }
@@ -23,12 +23,12 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .Block li img{
+  .Blockicon li i{
      width: 100%;
      height: 1.3rem;
   }
-  .Block li{
-    font-size: .2rem;
+  .Blockicon li{
+    font-size: .5rem;
     float: left;
     box-sizing: border-box;
     margin: 0;

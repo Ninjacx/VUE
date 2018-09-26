@@ -18,7 +18,7 @@
           <span>我的订单</span>
         </div>
         <ul class="nav bgWhite">
-            <blocks widthAttr="20%" v-for="item in MenuList"  :title="item.title"  ></blocks>
+            <BlockIcon :icon="item.icon" widthAttr="20%" v-for="item in MenuList" :title="item.title" ></BlockIcon>
         </ul>
       </div>
       <div>
@@ -26,9 +26,8 @@
         <MenuList Menu="我的优惠券" />
         <MenuList Menu="联系我们" />
         <MenuList Menu="问题反馈" />
-
       </div>
-      <div class="back_Account">
+      <div class="back_Account" @click="back_Account()">
         <mt-button size="large" type="primary">退出当前账号</mt-button>
       </div>
      <!-- {{msg}}
@@ -41,9 +40,8 @@
 </template>
 
 <script>
-import blocks from '@/components/Block'
+import BlockIcon from '@/components/BlockIcon'
 import MenuList from '@/components/MenuList'
-
 export default {
     name: 'user',
     data () {
@@ -52,7 +50,7 @@ export default {
         page:0, // 当前加载的页数
         RecommendList: [],
         moreArrList: [],// 上拉刷新
-        MenuList: [{title:'待付款'},{title:'已付款'},{title:'待发货'},{title:'已发货'},{title:'待评价'}],
+        MenuList: [{title:'待付款',icon:'icon-daifukuandingdan'},{title:'已付款',icon:'icon-yifukuan'},{title:'待发货',icon:'icon-daifahuo'},{title:'已发货',icon:'icon-yifahuo'},{title:'待评价',icon:'icon-daipingjia'}],
         topStatus: '',
         allLoaded:false
       }
@@ -74,10 +72,20 @@ export default {
      getParams(){
        console.log(this.$route);
        console.log(this.$route.params.bb);
+     },
+     back_Account(){
+       this.$store.commit('SuccessLogin', '','');
+         this.$toast({
+           message: '退出成功',
+           position: 'middle',
+           duration: 1000
+         })
+          this.$router.push('/');
+       console.log('back_Account');
      }
    },
    components:{
-     blocks,
+     BlockIcon,
      MenuList
    }
 }
@@ -99,7 +107,8 @@ a {
   color: #42b983;
 }
 .user{
-  display:table-cell;vertical-align:middle;
+  display:table-cell;
+  vertical-align:middle;
 }
 .userIMG{
   display:table-cell;
@@ -110,10 +119,10 @@ a {
     box-sizing:border-box;
     width: 100%;
     margin: 0;
+    display: table;
   }
 .ulOuter{
   background:white;
-  min-height:3rem;
 }
 .back_Account{
   margin-top: .5rem;

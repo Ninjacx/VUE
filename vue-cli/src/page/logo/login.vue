@@ -59,6 +59,12 @@ export default {
               path: t.$router.currentRoute.query.redirect,
               query: {redirect: t.$router.currentRoute.fullPath}
             })
+          }else{
+            t.$toast({
+              message: '账号或密码错误',
+              position: 'middle',
+              duration: 1000
+            })
           }
       });
     }
