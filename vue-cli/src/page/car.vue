@@ -31,7 +31,7 @@
         </div>
         <div class="borderBottom padLeft">
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-            <i @click="check({id:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+            <i @click="check({id:2},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
           </div>
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
@@ -56,8 +56,8 @@
             <div style="padding: 0 .2rem">
               <span>全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
-               <span style="float:right;"><span>合计：￥<span>0</span></span>
-                  <span>结算</span>
+               <span style="float:right;"><span class="marRight">合计：￥<span>0</span></span>
+                  <mt-button size="small" type="primary">结算</mt-button>
                </span>
              </div>
         </div>
@@ -71,7 +71,7 @@ export default {
   name: 'car',
   data () {
     return {
-      SelectShopID_Arr:[],
+      SelectShop_Arr:[],
       IsCheckAll:false,
       count:0
     }
@@ -82,12 +82,22 @@ export default {
  methods: {
     //单个产品选择
     check(obj,event){
+      let arg = obj
+      let gouxuan1 = 'icon iconfont icon-gouxuan1'
+      let gouxuan = 'icon iconfont icon-gouxuan'
       let ThisClass = event.currentTarget.className;
-      if(ThisClass =='icon iconfont icon-gouxuan1'){
-        event.currentTarget.className = 'icon iconfont icon-gouxuan'
+      if(ThisClass == gouxuan1){
+        event.currentTarget.className = gouxuan
+        this.SelectShop_Arr.push(obj);
       }else{
-        event.currentTarget.className = 'icon iconfont icon-gouxuan1'
+        event.currentTarget.className = gouxuan1
+        // this.SelectShop_Arr.$remove();
+        let resArr = this.SelectShop_Arr.filter((item,index)=>{
+          return item.id != arg.id
+        })
+        this.SelectShop_Arr = resArr
       }
+      console.log(JSON.stringify(this.SelectShop_Arr));
     },
     //全选
    checkAll(){
