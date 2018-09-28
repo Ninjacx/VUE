@@ -7,7 +7,7 @@
       <div class="bgWhite">
           <div class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-              <i @click="check({id:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <i @click="check({id:1,price:138.8},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
@@ -31,7 +31,7 @@
         </div>
         <div class="borderBottom padLeft">
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-            <i @click="check({id:2},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+            <i @click="check({id:2,price:136.6},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
           </div>
           <div style="display:table-cell;vertical-align:middle;" class=" padRight">
             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
@@ -56,7 +56,7 @@
             <div style="padding: 0 .2rem">
               <span>全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
-               <span style="float:right;"><span class="marRight">合计：￥<span>0</span></span>
+               <span style="float:right;"><span class="marRight">合计：￥<span>{{Pay}}</span></span>
                   <mt-button size="small" type="primary">结算</mt-button>
                </span>
              </div>
@@ -72,14 +72,21 @@ export default {
   data () {
     return {
       SelectShop_Arr:[],
+      AllShop:[],
       IsCheckAll:false,
-      count:0
+      count:0,
+      PayMent:0
     }
   },
   mounted: function () {
    this.$store.commit('Flagborder', '3')
  },
- methods: {
+ computed: {
+   Pay(){
+     return this.PayMent;
+   }
+ }
+ ,methods: {
     //单个产品选择
     check(obj,event){
       let arg = obj
@@ -87,10 +94,12 @@ export default {
       let gouxuan = 'icon iconfont icon-gouxuan'
       let ThisClass = event.currentTarget.className;
       if(ThisClass == gouxuan1){
+        this.PayMent += obj.price;
         event.currentTarget.className = gouxuan
         this.SelectShop_Arr.push(obj);
       }else{
         event.currentTarget.className = gouxuan1
+        this.PayMent -= obj.price;
         // this.SelectShop_Arr.$remove();
         let resArr = this.SelectShop_Arr.filter((item,index)=>{
           return item.id != arg.id
@@ -103,7 +112,10 @@ export default {
    checkAll(){
      this.IsCheckAll = !this.IsCheckAll;
      if(this.IsCheckAll){
-       //计算总价格
+      //  this.PayMent = 0;//ajax 所有此用户的订单，取出后算计总和
+         //计算总价格
+     }else{
+       this.PayMent = 0;
      }
    }
  }

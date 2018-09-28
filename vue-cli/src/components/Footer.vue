@@ -25,7 +25,7 @@ import router from './../router'
         msg: 'Welcome to Your Vue.js App',
         isBottom :true
       }
-    },methods:{
+    },methods: {
       go_index4(){
         let uid = 156
         // router.push({ path: `/index4?id=${uid}` }) // -> /user/123
