@@ -24,7 +24,8 @@
               <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
                 <span class="Price fs18 marRight">￥138.8</span>
                   <input @click="Add_Sub(1,false)" type="button" value="-" class="countButton" />
-                  <input  @keyup="InputCount({id:1},$event)" type="text"  value="1  6"  class="countButton2" />
+                  <!-- NowCounts.id==1?NowCounts.Count:16 -->
+                  <input  @keyup="InputCount({id:1},$event)" type="text"  :value="NowCounts.id==1?NowCounts.Count:16"  class="countButton2" />
                   <input @click="Add_Sub(1,true)" type="button" value="+" class="countButton" />
               </div>
             </div>
@@ -77,7 +78,7 @@ export default {
       IsCheckAll:false, //是否全部选中
       count:0,//总件数
       PayMent:0, //付款金额
-      // NowCount:{goodsID:0,Count:0}
+      NowCount:{goodsID:0,Count:0} // 点击加减号动态添加input
     }
   },
   mounted: function () {
@@ -87,6 +88,9 @@ export default {
  computed: {
    Pay(){
      return this.PayMent;
+   },
+   NowCounts(){
+      return this.NowCount;
    }
  }
  ,methods: {
@@ -134,12 +138,14 @@ export default {
       // alert(isAdd);
       for(let item of this.SleCount){
           if(item.id==goodsID){
-            item.count = (parseFloat(item.count)+isAdd);
+            item.count = (parseFloat(item.count)+isAdd)
+            return item.count;
           }
       }
    },
    Add_Sub(id,isAdd){
-     //增加
+     //增加 goodsID:0,Count:0
+     // NowCount = {goodsID:id,};
      console.log(this.SetGoodsID_GetCount(id,isAdd));
      console.log(JSON.stringify(this.SleCount));
    }
