@@ -24,7 +24,7 @@
               <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
                 <span class="Price fs18 marRight">￥138.8</span>
                   <input @click="Add_Sub(1,false)" type="button" value="-" class="countButton" />
-                  <input  @keyup="InputCount({id:1},$event)" type="text"  value="16"  class="countButton2" />
+                  <input  @keyup="InputCount({id:1},$event)" type="text"  value="1  6"  class="countButton2" />
                   <input @click="Add_Sub(1,true)" type="button" value="+" class="countButton" />
               </div>
             </div>
@@ -131,7 +131,7 @@ export default {
    //根据传入goodsid 获取数量
    SetGoodsID_GetCount(goodsID,is_Add = 0){
       let isAdd = is_Add?1:-1;
-      alert(isAdd);
+      // alert(isAdd);
       for(let item of this.SleCount){
           if(item.id==goodsID){
             item.count = (parseFloat(item.count)+isAdd);
