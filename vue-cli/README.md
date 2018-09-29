@@ -1,6 +1,8 @@
 #Sky
 # vue-cli
 
+# 1.所有计算保留小数两位 并且不四舍五入
+
 > A Vue.js project
 
 ## Build Setup

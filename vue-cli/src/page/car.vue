@@ -7,7 +7,7 @@
       <div class="bgWhite">
           <div class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-              <i @click="check({id:1,price:138.8},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <i @click="check({id:1, price:138.8, count:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
@@ -23,9 +23,9 @@
             <div class="fs17" >
               <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
                 <span class="Price fs18 marRight">￥138.8</span>
-                  <input type="button" value="-" class="countButton" />
-                  <input  type="text" value="0"  class="countButton2" />
-                  <input type="button" value="+" class="countButton" />
+                  <input @click="Add_Sub(1,false)" type="button" value="-" class="countButton" />
+                  <input  @keyup="InputCount({id:1},$event)" type="text"  value="16"  class="countButton2" />
+                  <input @click="Add_Sub(1,true)" type="button" value="+" class="countButton" />
               </div>
             </div>
         </div>
@@ -46,9 +46,9 @@
           </div>
             <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;">
               <span class="Price fs18 marRight">￥136.6  </span>
-                <input type="button" value="-" class="countButton" />
-                <input  type="text" value="0"  class="countButton2" />
-                <input type="button" value="+" class="countButton" />
+              <input type="button" value="-" class="countButton" />
+              <input  @keyup="InputCount({id:2},$event)" type="text"  value="0"  class="countButton2" />
+              <input type="button" value="+" class="countButton" />
             </div>
       </div>
       </div>
@@ -71,15 +71,18 @@ export default {
   name: 'car',
   data () {
     return {
+      SleCount:[], //修改的数量
       SelectShop_Arr:[],
       AllShop:[],
-      IsCheckAll:false,
-      count:0,
-      PayMent:0
+      IsCheckAll:false, //是否全部选中
+      count:0,//总件数
+      PayMent:0, //付款金额
+      // NowCount:{goodsID:0,Count:0}
     }
   },
   mounted: function () {
    this.$store.commit('Flagborder', '3')
+   this.SleCount = [{id:1,count:16},{id:2,count:10}];//初始化把产品对应数量保存进去
  },
  computed: {
    Pay(){
@@ -117,6 +120,28 @@ export default {
      }else{
        this.PayMent = 0;
      }
+   }, InputCount(vid,event){
+     for(let item of this.SleCount){
+          if(item.id==vid.id){
+            item.count = event.currentTarget.value
+          }
+      }
+      console.log(JSON.stringify(this.SleCount));
+   } ,
+   //根据传入goodsid 获取数量
+   SetGoodsID_GetCount(goodsID,is_Add = 0){
+      let isAdd = is_Add?1:-1;
+      alert(isAdd);
+      for(let item of this.SleCount){
+          if(item.id==goodsID){
+            item.count = (parseFloat(item.count)+isAdd);
+          }
+      }
+   },
+   Add_Sub(id,isAdd){
+     //增加
+     console.log(this.SetGoodsID_GetCount(id,isAdd));
+     console.log(JSON.stringify(this.SleCount));
    }
  }
 }
