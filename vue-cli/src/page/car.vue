@@ -23,10 +23,10 @@
             <div class="fs17" >
               <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
                 <span class="Price fs18 marRight">￥138.8</span>
-                  <input @click="Add_Sub(1,false)" type="button" value="-" class="countButton" />
+                  <input @click="Add_Sub(1,false,138.8)" type="button" value="-" class="countButton" />
                   <!-- NowCounts.id==1?NowCounts.Count:16 -->
-                  <input  @keyup="InputCount({id:1},$event)" type="text"  :value="NowCounts.id==1?NowCounts.Count:16"  class="countButton2" />
-                  <input @click="Add_Sub(1,true)" type="button" value="+" class="countButton" />
+                  <input  @keyup="InputCount({id:1},$event)" type="text"  :value="NowCounts.goodsID==1?NowCounts.Count:SelCount(1)"  class="countButton2" />
+                  <input @click="Add_Sub(1,true,138.8)" type="button" value="+" class="countButton" />
               </div>
             </div>
         </div>
@@ -47,9 +47,9 @@
           </div>
             <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;">
               <span class="Price fs18 marRight">￥136.6  </span>
-              <input type="button" value="-" class="countButton" />
-              <input  @keyup="InputCount({id:2},$event)" type="text"  value="0"  class="countButton2" />
-              <input type="button" value="+" class="countButton" />
+              <input @click="Add_Sub(2,false,136.6)" type="button" value="-" class="countButton" />
+              <input  @keyup="InputCount({id:2},$event)" type="text"  :value="NowCounts.goodsID==2?NowCounts.Count:SelCount(2)"  class="countButton2" />
+              <input  @click="Add_Sub(2,true,136.6)" type="button" value="+" class="countButton" />
             </div>
       </div>
       </div>
@@ -72,20 +72,21 @@ export default {
   name: 'car',
   data () {
     return {
-      SleCount:[], //修改的数量
-      SelectShop_Arr:[],
-      AllShop:[],
+      SleCount:[], //商品的数量集合
+      SelectShop_Arr:[], //所有选中的商品
+      AllShop:[],  //未用到
       IsCheckAll:false, //是否全部选中
       count:0,//总件数
       PayMent:0, //付款金额
-      NowCount:{goodsID:0,Count:0} // 点击加减号动态添加input
+      NowCount:{} // 点击加减号动态添加input
     }
   },
   mounted: function () {
    this.$store.commit('Flagborder', '3')
-   this.SleCount = [{id:1,count:16},{id:2,count:10}];//初始化把产品对应数量保存进去
+   this.SleCount = [{id:1,price:138.8,count:16},{id:2,price:136.6,count:10}];//初始化把产品对应数量保存进去
  },
  computed: {
+   //合计金额
    Pay(){
      return this.PayMent;
    },
@@ -101,12 +102,14 @@ export default {
       let gouxuan = 'icon iconfont icon-gouxuan'
       let ThisClass = event.currentTarget.className;
       if(ThisClass == gouxuan1){
-        this.PayMent += obj.price;
+        // obj.price
+        let resPrice = this.SelCount(obj.id)*obj.price
+        this.PayMent += resPrice;
         event.currentTarget.className = gouxuan
         this.SelectShop_Arr.push(obj);
       }else{
         event.currentTarget.className = gouxuan1
-        this.PayMent -= obj.price;
+        this.PayMent -= this.SelCount(obj.id)*obj.price;
         // this.SelectShop_Arr.$remove();
         let resArr = this.SelectShop_Arr.filter((item,index)=>{
           return item.id != arg.id
@@ -125,6 +128,7 @@ export default {
        this.PayMent = 0;
      }
    }, InputCount(vid,event){
+     console.log(this.$data.NowCount);
      for(let item of this.SleCount){
           if(item.id==vid.id){
             item.count = event.currentTarget.value
@@ -143,11 +147,37 @@ export default {
           }
       }
    },
-   Add_Sub(id,isAdd){
+   Add_Sub(id,isAdd,price){
      //增加 goodsID:0,Count:0
-     // NowCount = {goodsID:id,};
-     console.log(this.SetGoodsID_GetCount(id,isAdd));
-     console.log(JSON.stringify(this.SleCount));
+     this.NowCount = {goodsID:id,Count:this.SetGoodsID_GetCount(id,isAdd,price)};
+     let is_SelGoods = this.isSelGoods(id);
+
+     // 计算总计
+     if(is_SelGoods){
+
+     }
+     // console.log(this.isSelGoods(id));
+     // this.PayMent += price;
+     // console.log(this.SelCount(id));
+     // console.log(this.NowCounts.goodsID);
+     // console.log(this.NowCounts.Count);
+     // console.log(this.SetGoodsID_GetCount(id,isAdd));
+     // console.log(JSON.stringify(this.SleCount));
+   },
+   //查询实际选择的数量
+   SelCount(goodsID){
+     for(let item of this.SleCount){
+         if(item.id==goodsID){
+           return item.count;
+         }
+     }
+   },//判断此商品是否勾选中
+   isSelGoods(Goods_id){
+     for(let item of this.SelectShop_Arr){
+           if(item.id == Goods_id){
+             return 1;
+           }
+      }
    }
  }
 }
