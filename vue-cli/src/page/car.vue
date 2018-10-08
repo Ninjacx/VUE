@@ -6,7 +6,7 @@
       </div>
       <div class="bgWhite">
           <div class="borderBottom padLeft">
-            <div style="display:table-cell;vertical-align:middle;" class=" padRight">
+            <div style="display:table-cell;vertical-align:middle;" class="padRight">
               <i @click="check({id:1, price:138.8, count:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
@@ -54,7 +54,7 @@
       </div>
         <div class="Computed_Car bgWhite fs17">
             <div style="padding: 0 .2rem">
-              <span>全选</span>
+              <span class="fs18">全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
                   <mt-button size="small" type="primary">结算</mt-button>

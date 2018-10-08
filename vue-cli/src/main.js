@@ -10,6 +10,8 @@ import 'mint-ui/lib/style.css'
 
 import axios from '@/utils/http'
 import api from '@/utils/api'
+// 公共方法
+import common from '@/utils/common'
 // import resource from './resource'
 // import axios from 'axios'
 // import VueAxios from 'vue-axios'
@@ -23,6 +25,7 @@ Vue.use(MintUI)
 
 Vue.prototype.$$ajax = axios
 Vue.prototype.$api = api
+Vue.prototype.$common = common
 
 Vue.config.productionTip = false
 
