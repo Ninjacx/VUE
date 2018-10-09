@@ -5,31 +5,31 @@
         总共<span>{{count}}</span>件
       </div>
       <div class="bgWhite">
-          <div class="borderBottom padLeft">
+          <div v-for="item in CarList" class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class="padRight">
-              <i @click="check({id:1, price:138.8, count:1},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
             </div>
             <div class="fs17" style="display:table-cell;vertical-align:middle">
               <div class="">
-                 野人谷甩棍
+                 {{item.title}}
               </div>
               <div class="">
-                银色金刚版
+                {{item.description}}
               </div>
             </div>
             <div class="fs17" >
               <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem">
-                <span class="Price fs18 marRight">￥138.8</span>
-                  <input @click="Add_Sub(1,false,138.8)" type="button" value="-" class="countButton" />
-                  <input maxlength="3"  @keyup="InputCount({id:1},$event)" type="text"  :value="SelCount(1)"  class="countButton2" />
-                  <input @click="Add_Sub(1,true,138.8)" type="button" value="+" class="countButton" />
+                <span class="Price fs18 marRight">￥{{item.price}}</span>
+                  <input @click="Add_Sub(item.id,false,item.price)" type="button" value="-" class="countButton" />
+                  <input maxlength="3"  @keyup="InputCount({id:item.id},$event)" type="text"  :value="SelCount(item.id)"  class="countButton2" />
+                  <input @click="Add_Sub(item.id,true,item.price)" type="button" value="+" class="countButton" />
               </div>
             </div>
         </div>
-          <div class="borderBottom padLeft">
+          <!-- <div class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <i @click="check({id:2,price:136.6},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
@@ -50,7 +50,7 @@
                 <input maxlength="3"  @keyup="InputCount({id:2},$event)" type="text"  :value="SelCount(2)"  class="countButton2" />
                 <input @click="Add_Sub(2,true,138.8)" type="button" value="+" class="countButton" />
               </div>
-        </div>
+        </div> -->
       </div>
         <div class="Computed_Car bgWhite fs17">
             <div style="padding: 0 .2rem">
@@ -73,7 +73,7 @@ export default {
     return {
       SleCount:[], //商品的数量集合
       SelectShop_Arr:[], //所有选中的商品数据0
-      // AllShop:[],  //未用到
+      CarList:[],  //未用到
       IsCheckAll:false, //是否全部选中
       count:0,//总件数
       PayMent:0, //付款金额
@@ -82,7 +82,18 @@ export default {
   },
   mounted: function () {
    this.$store.commit('Flagborder', '3')
-   this.SleCount = [{id:1,price:138.8,count:1},{id:2,price:136.6,count:1}];//初始化把产品对应数量保存进去
+   // this.SleCount = [{id:1,price:138.8,count:1},{id:2,price:136.6,count:1}];//初始化把产品对应数量保存进去
+    this.$$ajax.Newget(this.$api.carList,{uid:1},(request)=>{
+
+        let Data = JSON.parse(request.res)
+        this.SleCount = Data
+         // console.log(Data);
+         this.CarList = Data
+         // console.log(this.SleCount)
+         console.log(Data)
+         // this.SleCount = Data
+         // console.log(this.CarList);
+    });
  },
  computed: {
    //合计金额
@@ -105,16 +116,18 @@ export default {
         let resPrice = this.SelCount(obj.id)*obj.price
         let goodInfo = {id:obj.id,price:obj.price,count:this.SelCount(obj.id)}
         // console.log(goodInfo);
-        this.PayMent += resPrice;
+        // this.PayMent += resPrice;
         event.currentTarget.className = gouxuan
         this.SelectShop_Arr.push(goodInfo);
+        this.total();
       }else{
         event.currentTarget.className = gouxuan1
-        this.PayMent -= this.SelCount(obj.id)*obj.price;
+        // this.PayMent -= this.SelCount(obj.id)*obj.price;
         let resArr = this.SelectShop_Arr.filter((item,index)=>{
           return item.id != arg.id
         })
         this.SelectShop_Arr = resArr
+        this.total();
       }
       console.log(JSON.stringify(this.SelectShop_Arr));
     },
@@ -198,7 +211,7 @@ export default {
          for(let item of this.SelectShop_Arr){
              Pay += item.price*item.count
          }
-         this.PayMent = parseFloat(Pay).toFixed(2);
+         this.PayMent = parseFloat(Pay).toFixed(1);
    }
  }
 }
