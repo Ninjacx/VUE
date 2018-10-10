@@ -18,11 +18,12 @@
     </div>
     <div class="TextRight padding02 fs16">
       <mt-badge size="normal">
-        <router-link to="/register" >
+        <router-link to="/register">
             注册
         </router-link>
       </mt-badge>
     </div>
+    <!-- 您还没有登录哦！ -->
   </div>
 </template>
 
@@ -49,9 +50,14 @@ export default {
       let api = this.$api
 
       this.$$ajax.post(api.login,userArgs,function(result){
-          if(result.res){
+          if(result.res != -1){
+            let userInfo = JSON.parse(result.res);
             //登录成功保存用户的Token 和用户信息
-            t.$store.commit('SuccessLogin', 'a',JSON.parse(result.res))
+            console.log(userInfo)
+            t.$store.commit('SuccessLogin', userInfo)
+            // localStorage.setItem('userToken','a')
+            console.log(t.$store.state.userToken)
+            console.log(t.$store.state.userInfo)
             //登录成功显示footer
             t.$store.commit('isBottomShow', true)
             //跳转之前点击进来的页面

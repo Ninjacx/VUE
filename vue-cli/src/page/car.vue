@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div id="car">
-      <div class="CarTop">
+      <div class="CarTop fsTitle">
         总共<span>{{count}}</span>件
       </div>
       <div class="bgWhite">
@@ -13,7 +13,7 @@
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
             </div>
             <div class="fs17" style="display:table-cell;vertical-align:middle">
-              <div class="">
+              <div>
                  {{item.title}}
               </div>
               <div class="">
@@ -83,16 +83,12 @@ export default {
   mounted: function () {
    this.$store.commit('Flagborder', '3')
    // this.SleCount = [{id:1,price:138.8,count:1},{id:2,price:136.6,count:1}];//初始化把产品对应数量保存进去
-    this.$$ajax.Newget(this.$api.carList,{uid:1},(request)=>{
-
+    console.log(this.$store.state.userInfo)
+    this.$$ajax.Newget(this.$api.carList,{uid:this.$store.state.userInfo.id},(request)=>{
         let Data = JSON.parse(request.res)
+        this.count = Data.length
         this.SleCount = Data
-         // console.log(Data);
-         this.CarList = Data
-         // console.log(this.SleCount)
-         console.log(Data)
-         // this.SleCount = Data
-         // console.log(this.CarList);
+        this.CarList = Data
     });
  },
  computed: {
@@ -211,13 +207,16 @@ export default {
          for(let item of this.SelectShop_Arr){
              Pay += item.price*item.count
          }
-         this.PayMent = parseFloat(Pay).toFixed(1);
+         this.PayMent = parseFloat(Pay).toFixed(1)%1==0?parseInt(Pay):parseFloat(Pay).toFixed(1);
    }
  }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.iconfont{
+  font-size: .35rem;
+}
 .Computed_Car {
   height: 1rem;
   line-height: 1rem;

@@ -40,55 +40,56 @@
 </template>
 
 <script>
-import BlockIcon from '@/components/BlockIcon'
-import MenuList from '@/components/MenuList'
-export default {
-    name: 'user',
-    data () {
-      return {
-        msg: '',
-        page:0, // 当前加载的页数
-        RecommendList: [],
-        moreArrList: [],// 上拉刷新
-        MenuList: [{title:'待付款',icon:'icon-daifukuandingdan'},{title:'已付款',icon:'icon-yifukuan'},{title:'待发货',icon:'icon-daifahuo'},{title:'已发货',icon:'icon-yifahuo'},{title:'待评价',icon:'icon-daipingjia'}],
-        topStatus: '',
-        allLoaded:false
-      }
-    },
-    watch: {
-        '$route'(to, from){
-          //在这里重新刷新一下
-          console.log(this.$route);
-          console.log(this.$route.params.bb);
-          this.getParams();
+  import BlockIcon from '@/components/BlockIcon'
+  import MenuList from '@/components/MenuList'
+  export default {
+      name: 'user',
+      data () {
+        return {
+          msg: '',
+          page:0, // 当前加载的页数
+          RecommendList: [],
+          moreArrList: [],// 上拉刷新
+          MenuList: [{title:'待付款',icon:'icon-daifukuandingdan'},{title:'已付款',icon:'icon-yifukuan'},{title:'待发货',icon:'icon-daifahuo'},{title:'已发货',icon:'icon-yifahuo'},{title:'待评价',icon:'icon-daipingjia'}],
+          topStatus: '',
+          allLoaded:false
         }
       },
-    mounted: function () {
-     this.$store.commit('Flagborder', '4')
-     console.log(this.$route);
-     console.log(this.$route.params.bb);
-   },
-   methods:{
-     getParams(){
+      // watch: {
+      //     '$route'(to, from){
+      //       //在这里重新刷新一下
+      //       console.log(this.$route);
+      //       console.log(this.$route.params.bb);
+      //       this.getParams();
+      //     }
+      //   },
+      mounted: function () {
+       this.$store.commit('Flagborder', '4')
        console.log(this.$route);
-       console.log(this.$route.params.bb);
+       // console.log(this.$route.params.bb);
      },
-     back_Account(){
-       this.$store.commit('SuccessLogin', '','');
-         this.$toast({
-           message: '退出成功',
-           position: 'middle',
-           duration: 1000
-         })
-          this.$router.push('/');
-       console.log('back_Account');
+     methods:{
+       // getParams(){
+       //   console.log(this.$route);
+       //   console.log(this.$route.params.bb);
+       // },
+       back_Account(){
+         this.$store.commit('SuccessLogin', '');
+         // localStorage.removeItem('token');
+           this.$toast({
+             message: '退出成功',
+             position: 'middle',
+             duration: 1000
+           })
+            this.$router.push('/');
+         console.log('back_Account');
+       }
+     },
+     components:{
+       BlockIcon,
+       MenuList
      }
-   },
-   components:{
-     BlockIcon,
-     MenuList
-   }
-}
+  }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
