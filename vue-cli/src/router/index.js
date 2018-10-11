@@ -1,18 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+/** start**/
 import index from '@/page/index'
 import message from '@/page/message'
 import car from '@/page/car'
 import user from '@/page/user'
+/** end**/
+/** goods**/
+import details from '@/page/goods/details'
 import login from '@/page/logo/login'
 import register from '@/page/logo/register'
 import logo from '@/page/logo/logo'
 import store from '@/./store'
 // import store from '@/store/index'
 // 子路由
-import cc from '@/components/childs'
-import cc2 from '@/components/childs2'
 
 Vue.use(Router)
 
@@ -26,20 +28,7 @@ const router = new Router({
       path: '/',
       title: '冰旗库',
       name: 'index',
-      component: index,
-      children: [{
-        path: '/cc',
-        name: '/cc',
-        default: cc,
-        helper: cc,
-        component: cc
-      }, {
-        path: '/cc2',
-        name: '/cc2',
-        default: cc,
-        helper: cc,
-        component: cc2
-      }]
+      component: index
     },
     {
       path: '/message',
@@ -62,17 +51,14 @@ const router = new Router({
         requireAuth: true
       }
     },
-    // {
-    //   // 登录
-    //   path: '/login',
-    //   name: '/login',
-    //   component: login
-    // }, {
-    //   // 注册
-    //   path: '/register',
-    //   name: '/register',
-    // component: register
-    // },
+    {
+      path: '/details',
+      name: 'details',
+      component: details,
+      meta: {
+        ChildPage: true
+      }
+    },
     {
       path: '/logo',
       name: 'logo',
@@ -86,8 +72,10 @@ const router = new Router({
         path: '/register',
         name: '/register',
         component: register
-      }]
-      // ,
+      }],
+      meta: {
+        ChildPage: true
+      }
       // props: { newsletterPopup: false }
     }
   ]
@@ -95,13 +83,13 @@ const router = new Router({
 export default router
 
 router.beforeEach((to, from, next) => {
-  // console.info(22, window.location.href)
-  // console.info(to,from,next)
-  // 对路由变化作出响应...
-  // console.log(router,to)
-  // console.log(router,to.query, from)
-  // console.log(to,$.param( to.query ),window.location.href)
   // 全局拦截器的
+// 设置二级页面是否显示底部导航
+  if (to.meta.ChildPage) {
+    store.commit('isBottomShow', false)
+  } else {
+    store.commit('isBottomShow', true)
+  }
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
     let UserToken = localStorage.getItem('userToken')
     // 如果有用户的Token则直接赋值给vuex
@@ -118,7 +106,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     // 不需要验证登录显示底部导航栏 底部导航栏 true为显示
-    store.commit('isBottomShow', true)
+    // store.commit('isBottomShow', true)
     next()
   }
 })

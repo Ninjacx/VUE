@@ -9,7 +9,7 @@
              ID:bqk01
           </div>
           <div class="">
-            神气的魔术
+            {{NickName}}
           </div>
         </div>
       </div>
@@ -88,6 +88,11 @@
      components:{
        BlockIcon,
        MenuList
+     },
+     computed: {
+       NickName(){
+          return this.$store.state.userInfo.nick_name
+       }
      }
   }
 </script>
