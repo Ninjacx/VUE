@@ -2,12 +2,13 @@
   <div class="hello">
      <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
      <div class="">
-
+       快递：包邮 总销量： 发货地：上海
      </div>
      <div class="buy">
         <mt-button size="small" type="primary">加入购物车</mt-button>
         <mt-button size="small" type="danger">立即购买</mt-button>
      </div>
+     
   </div>
 </template>
 
