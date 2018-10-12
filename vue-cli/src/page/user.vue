@@ -2,7 +2,7 @@
     <div>
       <div class="bgWhite">
         <div class="userIMG padRight">
-          <img src="../../static/images/timg.jpg" height="60px" width="60px" />
+          <img src="../../static/images/timg.jpg" class="userIcon" />
         </div>
         <div class="fs17 user" style="">
           <div class="">
@@ -132,5 +132,9 @@ a {
 }
 .back_Account{
   margin-top: .5rem;
+}
+.userIcon{
+  height: 60px;
+  width: 60px;
 }
 </style>

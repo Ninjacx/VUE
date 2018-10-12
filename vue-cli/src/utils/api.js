@@ -9,5 +9,6 @@ export default {
   getGoodsList: '/getGoodsList', // 产品列表
   changeRecommend: '/changeRecommend', // 随机产品
   weekSpecial: '/weekSpecial',
-  carList: '/car/List'
+  carList: '/car/List',
+  GoodsDetails: '/GoodsDetails'
 }

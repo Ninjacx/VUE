@@ -23,6 +23,9 @@
     .colorWhite{
       color: white;
     }
+    .TextCenter{
+      text-align: center !important;
+    }
     .TextLeft{
       text-align: left !important;
     }
@@ -108,6 +111,7 @@
     }
     img{
       padding: .1rem;
+      width:100%;
       box-sizing: border-box;
     }
     a{

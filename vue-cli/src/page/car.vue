@@ -10,7 +10,7 @@
               <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-              <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
+              <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  class="user-img">
             </div>
             <div class="fs17" style="display:table-cell;vertical-align:middle">
               <div>
@@ -237,5 +237,9 @@ export default {
   box-sizing: border-box;
   height: .6rem;
   width: 1rem
+}
+.user-img{
+  height: 100px;
+  width: auto;
 }
 </style>
