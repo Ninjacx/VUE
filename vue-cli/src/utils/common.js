@@ -1,7 +1,5 @@
 export default {
-	ToFixed(data){
-		return parseFloat(data).toFixed(2);
-	}
+  ToFixed (data) {
+    return parseFloat(data).toFixed(2)
+  }
 }
-		
- 

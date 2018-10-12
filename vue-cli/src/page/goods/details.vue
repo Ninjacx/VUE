@@ -5,10 +5,11 @@
        快递：包邮 总销量： 发货地：上海
      </div>
      <div class="buy">
+        <!-- 客服咨询 使用websocket-->
         <mt-button size="small" type="primary">加入购物车</mt-button>
         <mt-button size="small" type="danger">立即购买</mt-button>
      </div>
-     
+
   </div>
 </template>
 
@@ -18,11 +19,11 @@ export default {
   name: 'index',
   data () {
     return {
-      Url: [{url:"https://www.baidu.com/img/bd_logo1.png"},{url:"../../static/images/timg.jpg"}], // 轮播图
+      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
     }
   },
   mounted: function () {
-    // this.$store.commit('isBottomShow', false) //隐藏底部栏
+   // this.$store.commit('isBottomShow', false) //隐藏底部栏
    // this.$store.commit('Flagborder', '4')
   },
   components: {
@@ -53,5 +54,7 @@ a {
   position: fixed;
   width: 100%;
   bottom: 0;
+  text-align: right;
+  background: white;
 }
 </style>

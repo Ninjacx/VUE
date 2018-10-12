@@ -66,9 +66,7 @@
           					<img style="width:100%" :src="item.url">
           				</td>
           				<td>
-          					<div style="font-weight: bold;" class="fs16">
-          						{{ item.title }}
-          					</div>
+          					<div style="font-weight: bold;" class="fs16">{{ item.title }}</div>
           					<div style="color: rgb(160, 160, 160); margin-top: 0.4rem;" class="fs14">
           						{{item.description}}
           					</div>
@@ -79,19 +77,17 @@
           					<div style="color:#FD2A39">
           						<span>￥</span>
           						<span>{{item.price}}</span>
-          						<del style="margin-left: 0.39rem; color: rgb(172, 172, 172);" >市场价：￥{{item.big_price}}</del>
+          						<del style="margin-left: 0.39rem; color: rgb(172, 172, 172);">市场价：￥{{item.big_price}}</del>
           					</div>
           				</td>
           			</tr>
           		</tbody>
-          	</table>
+          	 </table>
           </router-link>
         </div>
-
     </div>
   <div class="bgWhite" v-if="allLoaded"><span class="look">⊙﹏⊙‖∣木有啦！</span></div>
 </mt-loadmore>
-
    <!-- 子路由 -->
    <!-- <div class="aaa">
      <div class="list-group">
@@ -108,7 +104,6 @@
     <!--<div @click="getStroe()">
           click
     </div> -->
-
    </div>
   </div>
 </template>
@@ -116,7 +111,7 @@
 // import { Loading } from 'element-ui'
 import VBannerList from '@/components/BannerList'
 import blocks from '@/components/Block'
-/**api***/
+// api
 export default {
   name: 'index',
   data () {
@@ -124,46 +119,45 @@ export default {
       msg: '',
       page:0, // 当前加载的页数
       RecommendList: [],
-      moreArrList: [],// 下拉数据
-      Url: [{url:"https://www.baidu.com/img/bd_logo1.png"},{url:"../../static/images/timg.jpg"}], // 轮播图
+      moreArrList: [], // 下拉数据
+      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"}, {url: "../../static/images/timg.jpg"}], // 轮播图
       ClassifyList: [],
       topStatus: '',
-      allLoaded:false,
-      weekSpecial:[] //每周特价的3个产品
+      allLoaded: false,
+      weekSpecial: [] // 每周特价的3个产品
     }
   },
   methods: {
-    handleTopChange(status) {
-        this.topStatus = status;
-      },
-    getRecommend(){
-        this.$$ajax.Newget(this.$api.changeRecommend,{},(request)=>{
-          this.RecommendList = JSON.parse(request.res);
-      });
+    handleTopChange (status) {
+      this.topStatus = status
     },
-    getWeekSpecial(){
-        this.$$ajax.Newget(this.$api.weekSpecial,{},(request)=>{
-          this.weekSpecial = JSON.parse(request);
-      });
+    getRecommend () {
+        this.$$ajax.Newget(this.$api.changeRecommend, {}, (request) => {
+        this.RecommendList = JSON.parse(request.res)
+      })
+    },
+    getWeekSpecial () {
+        this.$$ajax.Newget(this.$api.weekSpecial, {}, (request) => {
+        this.weekSpecial = JSON.parse(request)
+      })
     },
     // 首页下拉加载更多
-    moreList(){
+    moreList () {
       let page = this.page
-      this.$$ajax.Newget(this.$api.getGoodsList,{goods_id:page},(request)=>{
+      this.$$ajax.Newget(this.$api.getGoodsList, {goods_id:page}, (request) => {
         let Data = JSON.parse(request.res)
-        if(!Data.length){
+        if (!Data.length) {
           this.$toast({message: '木有啦!'})
-
-          this.allLoaded = true;
+          this.allLoaded = true
           this.$refs.loadmore.onBottomLoaded()
-          return false;
+          return false
         }
-        for (var i = 0; i < Data.length; i++){
+        for (var i = 0; i < Data.length; i++) {
           this.moreArrList.push(Data[i])
         }
-        this.page = page+5
-      this.$refs.loadmore.onBottomLoaded()
-    });
+        this.page = page + 5
+        this.$refs.loadmore.onBottomLoaded()
+     })
     },
     getStroe () {
       // let loadingInstance = Loading.service({fullscreen: false})
@@ -172,8 +166,8 @@ export default {
       // });
       this.$store.commit('setName', 'sky')
     },
-    changeRecommend(){
-      this.getRecommend();
+    changeRecommend () {
+      this.getRecommend()
     }
     // ,
     // swiperleft: function () {
@@ -194,24 +188,23 @@ export default {
   },
   mounted: function () {
     // 适配下拉加载start
-    let indexOuter = document.getElementById('Index_outer');
-    indexOuter.style.height= window.innerHeight+'px'
-   // end
+    let indexOuter = document.getElementById('Index_outer')
+    indexOuter.style.height = window.innerHeight + 'px'
+    // end
     // let loadingInstance = Loading.service({fullscreen: true})
     // this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
     //   loadingInstance.close() ;
     // });
-    this.getWeekSpecial();
-    this.getRecommend();
-      // 类别
-    this.$$ajax.Newget(this.$api.GetClassify,{},(request)=>{
+    this.getWeekSpecial()
+    this.getRecommend()
+    // 类别
+    this.$$ajax.Newget(this.$api.GetClassify, {}, (request) => {
       this.ClassifyList = JSON.parse(request.res)
-    });
+    })
     return this.$store.commit('Flagborder', '1')
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .RecommendList{
