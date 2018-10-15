@@ -9,6 +9,7 @@ import user from '@/page/user'
 /** end**/
 /** goods**/
 import details from '@/page/goods/details'
+import pay from '@/page/goods/pay'
 import login from '@/page/logo/login'
 import register from '@/page/logo/register'
 import logo from '@/page/logo/logo'
@@ -55,6 +56,14 @@ const router = new Router({
       path: '/details',
       name: 'details',
       component: details,
+      meta: {
+        ChildPage: true
+      }
+    },
+    {
+      path: '/pay',
+      name: 'pay',
+      component: pay,
       meta: {
         ChildPage: true
       }

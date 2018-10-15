@@ -1,18 +1,13 @@
 <template>
   <div class="Menu bgWhite padding02 marBottom">
-      <div class="fs16">{{Menu}}<span class="mint-button-icon rightIcon"><i class="mintui mintui-back"></i></span></div>
+      <div class="fs16">{{Menu}} <span class="floatRight"><span class="padRight num fs17">{{rightText}}</span><span class="mint-button-icon rightIcon"><i class="mintui mintui-back"></i></span></span></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BannerList',
-  data () {
-    return {
-      list: [1,2,3,4,5,6,7,8],
-      }
-  },
-  props:['Menu'],
+  name: 'MenuList',
+  props:['Menu','rightText'],
   mounted:function(){
   }
 }
@@ -23,7 +18,7 @@ export default {
 .rightIcon{
   transform:rotate(180deg);
   vertical-align:text-bottom;
-  float: right;
+  /* float: right; */
 }
   .Block li{
     font-size: .2rem;
@@ -31,5 +26,8 @@ export default {
     box-sizing: border-box;
     margin: 0;
     text-align: center;
+  }
+  .num{
+    color: red;
   }
 </style>

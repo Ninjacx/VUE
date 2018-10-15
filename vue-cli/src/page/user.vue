@@ -68,7 +68,7 @@
        console.log(this.$route);
        // console.log(this.$route.params.bb);
      },
-     methods:{
+     methods: {
        // getParams(){
        //   console.log(this.$route);
        //   console.log(this.$route.params.bb);

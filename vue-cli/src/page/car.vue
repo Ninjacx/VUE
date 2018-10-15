@@ -57,7 +57,7 @@
               <span class="fs18">全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
-                  <mt-button size="small" type="primary">结算</mt-button>
+                  <mt-button @click="PayMentAll()" size="small" type="primary">结算</mt-button>
                </span>
              </div>
         </div>
@@ -173,7 +173,6 @@ export default {
    Add_Sub(id,isAdd,price){
      //增加 goodsID:0,Count:0
      this.NowCount = {goodsID:id,Count:this.SetGoodsID_GetCount(id,isAdd,price)};
-
      let is_SelGoods = this.isSelGoods(id);
      for(let item of this.SelectShop_Arr){
          if(item.id==id){
@@ -208,6 +207,15 @@ export default {
              Pay += item.price*item.count
          }
          this.PayMent = parseFloat(Pay).toFixed(1)%1==0?parseInt(Pay):parseFloat(Pay).toFixed(1);
+   },// 结算
+   PayMentAll (){
+     if (this.PayMent == 0){
+        this.$toast({message: '请选择需要购买的产品'})
+     }else{
+       console.log(this.SelectShop_Arr)
+       
+       //提交到订单接口
+     }
    }
  }
 }
