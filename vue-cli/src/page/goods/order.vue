@@ -8,16 +8,26 @@
   <!-- <mt-button icon="more" slot="right"></mt-button> -->
        </mt-header>
      </div>
-     <div class="">
-       收货人：章云    <span>18121118073</span>
+     <div class="bgWhite marBottom padTop padBottom">
+       <table width="100%">
+         <tr>
+           <td width="20%">收货人：</td>
+           <td>章云</td>
+           <td>18121118073</td>
+         </tr>
+         <tr>
+           <td>收货地址：</td>
+           <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
+         </tr>
+       </table>
      </div>
-     <div class="">
-       收货地址：上海市闸北区芷江西路街道 西藏北路871号604
-     </div>
+
+
+
      <MenuList Menu="抵用卷" rightText="-500" @click.native="aaa()" />
      <div class="Computed_Pay bgWhite fs17">
          <div class="TextRight padRight">
-            <span ><span class="marRight">合计：<span class="Price">￥ {{Pay}}1000</span></span>
+            <span ><span class="marRight">合计：<span class="Price">￥ {{PayMent}}</span></span>
                <mt-button @click="PayMentAll()" size="small" type="primary">提交订单</mt-button>
             </span>
           </div>
@@ -34,7 +44,8 @@ export default {
   data () {
     return {
       Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
-      Details: ''
+      Details: '',
+      PayMent:1000
     }
   },
 

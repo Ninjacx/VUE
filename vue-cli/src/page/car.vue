@@ -57,7 +57,7 @@
               <span class="fs18">全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
-                  <mt-button @click="PayMentAll()" size="small" type="primary">结算</mt-button>
+                  <mt-button @click="PayMentAll()" size="small" type="primary">立即购买</mt-button>
                </span>
              </div>
         </div>
@@ -213,7 +213,7 @@ export default {
         this.$toast({message: '请选择需要购买的产品'})
      }else{
        console.log(this.SelectShop_Arr)
-       
+       this.$router.push({'path':'/order'});
        //提交到订单接口
      }
    }

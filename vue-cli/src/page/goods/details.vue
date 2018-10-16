@@ -1,13 +1,13 @@
 <template>
   <div class="details bgWhite">
      <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
-     <div class="">
-       快递：包邮 总销量： 发货地：上海
+     <div class="fs17">
+        <span class="tit">快递：</span>包邮<span class="marLeft tit">总销量：</span>862 <span class="tit">发货地：</span>上海
      </div>
      <div class="buy">
         <!-- 客服咨询 使用websocket-->
         <mt-button class="marRight" size="small" type="primary">加入购物车</mt-button>
-        <mt-button class="marRight" size="small" type="danger">立即购买</mt-button>
+        <mt-button @click.native="go_order()" class="marRight" size="small" type="danger">立即购买</mt-button>
      </div>
      <div class="TextCenter fsTitle">
        商品详情
@@ -34,7 +34,14 @@ export default {
 
    // this.$store.commit('isBottomShow', false) //隐藏底部栏
    // this.$store.commit('Flagborder', '4')
-  },
+ },
+ methods: {
+   go_order() {
+     // console.log(123)
+      this.$router.push({'path':'/order'});
+   }
+ }
+ ,
   components: {
     VBannerList
   },
@@ -45,14 +52,15 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
-ul {
+
+/* ul {
   list-style-type: none;
   padding: 0;
 }
 li {
   display: inline-block;
   margin: 0 10px;
-}
+} */
 a {
   color: #42b983;
 }
@@ -69,5 +77,8 @@ a {
 .details > img{
   width: 100% !important;
   height: 100px !important;
+}
+.tit{
+  color: #FF8C02;
 }
 </style>
