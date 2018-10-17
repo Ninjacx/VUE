@@ -10,5 +10,6 @@ export default {
   changeRecommend: '/changeRecommend', // 随机产品
   weekSpecial: '/weekSpecial',
   carList: '/car/List',
-  GoodsDetails: '/GoodsDetails'
+  GoodsDetails: '/GoodsDetails',
+  getSize: '/getSize' // 获取当前传入产品id 所有的规格
 }

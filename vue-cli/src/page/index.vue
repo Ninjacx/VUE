@@ -144,7 +144,7 @@ export default {
     // 首页下拉加载更多
     moreList () {
       let page = this.page
-      this.$$ajax.Newget(this.$api.getGoodsList, {goods_id:page}, (request) => {
+      this.$$ajax.Newget(this.$api.getGoodsList, {goods_id: page}, (request) => {
         let Data = JSON.parse(request.res)
         if (!Data.length) {
           this.$toast({message: '木有啦!'})

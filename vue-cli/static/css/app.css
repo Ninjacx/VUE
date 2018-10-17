@@ -41,32 +41,41 @@
     .fs18{
       font-size: .35rem;
     }
+    .fs19{
+      font-size: .4rem;
+    }
+    .fs20{
+      font-size: .5rem;
+    }
     .fsTitle{
-      font-size: .33rem;
+      font-size: .33rem !important;
     }
     .padTop{
-      padding-Top:.2rem;
+      padding-Top:.2rem !important;
     }
     .padLeft{
-      padding-left:.2rem;
+      padding-left:.2rem !important;
     }
     .padLeft03{
-      padding-left:.3rem;
+      padding-left:.3rem !important;
     }
     .padRight{
-      padding-right:.2rem;
+      padding-right:.2rem !important;
     }
     .marBottom{
-      margin-bottom:.1rem;
+      margin-bottom:.1rem !important;
     }
     .marLeft{
-      margin-left:.2rem;
+      margin-left:.2rem !important;
     }
     .marRight{
-      margin-right:.2rem;
+      margin-right:.2rem !important;
     }
     .marTop{
-      margin-top:.1rem;
+      margin-top:.1rem !important;
+    }
+    .marTop02{
+      margin-top:.05rem !important;
     }
     .padBottom{
       padding-bottom: .1rem;
@@ -85,6 +94,10 @@
     }
     .borderBottom{
       border-bottom: 1px solid #C6C6C6
+    }
+
+    .priceColor{
+      color:#FF3E23;
     }
     ul,li{
       margin: 0;
