@@ -21,7 +21,7 @@
       background: white !important;
     }
     .colorWhite{
-      color: white;
+      color: white !important;
     }
     .TextCenter{
       text-align: center !important;
@@ -33,19 +33,19 @@
       text-align: right !important;
     }
     .fs16{
-      font-size: .25rem;
+      font-size: .25rem !important;
     }
     .fs17{
-      font-size: .30rem;
+      font-size: .30rem !important;
     }
     .fs18{
-      font-size: .35rem;
+      font-size: .35rem !important;
     }
     .fs19{
-      font-size: .4rem;
+      font-size: .4rem !important;
     }
     .fs20{
-      font-size: .5rem;
+      font-size: .5rem !important;
     }
     .fsTitle{
       font-size: .33rem !important;

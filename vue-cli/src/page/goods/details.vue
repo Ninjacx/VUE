@@ -52,6 +52,7 @@
 
        </div>
          <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;clear:both;">
+             <span class="fs17">数量：</span>
              <input  type="button" value="-" class="countButton" />
              <input  maxlength="3"   type="text"  value="2"  class="countButton2" />
              <input  type="button" value="+" class="countButton" />
