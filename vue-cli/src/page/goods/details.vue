@@ -24,12 +24,12 @@
         <mt-button @click.native="add_car()" class="marRight" size="small" type="primary">加入购物车</mt-button>
         <mt-button @click.native="go_order()" class="marRight" size="small" type="danger">立即购买</mt-button>
      </div>
-   <div class="bgWhite marTop02">
-     <div class="TextCenter fsTitle ">
-       商品详情
+     <div class="bgWhite marTop02">
+       <div class="TextCenter fsTitle ">
+         商品详情
+       </div>
+       <div  v-html="goodsInfo.Details"></div>
      </div>
-     <div  v-html="goodsInfo.Details"></div>
- </div>
      <mt-popup class="size"  v-model="popupVisible"  position="bottom">
        <div>
          <div class="margin02 fs18">
@@ -42,10 +42,11 @@
            数量：{{count}}
          </div>
          <div class="marLeft fs17">
-           规格：
+           规格：{{size[0].id?'':'暂无库存'}}
          </div>
+
          <ul>
-           <li @click="selectSize(item)" :class="select_Size.thisSel&&select_Size.id==item.id?'select_Size':''" v-for="item in size">
+           <li v-if="item.id" @click="selectSize(item)" :class="select_Size.thisSel&&select_Size.id==item.id?'select_Size':''" v-for="item in size">
              {{item.size_name}}
            </li>
          </ul>
@@ -53,12 +54,12 @@
        </div>
          <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;clear:both;">
              <span class="fs17">数量：</span>
-             <input  type="button" value="-" class="countButton" />
-             <input  maxlength="3"   type="text"  value="2"  class="countButton2" />
-             <input  type="button" value="+" class="countButton" />
+             <input @click="is_add(false)" type="button" value="-" class="countButton" />
+             <input @keyup="enterCount($event)"  maxlength="3"   type="text"  :value="selCount"  class="countButton2" />
+             <input @click="is_add(true)"  type="button" value="+" class="countButton" />
          </div>
        <div class="margin02 commit_order">
-         <mt-button  @click.native="add_car()" class="marRight" size="large" type="primary">确认</mt-button>
+         <mt-button  @click.native="goTo_order()" class="marRight" size="large" type="primary">确认</mt-button>
        </div>
      </mt-popup>
   </div>
@@ -73,15 +74,17 @@ export default {
       Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
       goodsInfo: {Details: '',price: 0,goods_name: ''},
       popupVisible: false,
-      detailPrice:{min_price: 0,max_price: 0},//
-      select_Size : {id: '',thisSel: false}, //选中的标识
+      detailPrice: {min_price: 0,max_price: 0},//
+      select_Size: {id: '',thisSel: false}, //选中的标识
       size: [],// 初始化规格数据
-      select: [],// 选择的规格
+      select: {count:'',goods_id:'',id:'',price:'',size_id:'',size_name:''},// 选择的规格
       count: 1,
-      type:0  //0 购物车 1 订单
+      selCount: 1, //购买的数量
+      type: 0,  //0 购物车 1 订单
     }
   },
   mounted: function () {
+     // console.log(document.cookie)
       this.$$ajax.Newget(this.$api.GoodsDetails,{id: this.$route.query.id},(request) => {
       let Data = JSON.parse(request.res)
       console.log(Data)
@@ -98,26 +101,67 @@ export default {
    // this.$store.commit('Flagborder', '4')
  },
  methods: {
+   enterCount(event){
+     this.selCount = event.srcElement.value
+     this.select.count = event.srcElement.value
+   },
+   is_add(booler) {
+     booler?this.selCount++:this.selCount--
+     this.selCount<1?this.selCount=1:this.selCount
+     this.select.count = this.selCount
+   },
    selectSize(item) {
+
      this.select_Size.id = item.id
      this.select_Size.thisSel = true
      //
-     this.select = item
+     // this.select = item;
+     this.select.count = this.selCount  //购买、数量
+     this.select.id = item.id  // 规格的id ---对应表t_goodssize_price 的id
+  // select: {count:'',goods_id:'',id:'',price:'',size_id:'',size_name:''},// 选择的规格
+     console.log(this.select)
      this.goodsInfo.price = item.price // 改变选择规格的价格
      this.count = item.count // 改变选择规格的价格
-     // this.select.price = item.price
-     console.log(this.select)
+     // this.select.count = this.selCount
    },
-   go_order() {
-     if(this.select.length > 0) {
-       this.$router.push({'path':'/order'})
-     }else{
-       this.popupVisible = true
+   goTo_order(){
+     if(this.select.id == undefined) {
+       // console.log(89888)
+       this.$toast({message: '请选择商品',position: 'middle',duration: '1000'})
+     }else {
+       if(this.type){
+         // 立即购买
+         console.log('立即购买')
+
+       }else{
+         // 购物车
+         console.log('购物车')
+         this.$toast({message: '加入购物车成功',position: 'bottom',duration: '1800'})
+         this.popupVisible = false
+       }
      }
+
+     if(this.select > 0) {
+
+       //   this.$$ajax.Newget(this.$api.GoodsDetails,{id: this.$route.query.id},(request) => {
+       //   let Data = JSON.parse(request.res)
+       //   console.log(Data)
+       //   this.goodsInfo.Details = Data.details
+       //   this.goodsInfo.goods_name = Data.title
+       //   this.goodsInfo.price = Data.price
+       // })
+       // this.$router.push({'path':'/order'})
+
+     }
+
+   },go_order() {
+     this.popupVisible = true
+     this.type = 1
       // this.$router.push({'path':'/order'})
    },
    add_car() {
      this.popupVisible = true
+     this.type = 0
    }
  }
  ,
@@ -128,6 +172,9 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.mint-toast{
+  z-index: 3000;
+}
 /* ul {
   list-style-type: none;
   padding: 0;
@@ -152,7 +199,7 @@ ul>li {
   /* color: #389BFE;  */
   padding: .1rem;
   /* margin: .3rem; */
-  font-size: .3rem;
+  font-size: .2rem;
   box-sizing: border-box;
 }
 .buy {

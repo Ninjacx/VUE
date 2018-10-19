@@ -11,5 +11,6 @@ export default {
   weekSpecial: '/weekSpecial',
   carList: '/car/List',
   GoodsDetails: '/GoodsDetails',
-  getSize: '/getSize' // 获取当前传入产品id 所有的规格
+  getSize: '/getSize', // 获取当前传入产品id 所有的规格
+  SetCar: '/SetCar'
 }

@@ -35,7 +35,6 @@
       <mt-button type="default">default</mt-button>
       <mt-button type="primary">primary</mt-button>
       <mt-button type="danger">danger</mt-button> -->
-
   </div>
 </template>
 
@@ -55,24 +54,12 @@
           allLoaded:false
         }
       },
-      // watch: {
-      //     '$route'(to, from){
-      //       //在这里重新刷新一下
-      //       console.log(this.$route);
-      //       console.log(this.$route.params.bb);
-      //       this.getParams();
-      //     }
-      //   },
       mounted: function () {
        this.$store.commit('Flagborder', '4')
        console.log(this.$route);
        // console.log(this.$route.params.bb);
      },
      methods: {
-       // getParams(){
-       //   console.log(this.$route);
-       //   console.log(this.$route.params.bb);
-       // },
        back_Account(){
          this.$store.commit('SuccessLogin', '');
          // localStorage.removeItem('token');

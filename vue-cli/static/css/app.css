@@ -13,9 +13,14 @@
 /*
   默认初始化
 */
+
     body{
       margin: 0;
       background:#EDEDF2;
+    }
+    /* 模态框提示 最顶层 */
+    .mint-toast{
+      z-index: 3000;
     }
     .bgWhite{
       background: white !important;
