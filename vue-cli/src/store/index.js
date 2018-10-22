@@ -23,8 +23,8 @@ export default new Vuex.Store({
       state.isBottomShow = isBottomShow
     },
     SuccessLogin (state, user) {
-      state.userToken = user.token
       state.userInfo = user
+      state.userToken = user.token
     }
   }
 })

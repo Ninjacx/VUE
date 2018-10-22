@@ -53,11 +53,14 @@ export default {
           if(result.res != -1){
             let userInfo = JSON.parse(result.res);
             //登录成功保存用户的Token 和用户信息
-            console.log(userInfo)
-            t.$store.commit('SuccessLogin', userInfo)
-            // localStorage.setItem('userToken','a')
-            console.log(t.$store.state.userToken)
-            console.log(t.$store.state.userInfo)
+            // console.log(userInfo)
+
+            // t.$store.commit('SuccessLogin', userInfo)
+            // console.log(t.$store.state.userToken)
+            localStorage.setItem('USER_INFO',JSON.stringify(userInfo))
+            // console.log(localStorage.getItem('USER_INFO',userInfo))
+            // console.log(t.$store.state.userToken)
+            // console.log(t.$store.state.userInfo)
             //登录成功显示footer
             t.$store.commit('isBottomShow', true)
             //跳转之前点击进来的页面

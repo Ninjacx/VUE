@@ -7,16 +7,16 @@
     </mt-header>
 
     <div>
-      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="phone"></mt-field>
-      <mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="email"></mt-field>
-      <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
+      <mt-field label="手机号" :attr="{ maxlength: 11 }" placeholder="请输入手机号" type="tel" v-model="data.phone"></mt-field>
+      <mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="data.email"></mt-field>
+      <mt-field label="密码" placeholder="请输入密码" type="password" v-model="data.password"></mt-field>
     </div>
     <div class="marTop padding02">
-      <mt-button size="large" @click.native="login" type="primary">注册</mt-button>
+      <mt-button size="large" @click.native="regist" type="primary">注册</mt-button>
     </div>
     <div class="TextRight padding02 fs16">
       <mt-badge size="normal">
-        <router-link to="/login" >
+        <router-link to="/login">
             登录
         </router-link>
       </mt-badge>
@@ -32,28 +32,30 @@ export default {
   name: 'index',
   data () {
     return {
-      msg: '',
-      isBottomShow: 'false',
-      username: '',
-      email: '',
-      phone: '',
-      password: ''
+      data: {
+        username: '',
+        email: '',
+        phone: '',
+        password: ''
+      },
+      isBottomShow: 'false'
     }
   },
   methods: {
-    login () {
-      console.log('注册');
+    regist () {
+      let api = this.$api
+      console.log(this.data)
+      this.$$ajax.post(api.regist,this.data,function(result){
+        console.log(123)
+      })
     }
   },
   components: {
     VBannerList
   },
   mounted: function () {
-
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')
-         console.log(this.$store.state.isBottomShow)
-     //return
   }
 }
 </script>

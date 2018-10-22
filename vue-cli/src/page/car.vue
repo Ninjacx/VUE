@@ -83,8 +83,8 @@ export default {
   mounted: function () {
    this.$store.commit('Flagborder', '3')
    // this.SleCount = [{id:1,price:138.8,count:1},{id:2,price:136.6,count:1}];//初始化把产品对应数量保存进去
-    console.log(this.$store.state.userInfo)
-    this.$$ajax.Newget(this.$api.carList,{uid:this.$store.state.userInfo.id},(request)=>{
+    console.log(JSON.parse(localStorage.getItem('USER_INFO')))
+    this.$$ajax.Newget(this.$api.carList,{uid:JSON.parse(localStorage.getItem('USER_INFO')).id},(request)=>{
         let Data = JSON.parse(request.res)
         this.count = Data.length
         this.SleCount = Data

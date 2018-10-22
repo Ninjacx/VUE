@@ -62,7 +62,8 @@
      methods: {
        back_Account(){
          this.$store.commit('SuccessLogin', '');
-         // localStorage.removeItem('token');
+         localStorage.removeItem('USER_INFO');
+         // localStorage.getItem('USER_INFO')
            this.$toast({
              message: '退出成功',
              position: 'middle',

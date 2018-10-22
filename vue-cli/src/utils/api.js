@@ -3,6 +3,7 @@
 */
 
 export default {
+  regist: '/regist',
   login: '/login',
   getList: '/getList',
   GetClassify: '/GetClassify', // 类别

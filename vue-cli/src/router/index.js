@@ -99,13 +99,23 @@ router.beforeEach((to, from, next) => {
   } else {
     store.commit('isBottomShow', true)
   }
-  if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
-    let UserToken = localStorage.getItem('userToken')
+  // if (this.store.state.userInfo) {
+  // this.store.commit('SuccessLogin',{})
+  // }
+  // 防止用户刷新页面参数丢失
+  // let USERINFO = JSON.parse(localStorage.getItem('USER_INFO'))
+  // console.log(USERINFO)
+  // if (USERINFO != null) {
+  //   store.commit('SuccessLogin', USERINFO)
+  // }
+  if (to.meta.requireAuth) { // 判断该  路由是否需要登录权限
+    // let UserToken = localStorage.getItem('userToken')
     // 如果有用户的Token则直接赋值给vuex
-    if (UserToken) {
-      // store.state.userToken = UserToken
-    }
-    if (store.state.userToken) { // 通过store获取当前的token是否存在
+    // if (UserToken) {
+    //   // store.state.userToken = UserToken
+    // }
+    let USERINFO = localStorage.getItem('USER_INFO')
+    if (USERINFO !== '' && USERINFO) { // 通过store获取当前的token是否存在
       next()
     } else {
       next({
@@ -114,8 +124,6 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    // 不需要验证登录显示底部导航栏 底部导航栏 true为显示
-    // store.commit('isBottomShow', true)
     next()
   }
 })

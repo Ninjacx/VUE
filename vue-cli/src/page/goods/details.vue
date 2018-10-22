@@ -42,7 +42,7 @@
            数量：{{count}}
          </div>
          <div class="marLeft fs17">
-           规格：{{size[0].id?'':'暂无库存'}}
+           规格：<!-- {{size[0].id?'':'暂无库存'}} -->
          </div>
 
          <ul>
@@ -77,7 +77,7 @@ export default {
       detailPrice: {min_price: 0,max_price: 0},//
       select_Size: {id: '',thisSel: false}, //选中的标识
       size: [],// 初始化规格数据
-      select: {count:'',goods_id:'',id:'',price:'',size_id:'',size_name:''},// 选择的规格
+      select: {count:'',id:'',uid:''},// 选择的规格
       count: 1,
       selCount: 1, //购买的数量
       type: 0,  //0 购物车 1 订单
@@ -132,12 +132,13 @@ export default {
        if(this.type){
          // 立即购买
          console.log('立即购买')
-
        }else{
          // 购物车
          console.log('购物车')
+         console.log(this.$store.state.userInfo)
          this.$toast({message: '加入购物车成功',position: 'bottom',duration: '1800'})
-         this.popupVisible = false
+         console.log(this.select)
+         // this.popupVisible = false
        }
      }
 
