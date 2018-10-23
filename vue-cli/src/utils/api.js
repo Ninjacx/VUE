@@ -13,5 +13,5 @@ export default {
   carList: '/car/List',
   GoodsDetails: '/GoodsDetails',
   getSize: '/getSize', // 获取当前传入产品id 所有的规格
-  SetCar: '/SetCar'
+  SetCar: '/SetCar' // 加入购物车
 }

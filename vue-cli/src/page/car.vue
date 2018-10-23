@@ -1,8 +1,11 @@
 <template>
   <transition name="fade">
     <div id="car">
-      <div class="CarTop fsTitle">
+      <div v-if="count" class="CarTop fsTitle">
         总共<span>{{count}}</span>件
+      </div>
+      <div v-else :style="'width:100px;transition:ease 1s;position: absolute;left:'+posLeft+'px;top:'+posTop+'px'" @click="noGoods($event)">
+          购物车空空如也
       </div>
       <div class="bgWhite">
           <div v-for="item in CarList" class="borderBottom padLeft">
@@ -29,28 +32,6 @@
               </div>
             </div>
         </div>
-          <!-- <div class="borderBottom padLeft">
-            <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-              <i @click="check({id:2,price:136.6},$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
-            </div>
-            <div style="display:table-cell;vertical-align:middle;" class=" padRight">
-              <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  width="100px" class="load-img">
-            </div>
-            <div class="fs17" style="display:table-cell;vertical-align:middle">
-              <div class="">
-                 野人谷甩棍
-              </div>
-              <div class="">
-                黑色金刚版
-              </div>
-            </div>
-              <div class="TextRight marBottom marRight" style="font-size:0;height:.6rem;">
-                <span class="Price fs18 marRight">￥136.6  </span>
-                <input @click="Add_Sub(2,false,138.8)" type="button" value="-" class="countButton" />
-                <input maxlength="3"  @keyup="InputCount({id:2},$event)" type="text"  :value="SelCount(2)"  class="countButton2" />
-                <input @click="Add_Sub(2,true,138.8)" type="button" value="+" class="countButton" />
-              </div>
-        </div> -->
       </div>
         <div class="Computed_Car bgWhite fs17">
             <div style="padding: 0 .2rem">
@@ -77,7 +58,9 @@ export default {
       IsCheckAll:false, //是否全部选中
       count:0,//总件数
       PayMent:0, //付款金额
-      NowCount:{} // 点击加减号动态添加input
+      NowCount:{}, // 点击加减号动态添加input
+      posLeft:0,
+      posTop:0,
     }
   },
   mounted: function () {
@@ -89,18 +72,22 @@ export default {
         this.count = Data.length
         this.SleCount = Data
         this.CarList = Data
-    });
+    })
+    this.ChangePos()
  },
  computed: {
    //合计金额
    Pay(){
-     return this.PayMent;
+     return this.PayMent
    },
    NowCounts(){
-      return this.NowCount;
+      return this.NowCount
    }
  }
  ,methods: {
+   noGoods() {
+    this.ChangePos()
+   },
     //单个产品选择
     check(obj,event){
       let arg = obj
@@ -216,6 +203,13 @@ export default {
        this.$router.push({'path':'/order'});
        //提交到订单接口
      }
+   },ChangePos() {
+     let W_height = window.screen.height*Math.random()-document.getElementsByTagName("html")[0].style.fontSize.replace('px','')*2
+     let W_height2 = W_height<0?0:W_height
+     let W_width = window.screen.width*Math.random()-100
+     let W_width2 = W_width<0?0:W_width
+     this.posLeft = W_width2
+     this.posTop = W_height2
    }
  }
 }
@@ -249,5 +243,10 @@ export default {
 .user-img{
   height: 100px;
   width: auto;
+}
+.noGoods{
+
+  /* left: 0;
+  right: 0; */
 }
 </style>

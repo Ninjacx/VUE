@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="right" >
-      <router-view></router-view>
+      <router-view :paths="path"></router-view>
     </transition>
   </div>
 </template>
@@ -10,9 +10,17 @@
 export default {
   name: 'index',
   mounted: function () {
+      this.path = this.$router.currentRoute.query.redirect
+      console.log(this.$router.currentRoute.fullPath);
+      console.log(this.path)
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')
        // console.log('NO15'+this.$store.state.isBottomShow)
+  },
+  data() {
+      return {
+        path: ''
+      }
   }
 }
 </script>

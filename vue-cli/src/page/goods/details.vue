@@ -84,13 +84,14 @@ export default {
     }
   },
   mounted: function () {
-     // console.log(document.cookie)
+      this.select.uid = JSON.parse(localStorage.getItem('USER_INFO')).id
       this.$$ajax.Newget(this.$api.GoodsDetails,{id: this.$route.query.id},(request) => {
       let Data = JSON.parse(request.res)
-      console.log(Data)
-      this.goodsInfo.Details = Data.details
-      this.goodsInfo.goods_name = Data.title
-      this.goodsInfo.price = Data.price
+      if(Data != -1) {
+        this.goodsInfo.Details = Data.details
+        this.goodsInfo.goods_name = Data.title
+        this.goodsInfo.price = Data.price
+      }
     })
     this.$$ajax.Newget(this.$api.getSize,{id: this.$route.query.id},(request) => {
     let Data = JSON.parse(request.res)
@@ -125,8 +126,8 @@ export default {
      // this.select.count = this.selCount
    },
    goTo_order(){
-     if(this.select.id == undefined) {
-       // console.log(89888)
+     // console.log(this.select);
+     if(this.select.id == '') {
        this.$toast({message: '请选择商品',position: 'middle',duration: '1000'})
      }else {
        if(this.type){
@@ -135,7 +136,7 @@ export default {
        }else{
          // 购物车
          console.log('购物车')
-         console.log(this.$store.state.userInfo)
+         // this.$api.SetCar
          this.$toast({message: '加入购物车成功',position: 'bottom',duration: '1800'})
          console.log(this.select)
          // this.popupVisible = false
@@ -212,6 +213,8 @@ ul>li {
   bottom: 0;
   text-align: right;
   background: white;
+  height: 1rem;
+  line-height: 1rem;
 }
 .details > img{
   width: 100% !important;

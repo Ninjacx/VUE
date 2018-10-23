@@ -99,22 +99,10 @@ router.beforeEach((to, from, next) => {
   } else {
     store.commit('isBottomShow', true)
   }
-  // if (this.store.state.userInfo) {
-  // this.store.commit('SuccessLogin',{})
-  // }
-  // 防止用户刷新页面参数丢失
-  // let USERINFO = JSON.parse(localStorage.getItem('USER_INFO'))
-  // console.log(USERINFO)
-  // if (USERINFO != null) {
-  //   store.commit('SuccessLogin', USERINFO)
-  // }
+
   if (to.meta.requireAuth) { // 判断该  路由是否需要登录权限
-    // let UserToken = localStorage.getItem('userToken')
-    // 如果有用户的Token则直接赋值给vuex
-    // if (UserToken) {
-    //   // store.state.userToken = UserToken
-    // }
     let USERINFO = localStorage.getItem('USER_INFO')
+    console.log(USERINFO)
     if (USERINFO !== '' && USERINFO) { // 通过store获取当前的token是否存在
       next()
     } else {
