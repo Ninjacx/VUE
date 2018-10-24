@@ -136,7 +136,14 @@ export default {
      // console.log(this.select);
      if(this.select.id == '') {
        this.$toast({message: '请选择商品',position: 'middle',duration: '1000'})
+       return false
      }else {
+       if(!this.select.uid){
+          this.$toast({message: '请先注册',position: 'bottom',duration: '1800'})
+          return false
+          //query: {id:this.$route.query.id}
+          // this.$router.push({'path':'/login'})
+       }
        if(this.type){
          // 立即购买
          this.select.amount = this.select.count*this.goodsInfo.price
