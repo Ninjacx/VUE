@@ -103,12 +103,12 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requireAuth) { // 判断该  路由是否需要登录权限
     let USERINFO = localStorage.getItem('USER_INFO')
-    store.commit('SuccessLogin', JSON.parse(USERINFO))
-    if (USERINFO !== '' && USERINFO) { // 通过store获取当前的token是否存在
+    if (USERINFO !== '' && USERINFO&& USERINFO !== null) { // 通过store获取当前的token是否存在
+      store.commit('SuccessLogin', JSON.parse(USERINFO))
       next()
     } else {
       next({
-        path: 'login',
+        path: '/login',
         query: { redirect: to.fullPath } //   将跳转的路由path作为参数，登录成功后跳转到该路由
       })
     }
