@@ -11,7 +11,7 @@ export default {
   name: 'index',
   mounted: function () {
       this.path = this.$router.currentRoute.query.redirect
-      console.log(this.$router.currentRoute.fullPath);
+      // console.log(this.$router.currentRoute.fullPath);
       console.log(this.path)
        this.$store.commit('isBottomShow', false) //隐藏底部栏
        this.$store.commit('Flagborder', '1')

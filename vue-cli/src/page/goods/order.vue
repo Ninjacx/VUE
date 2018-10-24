@@ -22,8 +22,6 @@
        </table>
      </div>
 
-
-
      <MenuList Menu="抵用卷" rightText="-500" @click.native="aaa()" />
      <div class="Computed_Pay bgWhite fs17">
          <div class="TextRight padRight">
@@ -49,13 +47,13 @@ export default {
     }
   },
 
-
-
-
-
   mounted: function () {
-    this.$$ajax.Newget(this.$api.GoodsDetails,{id: 1},(request) => {
+    let uid = this.$store.state.userInfo.id
+    let ourder_id = this.$route.query.id
+    
+    this.$$ajax.Newget(this.$api.GetOrder,{id: ourder_id,uid :uid},(request) => {
       let Data = JSON.parse(request.res)
+      console.log(Data)
       this.Details = Data.details
     })
 

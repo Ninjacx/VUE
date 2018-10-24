@@ -1,5 +1,10 @@
 <template>
   <div class="details ">
+    <mt-header title="产品详情">
+      <router-link to="/" slot="left">
+        <mt-button icon="back"></mt-button>
+      </router-link>
+    </mt-header>
      <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
      <!-- <div class="fs17">
         <span class="tit">快递：</span>包邮<span class="marLeft tit">总销量：</span>862 <span class="tit">发货地：</span>上海
@@ -77,7 +82,7 @@ export default {
       detailPrice: {min_price: 0,max_price: 0},//
       select_Size: {id: '',thisSel: false}, //选中的标识
       size: [],// 初始化规格数据
-      select: {count:'',id:'',uid:''},// 选择的规格
+      select: {count:'',id:'',uid:'',amount:0},// 选择的规格
       count: 1,
       selCount: 1, //购买的数量
       type: 0,  //0 购物车 1 订单
@@ -132,19 +137,25 @@ export default {
      }else {
        if(this.type){
          // 立即购买
-         console.log('立即购买')
+         this.select.amount = this.select.count*this.goodsInfo.price
+         this.$$ajax.Newget(this.$api.SetOrder, this.select, (request) => {
+           if(request!=''&&request){
+              this.$toast({message: '已提交订单',position: 'bottom',duration: '1800'})
+              this.$router.push({'path':'/order',query: {id:request.insertId}});
+           }
+        })
        }else{
          // 购物车
-         console.log('购物车')
-         // this.$api.SetCar
-         this.$toast({message: '加入购物车成功',position: 'bottom',duration: '1800'})
-         console.log(this.select)
-         // this.popupVisible = false
+           this.$$ajax.Newget(this.$api.SetCar, this.select, (request) => {
+             if(request!=''&&request){
+                  this.$toast({message: '加入购物车成功',position: 'bottom',duration: '1800'})
+             }
+           })
        }
+        this.popupVisible = false
      }
 
      if(this.select > 0) {
-
        //   this.$$ajax.Newget(this.$api.GoodsDetails,{id: this.$route.query.id},(request) => {
        //   let Data = JSON.parse(request.res)
        //   console.log(Data)
@@ -241,5 +252,8 @@ ul>li {
   box-sizing: border-box;
   height: .6rem;
   width: 1rem
+}
+.mint-header{
+  background-color: #70707f !important;
 }
 </style>

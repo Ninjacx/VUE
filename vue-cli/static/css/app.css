@@ -37,6 +37,9 @@
     .TextRight{
       text-align: right !important;
     }
+    .fs15{
+      font-size: .2rem !important;
+    }
     .fs16{
       font-size: .25rem !important;
     }
@@ -100,9 +103,14 @@
     .borderBottom{
       border-bottom: 1px solid #C6C6C6
     }
-
+    .marginBT{
+      margin-bottom: 2.1rem;
+    }
     .priceColor{
       color:#FF3E23;
+    }
+    .red{
+      color: crimson !important;
     }
     ul,li{
       margin: 0;

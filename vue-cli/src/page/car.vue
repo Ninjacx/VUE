@@ -1,13 +1,17 @@
 <template>
   <transition name="fade">
     <div id="car">
-      <div v-if="count" class="CarTop fsTitle">
-        总共<span>{{count}}</span>件
-      </div>
-      <div v-else :style="'width:100px;transition:ease 1s;position: absolute;left:'+posLeft+'px;top:'+posTop+'px'" @click="noGoods($event)">
+      <!-- <div v-if="count" class="CarTop fsTitle bgWhite">
+            总共<span>{{count}}</span>件
+      </div> -->
+      <div v-if="!count" :style="'width:100px;transition:ease 1s;position: absolute;left:'+posLeft+'px;top:'+posTop+'px'" @click="noGoods($event)">
           购物车空空如也
       </div>
       <div class="bgWhite">
+         &nbsp
+         <!-- 购物车图标 -->
+      </div>
+      <div class="bgWhite marginBT">
           <div v-for="item in CarList" class="borderBottom padLeft">
             <div style="display:table-cell;vertical-align:middle;" class="padRight">
               <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
@@ -15,11 +19,10 @@
             <div style="display:table-cell;vertical-align:middle;" class=" padRight">
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  class="user-img">
             </div>
-            <div class="fs17" style="display:table-cell;vertical-align:middle">
-              <div>
+            <div class="fs17" style="display:table-cell;">
                  {{item.title}}
-              </div>
-              <div class="">
+                 <span class="fs15 red">「{{item.size_name}}」</span>
+              <div class="fs16">
                 {{item.description}}
               </div>
             </div>
@@ -37,6 +40,7 @@
             <div style="padding: 0 .2rem">
               <span class="fs18">全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <span class="fs15 marLeft">总共{{count}}件</span>
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
                   <mt-button @click="PayMentAll()" size="small" type="primary">立即购买</mt-button>
                </span>
@@ -47,7 +51,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'car',
   data () {
@@ -241,12 +244,7 @@ export default {
   width: 1rem
 }
 .user-img{
-  height: 100px;
+  height: 1.5rem;
   width: auto;
-}
-.noGoods{
-
-  /* left: 0;
-  right: 0; */
 }
 </style>
