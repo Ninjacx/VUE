@@ -89,7 +89,9 @@ export default {
     }
   },
   mounted: function () {
-      this.select.uid = JSON.parse(localStorage.getItem('USER_INFO')).id
+      if(localStorage.getItem('USER_INFO')!==null){
+        this.select.uid = JSON.parse(localStorage.getItem('USER_INFO')).id
+      }
       this.$$ajax.Newget(this.$api.GoodsDetails,{id: this.$route.query.id},(request) => {
       let Data = JSON.parse(request.res)
       if(Data != -1) {
