@@ -103,7 +103,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requireAuth) { // 判断该  路由是否需要登录权限
     let USERINFO = localStorage.getItem('USER_INFO')
-    if (USERINFO !== '' && USERINFO&& USERINFO !== null) { // 通过store获取当前的token是否存在
+    if (USERINFO !== '' && USERINFO && USERINFO !== null) { // 通过store获取当前的token是否存在
       store.commit('SuccessLogin', JSON.parse(USERINFO))
       next()
     } else {

@@ -105,12 +105,12 @@ export default {
       if(ThisClass == gouxuan1){
         // obj.price
         let resPrice = this.SelCount(obj.id)*obj.price
-        let goodInfo = {id:obj.id,price:obj.price,count:this.SelCount(obj.id),car_id: obj.car_id}
+        let goodInfo = {id:obj.id,price:obj.price,count:this.SelCount(obj.id)}
         // console.log(goodInfo);
         // this.PayMent += resPrice;
         event.currentTarget.className = gouxuan
         this.SelectShop_Arr.push(goodInfo);
-        this.total()
+        this.total();
       }else{
         event.currentTarget.className = gouxuan1
         // this.PayMent -= this.SelCount(obj.id)*obj.price;
@@ -118,24 +118,24 @@ export default {
           return item.id != arg.id
         })
         this.SelectShop_Arr = resArr
-        this.total()
+        this.total();
       }
-      // console.log(JSON.stringify(this.SelectShop_Arr))
+      console.log(JSON.stringify(this.SelectShop_Arr));
     },
     //全选
    checkAll(){
      this.IsCheckAll = !this.IsCheckAll;
      if(this.IsCheckAll){
          this.SelectShop_Arr = this.SleCount
-         this.total()
+         this.total();
      }else{
-       this.SelectShop_Arr = []//清空选择的商品
+       this.SelectShop_Arr = [];//清空选择的商品
        this.PayMent = 0;
      }
    }, InputCount(vid,event){
-     let str = event.currentTarget.value
+     let str = event.currentTarget.value;
       let IntType = /[^0-9]*$/
-      let rep = str.replace(IntType, "")
+      let rep = str.replace(IntType, "");
       event.currentTarget.value = rep
      // console.log(this.$data.NowCount);
       for(let item of this.SleCount){
@@ -207,6 +207,7 @@ export default {
      if (this.PayMent == 0){
         this.$toast({message: '请选择需要购买的产品'})
      }else{
+
        let req = {orderList: JSON.stringify(this.SelectShop_Arr),uid: this.uid,amount: this.PayMent}
        // console.log(req)
        // return false
