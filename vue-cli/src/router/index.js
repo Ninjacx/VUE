@@ -14,6 +14,9 @@ import login from '@/page/logo/login'
 import register from '@/page/logo/register'
 import logo from '@/page/logo/logo'
 import store from '@/./store'
+/** users **/
+import ticket from '@/page/users/ticket/'
+import orderList from '@/page/users/orderList/'
 // import store from '@/store/index'
 // 子路由
 
@@ -87,6 +90,24 @@ const router = new Router({
         ChildPage: true
       }
       // props: { newsletterPopup: false }
+    },
+    {
+      path: '/ticket',
+      name: 'ticket',
+      component: ticket,
+      meta: {
+        requireAuth: true,
+        ChildPage: true
+      }
+    },
+    {
+      path: '/orderList',
+      name: 'orderList',
+      component: orderList,
+      meta: {
+        requireAuth: true,
+        ChildPage: true
+      }
     }
   ]
 })

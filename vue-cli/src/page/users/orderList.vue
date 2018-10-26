@@ -1,0 +1,182 @@
+<template>
+  <div class="pay">
+     <div class="bgWhite">
+       <mt-header title="订单列表">
+        <router-link to="/"  slot="left">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+  <!-- <mt-button icon="more" slot="right"></mt-button> -->
+       </mt-header>
+     </div>
+     <div class="bgWhite marBottom padTop padBottom">
+       <table width="100%">
+         <tr>
+           <td width="23%" class="padLeft">收货人：</td>
+           <td>章云</td>
+           <td>18121118073</td>
+         </tr>
+         <tr>
+           <td class="padLeft">收货地址：</td>
+           <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
+         </tr>
+       </table>
+     </div>
+     <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
+       <div class="fs18 margin01 marRight">
+         <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+         <span class="fs16">{{ShowStat}}</span>
+         <span class="fs17 floatRight">{{item.createtime}}</span>
+       </div>
+       <div v-if="dd.order_id==item.id" v-for="dd in Order_Detail_list">
+         <div class="" style="display:table-cell;vertical-align:middle;">
+           <div style="" class="padRight">
+             <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  class="orderImg"/>
+           </div>
+           <div style="" class=" padRight">
+           </div>
+         </div>
+         <div class="fs17 tbContent">
+             <div>
+               <span class="fs18">{{dd.title}}</span>
+               <span class="fs15 red">「{{dd.size_name}}」</span>
+             </div>
+             <div class="fs18 TextRight marRight">
+                x&nbsp{{dd.count}}
+             </div>
+             <div class="fs15">
+                产品金额：<span>￥{{dd.price}}</span>
+             </div>
+         </div>
+       </div>
+       <div class="fs17 marTop marBottom">
+         订单总金额：
+         <span class="priceColor">￥{{item.amount}}</span>
+       </div>
+   </div>
+     <MenuList v-if="status==1" style="margin-bottom:1.1rem !important" Menu="抵用卷" rightText="-500" @click.native="aaa()" />
+     <div v-if="status==1" class="Computed_Pay bgWhite fs17">
+         <div class="TextRight padRight">
+             <span class="fs18 floatLeft marLeft">
+               <span class="">全选</span>
+               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+             </span>
+            <span class="marRight">合计：<span class="priceColor">￥{{PayMent}}</span></span>
+            <mt-button @click="PayMentAll()" size="small" type="primary">去支付</mt-button>
+          </div>
+     </div>
+  </div>
+</template>
+
+<script>
+// import VBannerList from '@/components/BannerList'
+import MenuList from '@/components/MenuList'
+export default {
+  name: 'index',
+  data () {
+    return {
+      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
+      Order_list: [],
+      Order_Detail_list: [],
+      PayMent: 0,
+      IsCheckAll: false,
+      status: 1
+    }
+  },
+  computed :{
+    ShowStat (){
+      let i = {1: '(待付款)',2: '(已付款)',3: '(待发货)',4: '(已发货)',5: '(待评价)'}
+      return i[this.status]
+    }
+  },
+  mounted: function () {
+    let uid = ''
+    if(localStorage.getItem('USER_INFO')!==null){
+      uid = JSON.parse(localStorage.getItem('USER_INFO')).id
+    }
+    let status = this.$route.query.status
+    this.status = status
+    this.$$ajax.Newget(this.$api.GetOrderList,{uid: uid,status: status},(request) => {
+      console.log(request.oList)
+      this.Order_list = request.oList
+      this.Order_Detail_list = request.oDetailList
+    })
+  },
+  methods: {
+    aaa(){
+      console.log(123123);
+    },
+    check(obj,event){
+      let gouxuan1 = 'icon iconfont icon-gouxuan1'
+      let gouxuan = 'icon iconfont icon-gouxuan'
+      let ThisClass = event.currentTarget.className;
+      console.log(ThisClass)
+      if(ThisClass == gouxuan1){
+        event.currentTarget.className = gouxuan
+        this.PayMent += parseFloat(obj.amount)
+      }else{
+        event.currentTarget.className = gouxuan1
+          this.PayMent -= parseFloat(obj.amount)
+      }
+    },
+    checkAll(){
+      let all = 0
+      this.IsCheckAll = !this.IsCheckAll;
+      if(this.IsCheckAll){
+        this.Order_list.forEach(function(item,index){
+          all+= parseFloat(item.amount)
+        })
+        this.PayMent = all
+      }else{
+        this.PayMent = 0;
+      }
+    }
+  },
+  components: {
+    MenuList
+  },
+}
+</script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+.buy {
+  margin: 0 !important;
+  list-style-type: none;
+  padding: 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  text-align: right;
+  background: white;
+}
+.Computed_Pay {
+  height: 1rem;
+  line-height: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-bottom:1px solid #C6C6C6;
+}
+.orderImg{
+  height: 1.3rem;
+  width: auto;
+  border-radius: .1rem;
+  border: 2px solid #ccc;
+  padding: 0;
+}
+.tbContent{
+  width:100%;
+  display:table-cell;
+  vertical-align: middle;
+}
+</style>

@@ -18,12 +18,12 @@
           <span>我的订单</span>
         </div>
         <ul class="nav bgWhite">
-            <BlockIcon :icon="item.icon" widthAttr="20%" v-for="item in MenuList" :title="item.title" ></BlockIcon>
+            <BlockIcon @click.native="orderStatus(item.status)" :count="item.count" :icon="item.icon" widthAttr="20%" v-for="item in MenuList" :title="item.title" />
         </ul>
       </div>
       <div>
         <MenuList Menu="我的收货地址" />
-        <MenuList Menu="我的优惠券" />
+        <MenuList @click.native="ticket()" Menu="我的优惠券" />
         <MenuList Menu="联系我们" />
         <MenuList Menu="问题反馈" />
         <!-- <a href="tel:10010">拨打10010</a> -->
@@ -50,18 +50,26 @@
           page:0, // 当前加载的页数
           RecommendList: [],
           moreArrList: [],// 上拉刷新
-          MenuList: [{title:'待付款',icon:'icon-daifukuandingdan'},{title:'已付款',icon:'icon-yifukuan'},{title:'待发货',icon:'icon-daifahuo'},{title:'已发货',icon:'icon-yifahuo'},{title:'待评价',icon:'icon-daipingjia'}],
+          MenuList: [{status: 1,title:'待付款',icon:'icon-daifukuandingdan',count :3},
+          {status: 2,title:'已付款',icon:'icon-yifukuan',count :0},
+          {status: 3,title:'待发货',icon:'icon-daifahuo',count :0},
+          {status: 4,title:'已发货',icon:'icon-yifahuo',count :0},
+          {status: 5,title:'待评价',icon:'icon-daipingjia',count :0}],
           topStatus: '',
           allLoaded:false
         }
       },
       mounted: function () {
        this.$store.commit('Flagborder', '4')
-       console.log(this.$route);
-       // console.log(this.$route.params.bb);
      },
      methods: {
-       back_Account(){
+       orderStatus(status=1) {
+         this.$router.push({'path':'/orderList',query:{status: status}})
+       },
+       ticket() {
+         this.$router.push({'path':'/ticket'})
+       },
+       back_Account() {
          this.$store.commit('SuccessLogin', '');
          localStorage.removeItem('USER_INFO');
          // localStorage.getItem('USER_INFO')

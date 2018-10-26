@@ -65,12 +65,10 @@ export default {
       PayMent:1000
     }
   },
-
   mounted: function () {
     if(localStorage.getItem('USER_INFO')!==null){
       console.log(localStorage.getItem('USER_INFO'))
     }
-
     let uid = this.$store.state.userInfo.id
     let ourder_id = this.$route.query.id
     console.log(ourder_id)
