@@ -8,7 +8,7 @@
           <li><span :class="{fonts:borderTag==2}">消息</span><div :class="{line:borderTag==2}"></div></li>
         </router-link>
         <router-link to="/car">
-          <li><span :class="{fonts:borderTag==3}">装备车</span><div :class="{line:borderTag==3}"></div></li>
+          <li><span :class="{fonts:borderTag==3}">购物车</span><div :class="{line:borderTag==3}"></div></li>
         </router-link>
         <router-link to="/user">
           <li @click="go_index4()"><span :class="{fonts:borderTag==4}">我的</span><div :class="{line:borderTag==4}"></div></li>

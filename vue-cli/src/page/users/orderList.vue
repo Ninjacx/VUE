@@ -23,7 +23,7 @@
      </div>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
        <div class="fs18 margin01 marRight">
-         <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+         <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
          <span class="fs16">{{ShowStat}}</span>
          <span class="fs17 floatRight">{{item.createtime}}</span>
        </div>
@@ -58,7 +58,7 @@
          <div class="TextRight padRight">
              <span class="fs18 floatLeft marLeft">
                <span class="">全选</span>
-               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
              </span>
             <span class="marRight">合计：<span class="priceColor">￥{{PayMent}}</span></span>
             <mt-button @click="PayMentAll()" size="small" type="primary">去支付</mt-button>
@@ -106,7 +106,7 @@ export default {
       console.log(123123);
     },
     check(obj,event){
-      let gouxuan1 = 'icon iconfont icon-gouxuan1'
+      let gouxuan1 = 'icon iconfont icon-gouxuanzhong'
       let gouxuan = 'icon iconfont icon-gouxuan'
       let ThisClass = event.currentTarget.className;
       console.log(ThisClass)
@@ -128,6 +128,11 @@ export default {
         this.PayMent = all
       }else{
         this.PayMent = 0;
+      }
+    },
+    PayMentAll (){
+      if(!this.PayMent){
+        this.$toast('请选择订单');
       }
     }
   },

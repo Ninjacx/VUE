@@ -2,7 +2,8 @@
     <div>
       <div class="bgWhite">
         <div class="userIMG padRight">
-          <img src="../../static/images/timg.jpg" class="userIcon" />
+          <img src="../../static/images/user-icon.png" class="userIcon" />
+          <!-- <i class="icon iconfont icon-shengji"></i> -->
         </div>
         <div class="fs17 user" style="">
           <div class="">
@@ -51,10 +52,11 @@
           RecommendList: [],
           moreArrList: [],// 上拉刷新
           MenuList: [{status: 1,title:'待付款',icon:'icon-daifukuandingdan',count :3},
-          {status: 2,title:'已付款',icon:'icon-yifukuan',count :0},
-          {status: 3,title:'待发货',icon:'icon-daifahuo',count :0},
-          {status: 4,title:'已发货',icon:'icon-yifahuo',count :0},
-          {status: 5,title:'待评价',icon:'icon-daipingjia',count :0}],
+          // {status: 2,title:'已付款',icon:'icon-yifukuan1',count :0},
+          {status: 2,title:'待发货',icon:'icon-daifahuo',count :0},
+          {status: 3,title:'已发货',icon:'icon-yifahuo',count :0},
+          {status: 4,title:'已确认',icon:'icon-dingdanqueren',count :0},
+          {status: 5,title:'待评价',icon:'icon-flower',count :0}],
           topStatus: '',
           allLoaded:false
         }

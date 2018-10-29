@@ -14,7 +14,7 @@
       <div class="bgWhite marginBT">
           <div v-for="item in CarList" class="borderBottom padLeft padTop">
             <div style="display:table-cell;vertical-align:middle;" class="padRight">
-              <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
             </div>
             <div style="display:table-cell;vertical-align:middle;" class="padRight">
               <img src="http://img2.imgtn.bdimg.com/it/u=380612834,2294025216&amp;fm=27&amp;gp=0.jpg"  class="carGoods-img">
@@ -36,10 +36,10 @@
             </div>
         </div>
       </div>
-        <div class="Computed_Car bgWhite fs17">
+        <div v-if="count" class="Computed_Car bgWhite fs17">
             <div style="padding: 0 .2rem">
               <span class="fs18">全选</span>
-              <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuan1']"></i>
+              <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
               <span class="fs15 marLeft">总共{{count}}件</span>
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
                   <mt-button @click="PayMentAll()" size="small" type="primary">立即购买</mt-button>
@@ -99,7 +99,7 @@ export default {
     //单个产品选择
     check(obj,event){
       let arg = obj
-      let gouxuan1 = 'icon iconfont icon-gouxuan1'
+      let gouxuan1 = 'icon iconfont icon-gouxuanzhong'
       let gouxuan = 'icon iconfont icon-gouxuan'
       let ThisClass = event.currentTarget.className;
       if(ThisClass == gouxuan1){

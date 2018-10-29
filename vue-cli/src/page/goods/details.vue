@@ -199,7 +199,9 @@ export default {
 }
 
 .select_Size{
-  background: #ccc;
+  background: #F98012;
+  border:1px solid #F98012;
+  color: white;
 }
 ul>li {
   margin: .2rem;
@@ -208,11 +210,10 @@ ul>li {
   text-align: center;
   border-radius: 5px;
   border: 1px solid #D0D0D0;
-  /* color: #389BFE;  */
   padding: .1rem;
-  /* margin: .3rem; */
   font-size: .2rem;
   box-sizing: border-box;
+  display: inline-table;
 }
 .buy {
   margin: 0 !important;

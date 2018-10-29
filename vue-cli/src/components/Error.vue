@@ -1,19 +1,22 @@
 <template>
   <div class="message">
-    <IconMsg icon_Msg="暂无消息" IconClass="icon-kongbai" />
+      <i style="position:absolute;top:40%;width:100%;display:block;color:#2CA0D6;font-size:1.5rem;" class="icon iconfont icon-kongbai">
+        <span class="fs18">暂无消息</span>
+      </i>
   </div>
 </template>
 
 <script>
-import IconMsg from '@/components/IconMsg'
 export default {
   name: 'message',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  },
   mounted: function () {
    this.$store.commit('Flagborder', '2')
- },
- components:{
-   IconMsg
- }
+  }
 }
 </script>
 
