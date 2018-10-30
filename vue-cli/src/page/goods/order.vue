@@ -1,14 +1,7 @@
 <template>
   <div class="pay">
-     <div class="bgWhite">
-       <mt-header title="确认订单">
-        <router-link to="/"  slot="left">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-  <!-- <mt-button icon="more" slot="right"></mt-button> -->
-       </mt-header>
-     </div>
-     <div class="bgWhite marBottom padTop padBottom">
+    <BackHeader title="确认订单"/>
+     <div class="bgWhite marBottom padTop padBottom headerTop">
        <table width="100%">
          <tr>
            <td width="23%" class="padLeft">收货人：</td>
@@ -53,8 +46,7 @@
 </template>
 
 <script>
-// import VBannerList from '@/components/BannerList'
-
+import BackHeader from '@/components/BackHeader'
 import MenuList from '@/components/MenuList'
 export default {
   name: 'index',
@@ -88,7 +80,8 @@ export default {
     }
   },
   components: {
-    MenuList
+    MenuList,
+    BackHeader
   },
 }
 </script>

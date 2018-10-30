@@ -5,7 +5,7 @@
           <li><span :class="{fonts:borderTag==1}">首页</span><div :class="{line:borderTag==1}"></div></li>
         </router-link>
         <router-link to="/message">
-          <li><span :class="{fonts:borderTag==2}">消息</span><div :class="{line:borderTag==2}"></div></li>
+          <li><span :class="{fonts:borderTag==2}">运动消息</span><div :class="{line:borderTag==2}"></div></li>
         </router-link>
         <router-link to="/car">
           <li><span :class="{fonts:borderTag==3}">购物车</span><div :class="{line:borderTag==3}"></div></li>

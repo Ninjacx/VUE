@@ -1,14 +1,7 @@
 <template>
   <div class="details ">
-    <mt-header title="产品详情">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
-     <div class="bgWhite"><VBannerList :imgSrc="Url"></VBannerList></div>
-     <!-- <div class="fs17">
-        <span class="tit">快递：</span>包邮<span class="marLeft tit">总销量：</span>862 <span class="tit">发货地：</span>上海
-     </div> -->
+    <BackHeader title="产品详情" />
+     <div class="bgWhite headerTop"><VBannerList :imgSrc="Url"></VBannerList></div>
      <div class="">
        <img src="" alt="">
      </div>
@@ -33,7 +26,7 @@
        <div class="TextCenter fsTitle ">
          商品详情
        </div>
-       <div  v-html="goodsInfo.Details"></div>
+       <div v-html="goodsInfo.Details"></div>
      </div>
      <mt-popup class="size"  v-model="popupVisible"  position="bottom">
        <div>
@@ -71,6 +64,7 @@
 </template>
 
 <script>
+import BackHeader from '@/components/BackHeader'
 import VBannerList from '@/components/BannerList'
 export default {
   name: 'index',
@@ -148,6 +142,7 @@ export default {
          // 立即购买
          this.select.amount = this.select.count*this.goodsInfo.price
          this.$$ajax.Newget(this.$api.SetOrder, this.select, (request) => {
+           console.log(request)
            if(request!=''&&request){
               this.$toast({message: '已提交订单',position: 'bottom',duration: '1800'})
               this.$router.push({'path':'/order',query: {id:request.insertId}});
@@ -188,7 +183,8 @@ export default {
  }
  ,
   components: {
-    VBannerList
+    VBannerList,
+    BackHeader
   },
 }
 </script>

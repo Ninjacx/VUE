@@ -1,14 +1,14 @@
 <template>
   <div class="pay">
-     <div class="bgWhite">
-       <mt-header title="订单列表">
-        <router-link to="/"  slot="left">
-          <mt-button icon="back"></mt-button>
+     <!-- <div>
+       <mt-header fixed="true" :title="'订单列表'+ShowStat">
+        <router-link to=""   slot="left">
+          <mt-button @click.native="$router.go(-1)" icon="back"></mt-button>
         </router-link>
-  <!-- <mt-button icon="more" slot="right"></mt-button> -->
        </mt-header>
-     </div>
-     <div class="bgWhite marBottom padTop padBottom">
+     </div> -->
+     <BackHeader :title="'订单列表'+ShowStat" />
+     <div class="bgWhite marBottom padTop padBottom headerTop">
        <table width="100%">
          <tr>
            <td width="23%" class="padLeft">收货人：</td>
@@ -22,10 +22,9 @@
        </table>
      </div>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
-       <div class="fs18 margin01 marRight">
-         <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
-         <span class="fs16">{{ShowStat}}</span>
-         <span class="fs17 floatRight">{{item.createtime}}</span>
+       <div class="fs18 margin01 marRight marBottom">
+         <i v-if="status==1" @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
+         <span class="fs18 marLeft">{{Time(item.createtime)}}</span>
        </div>
        <div v-if="dd.order_id==item.id" v-for="dd in Order_Detail_list">
          <div class="" style="display:table-cell;vertical-align:middle;">
@@ -53,7 +52,7 @@
          <span class="priceColor">￥{{item.amount}}</span>
        </div>
    </div>
-     <MenuList v-if="status==1" style="margin-bottom:1.1rem !important" Menu="抵用卷" rightText="-500" @click.native="aaa()" />
+     <MenuList v-if="status==1" style="margin-bottom:1.1rem !important" Menu="抵用卷" rightText="-500" @click.native="ticket()" />
      <div v-if="status==1" class="Computed_Pay bgWhite fs17">
          <div class="TextRight padRight">
              <span class="fs18 floatLeft marLeft">
@@ -68,7 +67,7 @@
 </template>
 
 <script>
-// import VBannerList from '@/components/BannerList'
+import BackHeader from '@/components/BackHeader'
 import MenuList from '@/components/MenuList'
 export default {
   name: 'index',
@@ -84,7 +83,7 @@ export default {
   },
   computed :{
     ShowStat (){
-      let i = {1: '(待付款)',2: '(已付款)',3: '(待发货)',4: '(已发货)',5: '(待评价)'}
+      let i = {1: '（待付款）',2: '（待发货）',3: '（已发货）',4: '（已确认）',5: '（待评价）'}
       return i[this.status]
     }
   },
@@ -102,7 +101,7 @@ export default {
     })
   },
   methods: {
-    aaa(){
+    ticket(){
       console.log(123123);
     },
     check(obj,event){
@@ -134,10 +133,14 @@ export default {
       if(!this.PayMent){
         this.$toast('请选择订单');
       }
+    },
+    Time (dataTime) {
+      return this.$common.Time(dataTime)
     }
   },
   components: {
-    MenuList
+    MenuList,
+    BackHeader
   },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="ticket" >
-    
+    <BackHeader title="优惠券" />
       <div>
         <i class="icon iconfont icon-kongbai"></i>
       </div>
@@ -11,16 +11,15 @@
 </template>
 
 <script>
+import BackHeader from '@/components/BackHeader'
 export default {
-  name: 'message',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
+  name: 'ticket',
   mounted: function () {
    this.$store.commit('Flagborder', '2')
-  }
+ },
+ components: {
+   BackHeader
+ }
 }
 </script>
 
