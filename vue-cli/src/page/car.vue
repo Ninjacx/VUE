@@ -4,14 +4,16 @@
       <!-- <div v-if="count" class="CarTop fsTitle bgWhite">
             总共<span>{{count}}</span>件
       </div> -->
-      <div v-if="!count" :style="'width:100px;transition:ease 1s;position: absolute;left:'+posLeft+'px;top:'+posTop+'px'" @click="noGoods($event)">
-          购物车空空如也
-      </div>
-      <div class="bgWhite">
-         &nbsp
-         <!-- 购物车图标 -->
+      <div v-if="!count" >
+          <IconMsg IconColor="#FE574E" icon_Msg="快去选吧" IconClass="icon-Recommend" />
       </div>
       <div class="bgWhite marginBT">
+        <div class="topStyle" >
+          <div style=" display: table-cell;">
+            <img src="static/images/gw.png" class="shopCar"/>
+          </div>
+          <div class="fs18 padLeft02" style="display: table-cell;vertical-align: middle;"><span>总计{{count}}件</span></div>
+        </div>
           <div v-for="item in CarList" class="borderBottom padLeft padTop">
             <div style="display:table-cell;vertical-align:middle;" class="padRight">
               <i @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
@@ -40,7 +42,7 @@
             <div style="padding: 0 .2rem">
               <span class="fs18">全选</span>
               <i @click="checkAll()" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
-              <span class="fs15 marLeft">总共{{count}}件</span>
+              <!-- <span class="fs15 marLeft">总共{{count}}件</span> -->
                <span style="float:right;"><span class="marRight">合计：<span class="Price">￥ {{Pay}}</span></span>
                   <mt-button @click="PayMentAll()" size="small" type="primary">立即购买</mt-button>
                </span>
@@ -51,6 +53,8 @@
 </template>
 
 <script>
+import IconMsg from '@/components/IconMsg'
+
 export default {
   name: 'car',
   data () {
@@ -62,14 +66,14 @@ export default {
       count:0,//总件数
       PayMent:0, //付款金额
       NowCount:{}, // 点击加减号动态添加input
-      posLeft:0,
-      posTop:0,
       uid: ''
     }
   },
+  components:{
+    IconMsg
+  },
   mounted: function () {
    this.$store.commit('Flagborder', '3')
-
    if(localStorage.getItem('USER_INFO')!==null){
      this.uid = JSON.parse(localStorage.getItem('USER_INFO')).id
    }
@@ -81,7 +85,6 @@ export default {
         this.SleCount = Data
         this.CarList = Data
     })
-    this.ChangePos()
  },
  computed: {
    //合计金额
@@ -93,9 +96,6 @@ export default {
    }
  }
  ,methods: {
-   noGoods() {
-    this.ChangePos()
-   },
     //单个产品选择
     check(obj,event){
       let arg = obj
@@ -220,13 +220,6 @@ export default {
        // this.$router.push({'path':'/order',query: {id: this.SelectShop_Arr}});
        //提交到订单接口
      }
-   },ChangePos() {
-     let W_height = window.screen.height*Math.random()-document.getElementsByTagName("html")[0].style.fontSize.replace('px','')*2
-     let W_height2 = W_height<0?0:W_height
-     let W_width = window.screen.width*Math.random()-100
-     let W_width2 = W_width<0?0:W_width
-     this.posLeft = W_width2
-     this.posTop = W_height2
    }
  }
 }
@@ -268,5 +261,12 @@ export default {
   border-radius: .1rem;
   border: 2px solid #ccc;
   padding: 0;
+}
+.shopCar{
+  width: 1.1rem;
+}
+.topStyle{
+  border-bottom: 1px solid #ccc;
+  padding-left: 0.3rem;
 }
 </style>

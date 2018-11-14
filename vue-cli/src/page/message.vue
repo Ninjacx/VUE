@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <IconMsg icon_Msg="暂无消息" IconClass="icon-kongbai" />
+    <IconMsg IconColor="#0097E0" icon_Msg="暂无消息" IconClass="icon-kongbai" />
   </div>
 </template>
 
