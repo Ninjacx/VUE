@@ -28,7 +28,7 @@
                 {{item.description}}
               </div>
             </div>
-            <div class="fs17" >
+            <div class="fs17">
               <div class="TextRight marBottom countRight" style="">
                 <span class="Price fs18 marRight">￥{{item.price}}</span>
                   <input @click="Add_Sub(item.id,false,item.price)" type="button" value="-" class="countButton" />
