@@ -1,6 +1,6 @@
 #Sky
 # vue-cli
-
+# compression-webpack-plugin 1.1.12
 # 1.所有计算保留小数两位 并且不四舍五入
 #常用组件：
 #1.import BackHeader from '@/components/BackHeader'   返回组件
