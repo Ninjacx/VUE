@@ -16,7 +16,7 @@ export default {
       images: [{url: 'https://www.baidu.com/img/bd_logo1.png'}, {url: 'https://www.baidu.com/img/bd_logo1.png'}]
     }
   },
-  props: ['imgSrc']
+  props: ['imgSrc'],
 }
 </script>
 <style scoped>
