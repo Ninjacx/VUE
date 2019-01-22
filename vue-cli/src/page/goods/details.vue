@@ -195,8 +195,8 @@ export default {
 }
 
 .select_Size{
-  background: #F98012;
-  border:1px solid #F98012;
+  background: #389BFE;
+  border:1px solid #39a33d;
   color: white;
 }
 ul>li {

@@ -77,6 +77,9 @@ export default {
   methods: {
     aaa(){
       console.log(123123);
+    },
+    PayMentAll(){
+      console.log('zhifu');
     }
   },
   components: {
