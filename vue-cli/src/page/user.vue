@@ -1,19 +1,20 @@
 <template>
     <div>
-      <div class="bgWhite">
-        <div class="userIMG padRight">
-          <img src="../../static/images/user-icon.png" class="userIcon" />
-          <!-- <i class="icon iconfont icon-shengji"></i> -->
-        </div>
-        <div class="fs17 user" style="">
-          <div class="">
-             ID:bqk01
+        <div class="bgWhite">
+          <div class="userIMG padRight">
+            <img src="/static/images/user-icon.png" class="userIcon" />
+            <!-- <i class="icon iconfont icon-shengji"></i> -->
           </div>
-          <div class="">
-            {{NickName}}
+          <div class="fs17 user" style="">
+            <div class="">
+               ID:
+            </div>
+            <div class="">
+              {{NickName}}
+            </div>
           </div>
         </div>
-      </div>
+
       <div class="marTop ulOuter marBottom padBottom" >
         <div class="fsTitle padLeft03 padTop">
           <span>我的订单</span>

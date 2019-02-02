@@ -208,8 +208,6 @@ export default {
         this.$toast({message: '请选择需要购买的产品'})
      }else{
        let req = {orderList: JSON.stringify(this.SelectShop_Arr),uid: this.uid,amount: this.PayMent}
-       // console.log(req)
-       // return false
        this.$$ajax.Newget(this.$api.SetOrder, req, (request) => {
          if(request!=''&&request){
             this.$toast({message: '已提交订单',position: 'bottom',duration: '1800'})

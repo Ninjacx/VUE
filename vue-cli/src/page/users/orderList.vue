@@ -8,19 +8,19 @@
        </mt-header>
      </div> -->
      <BackHeader :title="'订单列表'+ShowStat" />
-     <div class="bgWhite marBottom padTop padBottom headerTop">
-       <table width="100%">
-         <tr>
-           <td width="23%" class="padLeft">收货人：</td>
-           <td>章云</td>
-           <td>18121118073</td>
-         </tr>
-         <tr>
-           <td class="padLeft">收货地址：</td>
-           <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
-         </tr>
-       </table>
-     </div>
+       <div @click="sel_Address()" class="bgWhite marBottom padTop padBottom headerTop">
+         <table width="100%">
+           <tr>
+             <td width="23%" class="padLeft">收货人：</td>
+             <td>章云</td>
+             <td>18121118073</td>
+           </tr>
+           <tr>
+             <td class="padLeft">收货地址：</td>
+             <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
+           </tr>
+         </table>
+       </div>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
        <div class="fs18 margin01 marRight marBottom">
          <i v-if="status==1" @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
@@ -73,7 +73,6 @@ export default {
   name: 'index',
   data () {
     return {
-      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
       Order_list: [],
       Order_Detail_list: [],
       PayMent: 0,
@@ -103,6 +102,9 @@ export default {
   methods: {
     ticket(){
       console.log(123123);
+    },
+    sel_Address(){
+       this.$router.push({'path':'/address'})
     },
     check(obj,event){
       let gouxuan1 = 'icon iconfont icon-gouxuanzhong'

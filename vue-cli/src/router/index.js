@@ -17,6 +17,7 @@ import store from '@/./store'
 /** users **/
 import ticket from '@/page/users/ticket/'
 import orderList from '@/page/users/orderList/'
+import addressList from '@/page/users/address/'
 // import store from '@/store/index'
 // 子路由
 
@@ -104,6 +105,15 @@ const router = new Router({
       path: '/orderList',
       name: 'orderList',
       component: orderList,
+      meta: {
+        requireAuth: true,
+        ChildPage: true
+      }
+    },
+    {
+      path: '/address',
+      name: 'address',
+      component: addressList,
       meta: {
         requireAuth: true,
         ChildPage: true

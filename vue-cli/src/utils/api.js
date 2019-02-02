@@ -16,5 +16,6 @@ export default {
   SetCar: '/car/SetCar', // 加入购物车
   SetOrder: '/SetOrder', // 提交订单
   GetOrder: '/GetOrder', // 获取用户订单
-  GetOrderList: '/GetOrderList' // 获取用户订单
+  GetOrderList: '/GetOrderList', // 获取用户订单
+  GetAddressList: '/GetAddressList' // 获取用户地址列表
 }
