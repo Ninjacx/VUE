@@ -69,6 +69,8 @@
 <script>
 import BackHeader from '@/components/BackHeader'
 import MenuList from '@/components/MenuList'
+import { MessageBox } from 'mint-ui';
+
 export default {
   name: 'index',
   data () {
@@ -134,7 +136,15 @@ export default {
     PayMentAll (){
       if(!this.PayMent){
         this.$toast('请选择订单');
+        return false;
       }
+      // MessageBox('', '您的订单金额请稍后手动输入：'+ this.PayMent+'<div>支付成功后请联系18121118073</div>');
+      MessageBox.confirm('您的订单金额请稍后手动输入：'
+      + this.PayMent+'<div>支付成功后请联系18121118073</div>',
+      '由于网站暂未接入支付功能?').then(action => {
+          window.location.href="HTTPS://QR.ALIPAY.COM/FKX08474JRPZW5UJDTC7AA";
+      });
+      //
     },
     Time (dataTime) {
       return this.$common.Time(dataTime)
