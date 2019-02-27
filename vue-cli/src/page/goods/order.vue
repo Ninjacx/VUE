@@ -1,19 +1,7 @@
 <template>
   <div class="pay">
-    <BackHeader title="确认订单"/>
-     <div class="bgWhite marBottom padTop padBottom headerTop">
-       <table width="100%">
-         <tr>
-           <td width="23%" class="padLeft">收货人：</td>
-           <td>章云</td>
-           <td>18121118073</td>
-         </tr>
-         <tr>
-           <td class="padLeft">收货地址：</td>
-           <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
-         </tr>
-       </table>
-     </div>
+     <BackHeader title="确认订单"/>
+     <Consignee/>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
        <div class="" style="display:table-cell;vertical-align:middle;">
          <div style="" class="padRight">
@@ -47,6 +35,7 @@
 
 <script>
 import BackHeader from '@/components/BackHeader'
+import Consignee from '@/components/Consignee'
 import MenuList from '@/components/MenuList'
 import { MessageBox } from 'mint-ui';
 export default {
@@ -55,16 +44,21 @@ export default {
     return {
       Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
       Order_list: [],
-      PayMent:1000
+      PayMent:1000,
+      Consignee: {
+        province: '',
+        city: '',
+        addr: '',
+        name: '',
+        phone: '',
+      }
     }
   },
   mounted: function () {
     if(localStorage.getItem('USER_INFO')!==null){
       console.log(localStorage.getItem('USER_INFO'))
     }
-    let uid = this.$store.state.userInfo.id
     let ourder_id = this.$route.query.id
-    console.log(ourder_id)
     this.$$ajax.Newget(this.$api.GetOrder,{id: ourder_id},(request) => {
       if(request.length){
         this.Order_list = request
@@ -95,7 +89,8 @@ export default {
   },
   components: {
     MenuList,
-    BackHeader
+    BackHeader,
+    Consignee
   },
 }
 </script>

@@ -8,19 +8,7 @@
        </mt-header>
      </div> -->
      <BackHeader :title="'订单列表'+ShowStat" />
-       <div @click="sel_Address()" class="bgWhite marBottom padTop padBottom headerTop">
-         <table width="100%">
-           <tr>
-             <td width="23%" class="padLeft">收货人：</td>
-             <td>章云</td>
-             <td>18121118073</td>
-           </tr>
-           <tr>
-             <td class="padLeft">收货地址：</td>
-             <td width="55%">上海市闸北区芷江西路街道 西藏北路871号604</td>
-           </tr>
-         </table>
-       </div>
+       <Consignee/>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
        <div class="fs18 margin01 marRight marBottom">
          <i v-if="status==1" @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>
@@ -52,7 +40,7 @@
          <span class="priceColor">￥{{item.amount}}</span>
        </div>
    </div>
-     <MenuList v-if="status==1" style="margin-bottom:1.1rem !important" Menu="抵用卷" rightText="-500" @click.native="ticket()" />
+     <MenuList v-if="status==1" style="margin-bottom:1.1rem !important" Menu="抵用卷" rightText="-5" @click.native="ticket()" />
      <div v-if="status==1" class="Computed_Pay bgWhite fs17">
          <div class="TextRight padRight">
              <span class="fs18 floatLeft marLeft">
@@ -69,6 +57,7 @@
 <script>
 import BackHeader from '@/components/BackHeader'
 import MenuList from '@/components/MenuList'
+import Consignee from '@/components/Consignee'
 import { MessageBox } from 'mint-ui';
 
 export default {
@@ -140,7 +129,7 @@ export default {
       }
       // MessageBox('', '您的订单金额请稍后手动输入：'+ this.PayMent+'<div>支付成功后请联系18121118073</div>');
       MessageBox.confirm('您的订单金额请稍后手动输入：'
-      + this.PayMent+'<div>支付成功后请联系18121118073</div>',
+      + this.PayMent+'<div>支付成功后请联系18121118073<img  src="/static/images/wechat.png" /></div>',
       '由于网站暂未接入支付功能?').then(action => {
           window.location.href="HTTPS://QR.ALIPAY.COM/FKX08474JRPZW5UJDTC7AA";
       });
@@ -152,7 +141,8 @@ export default {
   },
   components: {
     MenuList,
-    BackHeader
+    BackHeader,
+    Consignee
   },
 }
 </script>

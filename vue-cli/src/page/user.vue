@@ -26,7 +26,7 @@
       <div>
         <MenuList Menu="我的收货地址" />
         <MenuList @click.native="ticket()" Menu="我的优惠券" />
-        <MenuList Menu="联系我们" />
+        <MenuList Menu="联系我们" @click.native = "us()"/>
         <MenuList Menu="问题反馈" />
         <!-- <a href="tel:10010">拨打10010</a> -->
       </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+  import {MessageBox} from 'mint-ui'
+
   import BlockIcon from '@/components/BlockIcon'
   import MenuList from '@/components/MenuList'
   export default {
@@ -83,6 +85,9 @@
            })
             this.$router.push('/');
          console.log('back_Account');
+       },
+       us (){
+         MessageBox('手机：18121118073', '<img  src="/static/images/wechat.png" />');
        }
      },
      components:{
@@ -137,5 +142,4 @@ a {
   height: 60px;
   width: 60px;
 }
-
 </style>

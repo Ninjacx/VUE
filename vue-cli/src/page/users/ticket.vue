@@ -5,7 +5,7 @@
         <i class="icon iconfont icon-kongbai"></i>
       </div>
       <div>
-        <span style="vertical-align:text-top" class="fs18">暂无消息</span>
+        <span style="vertical-align:text-top" class="fs18">暂无优惠券</span>
       </div>
   </div>
 </template>
