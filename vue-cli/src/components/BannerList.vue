@@ -2,7 +2,7 @@
     <div  class="BannerList">
       <mt-swipe :auto="4000">
         <mt-swipe-item v-for="item in imgSrc">
-          <img :src="item.url" style="width:100%" />
+          <img :src="item.url" class="wh"/>
         </mt-swipe-item>
       </mt-swipe>
   </div>
@@ -11,17 +11,16 @@
 <script>
 export default {
   name: 'BannerList',
-  data () {
-    return {
-      images: [{url: 'https://www.baidu.com/img/bd_logo1.png'}, {url: 'https://www.baidu.com/img/bd_logo1.png'}]
-    }
-  },
-  props: ['imgSrc'],
+  props: ['imgSrc']
 }
 </script>
 <style scoped>
 .BannerList{
   height:4.5rem;
+}
+.wh{
+  width: 100%;
+  height: 100%;
 }
 /* 轮播 */
 .mint-swipe-indicator.is-active{

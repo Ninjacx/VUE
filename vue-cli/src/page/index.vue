@@ -120,7 +120,7 @@ export default {
       page:0, // 当前加载的页数
       RecommendList: [],
       moreArrList: [], // 下拉数据
-      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"}, {url: "../../static/images/timg.jpg"}], // 轮播图
+      Url: [{url: "/static/images/banner/b1.jpg"}, {url: "/static/images/banner/b2.jpg"}], // 轮播图
       ClassifyList: [],
       topStatus: '',
       allLoaded: false,

@@ -70,7 +70,7 @@ export default {
   name: 'index',
   data () {
     return {
-      Url: [{url: "https://www.baidu.com/img/bd_logo1.png"},{url: "../../static/images/timg.jpg"}], // 轮播图
+      Url: [{url: "/static/images/banner/b2.jpg"},{url: "/static/images/banner/b1.jpg"}], // 轮播图
       goodsInfo: {Details: '',price: 0,goods_name: ''},
       popupVisible: false,
       detailPrice: {min_price: 0,max_price: 0},//
@@ -190,6 +190,9 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+img{
+  width: 100% !important;
+}
 .mint-toast{
   z-index: 3000;
 }
