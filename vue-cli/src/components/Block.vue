@@ -26,6 +26,7 @@
   .Block li img{
      width: 100%;
      height: 1.3rem;
+     padding: .05rem;
   }
   .Block li{
     font-size: .2rem;

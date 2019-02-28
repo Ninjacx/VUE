@@ -8,7 +8,7 @@
     <!-- classify -->
    <div class="marTop ulOuter marBottom padBottom" >
      <ul class="nav bgWhite">
-         <blocks widthAttr="25%" v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"></blocks>
+         <blocks  widthAttr="25%" v-for="item in ClassifyList" :title="item.classify_name" :url="item.classify_img"/>
      </ul>
    </div>
    <!-- week -->
@@ -207,6 +207,9 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#Index_outer img{
+  padding: .1rem;
+}
 .RecommendList{
   width:50%;
   float:left;
