@@ -26,7 +26,11 @@
        <div class="TextCenter fsTitle ">
          商品详情
        </div>
-       <div id="vDetail" v-html="goodsInfo.Details"></div>
+<div class="DetailImgStyle">
+  <div v-html="goodsInfo.Details"></div>
+</div>
+       
+     
      </div>
      <mt-popup class="size"  v-model="popupVisible"  position="bottom">
        <div>
@@ -189,9 +193,10 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
-#vDetail img{
-  width: 100% !important;
+<style scoped>
+.DetailImgStyle{
+    padding: 0 .2rem;
+    margin-bottom: 1rem;
 }
 .mint-toast{
   z-index: 3000;

@@ -8,7 +8,7 @@
        </mt-header>
      </div> -->
      <BackHeader :title="'订单列表'+ShowStat" />
-       <Consignee/>
+     <Consignee/>
      <div v-for="item in Order_list" class="borderBottom padLeft bgWhite padding01">
        <div class="fs18 margin01 marRight marBottom">
          <i v-if="status==1" @click="check(item,$event)" :class="['icon iconfont',IsCheckAll?'icon-gouxuan':'icon-gouxuanzhong']"></i>

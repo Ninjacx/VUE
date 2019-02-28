@@ -80,7 +80,7 @@ export default {
       }
       // MessageBox('', '您的订单金额请稍后手动输入：'+ this.PayMent+'<div>支付成功后请联系18121118073</div>');
       MessageBox.confirm('您的订单金额请稍后手动输入：'
-      + this.PayMent+'<div>支付成功后请联系18121118073</div>',
+      + this.PayMent+'<div>支付成功后请联系18121118073<img  src="/static/images/wechat.png" /></div>',
       '由于网站暂未接入支付功能?').then(action => {
           window.location.href="HTTPS://QR.ALIPAY.COM/FKX08474JRPZW5UJDTC7AA";
       });
