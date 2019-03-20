@@ -13,6 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.0",
     "axios": "^0.18.0",
     "css-loader": "^0.28.11",
     "mint-ui": "^2.2.13",

@@ -144,10 +144,10 @@ export default {
     // 首页下拉加载更多
     moreList () {
       let page = this.page
-      this.$$ajax.Newget(this.$api.getGoodsList, {goods_id: page}, (request) => {
+      this.$$ajax.Newget(this.$api.getGoodsList, {goods_id: page,limit: 5}, (request) => {
         let Data = JSON.parse(request.res)
         if (!Data.length) {
-          this.$toast({message: '木有啦!'})
+          this.$toast({message: '没有了!'})
           this.allLoaded = true
           this.$refs.loadmore.onBottomLoaded()
           return false
